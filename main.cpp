@@ -2,7 +2,6 @@
 #include <vector>
 #include <string>
 #include <algorithm>
-#include <limits>
 
 class Film {
 private:
@@ -14,11 +13,19 @@ public:
     explicit Film(const std::string& t="", const std::string& g="", int d=0)
         :titlu(t),gen(g),durata(d){}
 
-    Film(const Film& f)=default;
+    Film(const Film& f)
+        :titlu(f.titlu),gen(f.gen),durata(f.durata){}
 
-    Film& operator=(const Film& f)=default;
+    Film& operator=(const Film& f) {
+        if (this != &f) {
+            titlu = f.titlu;
+            gen = f.gen;
+            durata = f.durata;
+        }
+        return *this;
+    }
 
-    ~Film()=default;
+    ~Film(){}
 
     void modificare_durata(int d) {
         if (d>0) durata=d;
@@ -158,8 +165,9 @@ class Cinema {
         std::cout << "Sali disponibile:\n";
         for (const auto& s : sali) std::cout << "- " << s << "\n";
     }
-    [[nodiscard]]std::vector<Film> getFilme() const { return filme; }
-    [[nodiscard]]std::vector<Sala> getSali() const { return sali; }
+
+    [[nodiscard]]const std::vector<Film>& getFilme() const { return filme; }
+    [[nodiscard]]std::vector<Sala>& getSali(){ return sali; }
 
 
     friend std::ostream& operator<<(std::ostream& os, const Cinema& c) {
