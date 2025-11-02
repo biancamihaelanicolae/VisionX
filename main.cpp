@@ -133,7 +133,6 @@ class Utilizator {
         std::cout << "Introdu numele clientului: ";
         std::getline(std::cin, username);
 
-        bool tip_valid = false;
         std::string temp_tip;
 
         while (true) {
