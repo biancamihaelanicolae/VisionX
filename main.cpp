@@ -136,14 +136,13 @@ class Utilizator {
         bool tip_valid = false;
         std::string temp_tip;
 
-        while (!tip_valid) {
+        while (true) {
             std::cout<< "Introdu tipul biletului dorit (normal/student/elev): ";
 
             if (!(std::cin >> temp_tip)) {
                 std::cin.clear();
                 std::cout << "Citirea tipului de bilet a esuat!";
                 tip="normal";
-                tip_valid = true;
                 break;
             }
 
@@ -152,8 +151,8 @@ class Utilizator {
             });
 
             if (temp_tip == "normal" || temp_tip == "student" || temp_tip == "elev") {
-                tip = temp_tip; // <--- Aici era problema! Atribuirea lipsea!
-                tip_valid = true;
+                tip = temp_tip;
+                break;
             } else {
                 std::cout << "Tipul biletului este invalid! Te rog introdu 'normal', 'student' sau 'elev'\n";
             }
