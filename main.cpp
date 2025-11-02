@@ -31,14 +31,7 @@ public:
 
     ~Film(){}
 
-    [[nodiscard]]bool este_gen(const std::string& g) const{
-        return gen == g;
-    }
-    void afisare_detalii() const {
-        std::cout << "Titlu: " << titlu <<" (" << gen << ") "<<" Durata: "<< durata<<"min";
-    }
-
-    [[nodiscard]]std::string getTitlu() const {  return titlu;  }
+    [[nodiscard]]const std::string getTitlu() const {  return titlu;  }
 
     friend std::ostream& operator<<(std::ostream& os, const Film& f) {
         os << f.titlu << " (" << f.gen << ", " << f.durata<<" min)";
@@ -109,14 +102,15 @@ class Proiectie {
         return sala.rezervare_loc(loc);
     }
 
-    [[nodiscard]]std::string getZi() const {return zi;}
-    [[nodiscard]]std::string getOra() const {return ora;}
-    [[nodiscard]]std::string getTip() const {return tip;}
+    [[nodiscard]]const std::string getZi() const {return zi;}
+    [[nodiscard]]const std::string getOra() const {return ora;}
+    [[nodiscard]]const std::string getTip() const {return tip;}
     [[nodiscard]]const Film& getFilm() const {return film;}
     [[nodiscard]]const Sala& getSala() const {return sala;}
 
     friend std::ostream& operator<<(std::ostream& os, const Proiectie& p) {
         os << p.film.getTitlu() << " (" << p.zi << "," << p.ora<< "," << p.tip<< ")";
+        return os;
     }
 };
 
@@ -131,8 +125,8 @@ class Utilizator {
     Utilizator(const std::string& u, const std::string& t)
         :username(u),tip(t){}
 
-    [[nodiscard]]std::string getTip() const {return tip;}
-    [[nodiscard]]std::string getUsername() const {return username;}
+    [[nodiscard]]const std::string getTip() const {return tip;}
+    [[nodiscard]]const std::string getUsername() const {return username;}
 
     void citire_utilizator() {
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -171,7 +165,7 @@ class Bilet {
     std::string zi;
 
     public:
-    Bilet(const std::string& nume, const Film& f, const Sala& s, int l, double p, const std::string o, const std::string& z)
+    Bilet(const std::string& nume, const Film& f, const Sala& s, int l, double p, const std::string& o, const std::string& z)
         :nume_client(nume), film(f), loc(l), sala(s), pret(p), ora(o), zi(z){}
 
     Bilet(const Bilet& b)=default;
@@ -319,6 +313,11 @@ int main() {
 
         if (!proiectie_selectata) {
             std::cout << "Index de proiectie invalid!";
+            continue;
+        }
+
+        if (proiectie_selectata->getSala().sala_plina()) {
+            std::cout << "Sala este plina! Alege alta proiectie!\n";
             continue;
         }
 
