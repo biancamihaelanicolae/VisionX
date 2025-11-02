@@ -31,7 +31,7 @@ public:
 
     ~Film(){}
 
-    [[nodiscard]]const std::string getTitlu() const {  return titlu;  }
+    [[nodiscard]]const std::string& getTitlu() const {  return titlu;  }
 
     friend std::ostream& operator<<(std::ostream& os, const Film& f) {
         os << f.titlu << " (" << f.gen << ", " << f.durata<<" min)";
@@ -102,9 +102,9 @@ class Proiectie {
         return sala.rezervare_loc(loc);
     }
 
-    [[nodiscard]]const std::string getZi() const {return zi;}
-    [[nodiscard]]const std::string getOra() const {return ora;}
-    [[nodiscard]]const std::string getTip() const {return tip;}
+    [[nodiscard]]const std::string& getZi() const {return zi;}
+    [[nodiscard]]const std::string& getOra() const {return ora;}
+    [[nodiscard]]const std::string& getTip() const {return tip;}
     [[nodiscard]]const Film& getFilm() const {return film;}
     [[nodiscard]]const Sala& getSala() const {return sala;}
 
@@ -125,8 +125,8 @@ class Utilizator {
     Utilizator(const std::string& u, const std::string& t)
         :username(u),tip(t){}
 
-    [[nodiscard]]const std::string getTip() const {return tip;}
-    [[nodiscard]]const std::string getUsername() const {return username;}
+    [[nodiscard]]const std::string& getTip() const {return tip;}
+    [[nodiscard]]const std::string& getUsername() const {return username;}
 
     void citire_utilizator() {
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
