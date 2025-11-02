@@ -138,7 +138,14 @@ class Utilizator {
 
         while (!tip_valid) {
             std::cout<< "Introdu tipul biletului dorit (normal/student/elev): ";
-            std::cin >> temp_tip;
+
+            if (!(std::cin >> temp_tip)) {
+                std::cin.clear();
+                std::cout << "Citirea tipului de bilet a esuat!";
+                tip="normal";
+                tip_valid = true;
+                break;
+            }
 
             std::transform(temp_tip.begin(), temp_tip.end(), temp_tip.begin(), [](unsigned char c) {
                 return std::tolower(c);
