@@ -2,6 +2,10 @@
 #include <vector>
 #include <string>
 #include <algorithm>
+#include <fstream>
+#include <iomanip>
+#include <limits>
+
 
 class Film {
 private:
@@ -27,9 +31,6 @@ public:
 
     ~Film(){}
 
-    void modificare_durata(int d) {
-        if (d>0) durata=d;
-    }
     [[nodiscard]]bool este_gen(const std::string& g) const{
         return gen == g;
     }
@@ -37,8 +38,10 @@ public:
         std::cout << "Titlu: " << titlu <<" (" << gen << ") "<<" Durata: "<< durata<<"min";
     }
 
+    [[nodiscard]]std::string getTitlu() const {  return titlu;  }
+
     friend std::ostream& operator<<(std::ostream& os, const Film& f) {
-        os << f.titlu << " (" << f.gen << ") " << f.durata;
+        os << f.titlu << " (" << f.gen << ", " << f.durata<<" min)";
         return os;
     }
 };
@@ -60,8 +63,8 @@ class Sala {
     ~Sala()=default;
 
     bool rezervare_loc(int l) {
-        if (l>=0 && l<capacitate && !locuri_ocupate[l]) {
-            locuri_ocupate[l]=true;
+        if (l>=1 && l<=capacitate && !locuri_ocupate[l-1]) {
+            locuri_ocupate[l-1]=true;
             return true;
         }
         return false;
@@ -78,10 +81,82 @@ class Sala {
     }
 
     [[nodiscard]]int getCapacitate() const { return capacitate; }
+    [[nodiscard]]int getNumar() const {return numar; }
 
     friend std::ostream& operator<<(std::ostream& os, const Sala& s) {
-        os << "Sala " << s.numar << ", capacitate: " << s.capacitate<< ", locuri libere: "<< s.locuri_libere();
+        os << "Sala " << s.numar << ", Capacitate: " << s.capacitate<< ", Locuri libere: "<< s.locuri_libere();
         return os;
+    }
+};
+
+class Proiectie {
+    private:
+    Film film;
+    Sala sala;
+    std::string zi;
+    std::string ora;
+    std::string tip; //2D, 3D, IMAX
+
+    public:
+    Proiectie(const Film& f, const Sala& s, const std::string& z, const std::string& o, const std::string& t)
+        :film(f),sala(s),zi(z),ora(o),tip(t){}
+
+    void afisare() const {
+        std::cout<< film.getTitlu()<< "|" << " " << sala.getNumar()<< " | " << zi<< " - ora: " << ora<< " | " << "Tip: "<< tip<<std::endl;
+    }
+
+    bool incearca_rezervare(int loc) {
+        return sala.rezervare_loc(loc);
+    }
+
+    [[nodiscard]]std::string getZi() const {return zi;}
+    [[nodiscard]]std::string getOra() const {return ora;}
+    [[nodiscard]]std::string getTip() const {return tip;}
+    [[nodiscard]]const Film& getFilm() const {return film;}
+    [[nodiscard]]const Sala& getSala() const {return sala;}
+
+    friend std::ostream& operator<<(std::ostream& os, const Proiectie& p) {
+        os << p.film.getTitlu() << " (" << p.zi << "," << p.ora<< "," << p.tip<< ")";
+    }
+};
+
+class Utilizator {
+    private:
+    std::string username;
+    std::string tip; // normal/ student/ elev
+
+    public:
+    Utilizator()=default;
+
+    Utilizator(const std::string& u, const std::string& t)
+        :username(u),tip(t){}
+
+    [[nodiscard]]std::string getTip() const {return tip;}
+    [[nodiscard]]std::string getUsername() const {return username;}
+
+    void citire_utilizator() {
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cout << "Introdu numele clientului: ";
+        std::getline(std::cin, username);
+
+        bool tip_valid = false;
+        std::string temp_tip;
+
+        while (!tip_valid) {
+            std::cout<< "Introdu tipul biletului dorit (normal/student/elev): ";
+            std::cin >> temp_tip;
+
+            std::transform(temp_tip.begin(), temp_tip.end(), temp_tip.begin(), [](unsigned char c) {
+                return std::tolower(c);
+            });
+
+            if (temp_tip == "normal" || temp_tip == "student" || temp_tip == "elev") {
+                tip = temp_tip; // <--- Aici era problema! Atribuirea lipsea!
+                tip_valid = true;
+            } else {
+                std::cout << "Tipul biletului este invalid! Te rog introdu 'normal', 'student' sau 'elev'\n";
+            }
+        }
     }
 };
 
@@ -91,10 +166,13 @@ class Bilet {
     Film film;
     int loc;
     Sala sala;
+    double pret;
+    std::string ora;
+    std::string zi;
 
     public:
-    Bilet(const std::string& nume, const Film& f, const Sala& s, int l)
-        :nume_client(nume), film(f), loc(l), sala(s){}
+    Bilet(const std::string& nume, const Film& f, const Sala& s, int l, double p, const std::string o, const std::string& z)
+        :nume_client(nume), film(f), loc(l), sala(s), pret(p), ora(o), zi(z){}
 
     Bilet(const Bilet& b)=default;
 
@@ -102,143 +180,163 @@ class Bilet {
 
     ~Bilet()=default;
 
-    void schimba_loc(int l){ loc = l;}
 
     void afisare_bilet() const {
-        std::cout << "Bilet pentru: " << nume_client << "\n"
-                  << "Film: " << film << "\n"
-                  << "Sala: " << sala << "\n"
-                  << "Loc: " << loc << "\n";
-    }
-
-    void upgradeLoc(int loc_nou, Sala& s) {
-        if (loc_nou >= 0 && loc_nou < s.getCapacitate()) {
-            if (s.rezervare_loc(loc_nou)) {
-                loc = loc_nou;
-                std::cout << "Locul a fost schimbat cu succes la locul " << loc_nou << "!\n";
-            } else {
-                std::cout << "Locul " << loc_nou << " este deja ocupat!\n";
-            }
-        } else {
-            std::cout << "Numarul de loc este invalid!\n";
-        }
-    }
-
-    friend std::ostream& operator<<(std::ostream& os, const Bilet& b) {
-        os << "Bilet pentru: " << b.nume_client << "\n"
-        << "Film: " << b.film << "\n"
-        << "Sala: " << b.sala << "\n"
-        << "Loc: " << b.loc;
-        return os;
+        std::cout << "\n---BILET CINEMA---\n"
+                  << "Client: " << nume_client << "\n"
+                  << "Film: " << film.getTitlu() << "\n"
+                  <<"Data/ Ora: "<< zi << "/ " << ora << "\n"
+                  << "Sala: " << sala.getNumar() << "\n"
+                  << "Loc: " << loc << "\n"
+                  << "Pret: " << std::fixed << std::setprecision(2) << pret << "lei\n"
+                  <<"---------------------\n";
     }
 };
 
 class Cinema {
     private:
-    std::vector<Film> filme;
-    std::vector<Sala> sali;
-    std::vector<Bilet> bilete;
+    std::vector<Proiectie> proiectii;
 
     public:
-    Cinema()=default;
-    Cinema(const Cinema& c)=default;
+    double calculeaza_pret(const std::string& tip_bilet) const {
+        double pret_baza = 30.0;
+        if (tip_bilet == "student") return pret_baza * 0.7;
+        if (tip_bilet == "elev") return pret_baza * 0.5;
+        return pret_baza;
+    }
 
-    Cinema& operator=(const Cinema& c)=default;
-
-    ~Cinema()=default;
-
-    void adaug_film(const Film& f) {filme.push_back(f);}
-    void adaug_sala(const Sala& s) {sali.push_back(s);}
-    void vinde_bilete(const std::string& nume_client, int film_index, int sala_index,int loc) {
-        if (film_index < 0 || film_index >= static_cast<int>(filme.size()) || sala_index < 0 || sala_index >= static_cast<int>(sali.size())) return;
-        if (sali[sala_index].rezervare_loc(loc)) {
-            bilete.emplace_back(nume_client,filme[film_index],sali[sala_index],loc);
-            std::cout << "Bilet vandut cu succes!\n";
-        }else{
-            std::cout << "Locul nu este dispoibil!\n";
+    void incarca_din_fisier(const std::string& nume_fisier) {
+        std::ifstream fin(nume_fisier);
+        if (!fin) {
+            std::cerr << "Eroare la deschiderea fisierului " << nume_fisier << "\n";
+            return;
         }
+
+        std::string titlu, gen, zi, ora, tip;
+        int durata, nr_sala, capacitate;
+
+        while (fin >> titlu >> gen >> durata >> zi >> ora >> tip >> nr_sala >> capacitate) {
+            Film f(titlu, gen, durata);
+            Sala s(nr_sala, capacitate);
+            proiectii.emplace_back(f, s, zi, ora, tip);
+        }
+        fin.close();
     }
 
     void afiseaza_program() const {
-        std::cout << "Filme disponibile:\n";
-        for (const auto& f : filme) std::cout << "- " << f << "\n";
-        std::cout << "Sali disponibile:\n";
-        for (const auto& s : sali) std::cout << "- " << s << "\n";
+        if (proiectii.empty()) {
+            std::cout << "Nu exista proiectii programate.\n";
+            return;
+        }
+
+        std::vector<Proiectie> program_sortat = proiectii;
+        std::ranges::sort(program_sortat, [](const Proiectie& a, const Proiectie& b) {
+            if (a.getZi() != b.getZi()) return a.getZi() < b.getZi();
+            return a.getOra() < b.getOra();
+        });
+
+        std::cout << "\n==== Programul cinematografului VisionX ====\n";
+        std::string zi_curenta;
+
+        for (size_t i = 0; i < proiectii.size(); ++i) {
+            if (proiectii[i].getZi() != zi_curenta) {
+                zi_curenta = proiectii[i].getZi();
+                std::cout << "\n Ziua:  " << zi_curenta << "\n";
+            }
+
+            std::cout << i << ". ";
+            proiectii[i].afisare();
+            std::cout << "\n";
+        }
+
+        std::cout << "========================================\n";
     }
 
-    [[nodiscard]]const std::vector<Film>& getFilme() const { return filme; }
-    [[nodiscard]]std::vector<Sala>& getSali(){ return sali; }
+    Proiectie* get_proiectie(int index) {
+        if (index >= 0 && index < (int)proiectii.size()) {
+            return &proiectii[index];
+        }
+        return nullptr;
+    }
 
+    void vinde_bilet(const Utilizator& u, Proiectie& p, int loc) {
+        if (p.getSala().getCapacitate() <= loc || loc <= 0) {
+            std::cout << "Loc invalid!\n";
+            return;
+        }
 
-    friend std::ostream& operator<<(std::ostream& os, const Cinema& c) {
-        os << "Cinema:\nFilme:\n";
-        for (const auto& f : c.filme) os << f << "\n";
-        os << "Sali:\n";
-        for (const auto& s : c.sali) os << s << "\n";
-        os << "Bilete:\n";
-        for (const auto& b : c.bilete) os << b << "\n";
-        return os;
+        if (p.incearca_rezervare(loc)) {
+            double pret = calculeaza_pret(u.getTip());
+            Bilet b(u.getUsername(), p.getFilm(), p.getSala(), loc, pret, p.getOra(),p.getZi());
+            b.afisare_bilet();
+        }else {
+            std::cout << "Locul " << loc << " este deja ocupat sau este invalid pentru aceasta sala!\n";
+        }
     }
 };
 
 int main() {
+
+    std::cout.precision(2);
+
     Cinema cinema;
+    cinema.incarca_din_fisier("tastatura.txt");
 
-    cinema.adaug_film(Film("Inception", "SF", 148));
-    cinema.adaug_film(Film("Titanic", "Romantic", 195));
-    cinema.adaug_film(Film("Home alone", "Comedie", 103));
+    if (cinema.get_proiectie(0) == nullptr) {
+        std::cout<< "Programul nu a putut fi incarcat!\n";
+        return 1;
+    }
 
-    cinema.adaug_sala(Sala(1,100));
-    cinema.adaug_sala(Sala(2,70));
-    cinema.adaug_sala(Sala(3,90));
+    std::cout << "Bine ai venit pe site-ul VisionX\n";
 
-    cinema.afiseaza_program();
+    while (true) {
+        std::string comanda;
+        std::cout << "\nPentru a cumpara un bilet foloseste comanda 'cumpara', iar daca vrei sa inchizi pagina foloseste comanda 'exit page'!";
+        if (!(std::cin >> comanda)) break;
 
-    std::string nume;
-    int film_index, sala_index, loc;
-    char opt;
+        std::transform(comanda.begin(), comanda.end(), comanda.begin(), [](unsigned char c){return std::tolower(c); });
 
-    do {
-        std::cout << "\nNumele clientului: ";
-        std::getline(std::cin, nume);
-
-        while (true) {
-            std::cout << "Alege film :";
-            std::cin >> film_index;
-            if(film_index >=0 && film_index < static_cast<int>(cinema.getFilme().size())) break;
-            std::cout << "Index invalid! Incearca din nou.\n";
+        if (comanda == "exit" || comanda == "exit page") {
+            break;
         }
 
-        while (true) {
-            std::cout << "Alege sala: ";
-            std::cin >> sala_index;
-            if(sala_index >=0 && sala_index < static_cast<int>(cinema.getSali().size())) break;
-            std::cout << "Index invalid! Incearca din nou.\n";
+        Utilizator u;
+        u.citire_utilizator();
+        std::cout << "Client: " << u.getUsername() << ", Tip bilet: " << u.getTip() << "\n";
+
+        cinema.afiseaza_program();
+
+        int idx;
+        std::cout << "Introdu numarul proiectiei dorite: ";
+        if (!(std::cin >> idx)) {
+            std::cout << "Intrare invalida. Vanzare anulata.\n";
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            continue;
         }
 
-        while (true) {
-            std::cout << "Alege locul dorit: ";
-            std::cin >> loc;
-            if(loc >=0 && loc < cinema.getSali()[sala_index].getCapacitate()) break;
-            std::cout << "Loc invalid! Incearca din nou.\n";
-        }
-        std::cin.ignore();
+        Proiectie* proiectie_selectata = cinema.get_proiectie(idx);
 
-        if (cinema.getSali()[sala_index].rezervare_loc(loc)) {
-            Bilet bilet(nume, cinema.getFilme()[film_index], cinema.getSali()[sala_index], loc);
-            std::cout << "\nBiletul tau:\n";
-            bilet.afisare_bilet();
-        } else {
-            std::cout << "Locul nu este disponibil!\n";
+        if (!proiectie_selectata) {
+            std::cout << "Index de proiectie invalid!";
+            continue;
         }
 
-        std::cout << "Vrei sa cumperi alt bilet? (y/n): ";
-        std::cin >> opt;
-        std::cin.ignore();
-    } while(opt == 'y' || opt == 'Y');
+        int loc;
+        std::cout << "Proiectie aleasa: " << proiectie_selectata->getFilm().getTitlu() << "\n";
+        std::cout << "Locuril libere: " << proiectie_selectata->getSala().locuri_libere() << " din " << proiectie_selectata->getSala().getCapacitate() << "\n";
+        std::cout << "Alege locul dorit: ";
+        if (!(std::cin >> loc)) {
+            std::cout << "Intrare invalida! Vanzare anulata!\n";
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            continue;
+        }
 
-    std::cout << "\nMultumim pentru achizitie!\n";
+        cinema.vinde_bilet(u, *proiectie_selectata, loc);
+    }
 
+    std::cout << "\nMultumim ca ati folosit VisionX!";
 
     return 0;
 }

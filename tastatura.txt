@@ -1,2 +1,5 @@
-5
-11 22 33 44 55
+Inception  SF        148   Vineri    18:00  IMAX  1  100
+Inception  SF        148   Duminica  21:00  3D    2  80
+Titanic    Romantic  195   Sambata   20:00  2D    3  120
+HomeAlone  Comedie   103   Duminica  16:00  2D    4  90
+Avatar     SF        160   Joi       19:00  IMAX  5  150
