@@ -343,7 +343,6 @@ class Cinema {
 };
 
 #ifdef _WIN32
-#define NOMINMAX
 #include <windows.h>
 void enable_ansi_coloring() {
     HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -360,7 +359,7 @@ void enable_ansi_coloring() {
 int main() {
     #ifdef _WIN32
         enable_ansi_coloring();
-#endif
+    #endif
 
     std::cout.precision(2);
 
