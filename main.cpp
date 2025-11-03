@@ -5,7 +5,11 @@
 #include <fstream>
 #include <iomanip>
 #include <limits>
+#include <map>
 
+const std::string ANSI_RESET = "\033[0m";
+const std::string ANSI_RED = "\033[31m";
+const std::string ANSI_GREEN = "\033[32m";
 
 class Film {
 private:
@@ -73,6 +77,32 @@ class Sala {
         return cnt;
     }
 
+    void vizualizare_locuri() const {
+        std::cout << "\n----- Harta Salii " << numar << " ( Locuri libere: " << locuri_libere() << " din " << capacitate << " )-----\n";
+
+        //Afisam pozitia ecranului
+        std::cout << "=============================================================\n";
+        std::cout << "                         E C R A N\n";
+        std::cout << "=============================================================\n";
+
+        const int locuri_pe_rand = 10;
+        for (int i = 0; i< capacitate; i++) {
+            std::cout << std::setw(4) << i+1;
+            if (locuri_ocupate[i]) {
+                std::cout << ANSI_RED << "[X]" << ANSI_RESET;
+            }else {
+                std::cout << ANSI_GREEN << "[O]" << ANSI_RESET;
+            }
+
+            std::cout << " ";
+
+            if ((i+1) % locuri_pe_rand == 0) {
+                std::cout << "\n";
+            }
+        }
+        std::cout << "-----------------------------------------------------\n";
+    }
+
     [[nodiscard]]int getCapacitate() const { return capacitate; }
     [[nodiscard]]int getNumar() const {return numar; }
 
@@ -109,7 +139,9 @@ class Proiectie {
     [[nodiscard]]const Sala& getSala() const {return sala;}
 
     friend std::ostream& operator<<(std::ostream& os, const Proiectie& p) {
-        os << p.film.getTitlu() << " (" << p.zi << "," << p.ora<< "," << p.tip<< ")";
+        os << "Proiectie: " << p.film << "\n"
+           << "Sala: " << p.sala << "\n"
+           << "Zi: " << p.zi << " - Ora: " << p.ora << " ( " << p.tip << " ) "<<"\n";
         return os;
     }
 };
@@ -183,9 +215,9 @@ class Bilet {
     void afisare_bilet() const {
         std::cout << "\n---BILET CINEMA---\n"
                   << "Client: " << nume_client << "\n"
-                  << "Film: " << film.getTitlu() << "\n"
+                  << "Film: " << film << "\n"
                   <<"Data/ Ora: "<< zi << "/ " << ora << "\n"
-                  << "Sala: " << sala.getNumar() << "\n"
+                  << "Sala: " << sala << "\n"
                   << "Loc: " << loc << "\n"
                   << "Pret: " << std::fixed << std::setprecision(2) << pret << "lei\n"
                   <<"---------------------\n";
@@ -195,6 +227,20 @@ class Bilet {
 class Cinema {
     private:
     std::vector<Proiectie> proiectii;
+
+    static int get_ordinea_zilei(const std::string& zi) {
+        static const std::map<std::string, int > ordine ={
+            {"Luni", 0}, {"Marti", 1}, {"Miercuri", 2}, {"Joi", 3},
+            {"Vineri", 4}, {"Sambata", 5}, {"Duminica", 6}
+        };
+
+        auto it = ordine.find(zi);
+        if (it != ordine.end()) {
+            return it->second;
+        }
+
+        return 99;
+    }
 
     public:
     double calculeaza_pret(const std::string& tip_bilet) const {
@@ -229,22 +275,29 @@ class Cinema {
         }
 
         std::vector<Proiectie> program_sortat = proiectii;
+
         std::ranges::sort(program_sortat, [](const Proiectie& a, const Proiectie& b) {
-            if (a.getZi() != b.getZi()) return a.getZi() < b.getZi();
+            int ordine_a = Cinema::get_ordinea_zilei(a.getZi());
+            int ordine_b = Cinema::get_ordinea_zilei(b.getZi());
+
+            if (ordine_a != ordine_b) {
+                return ordine_a < ordine_b;
+            }
+
             return a.getOra() < b.getOra();
         });
 
         std::cout << "\n==== Programul cinematografului VisionX ====\n";
         std::string zi_curenta;
 
-        for (size_t i = 0; i < proiectii.size(); ++i) {
-            if (proiectii[i].getZi() != zi_curenta) {
-                zi_curenta = proiectii[i].getZi();
+        for (size_t i = 0; i < program_sortat.size(); ++i) {
+            if (program_sortat[i].getZi() != zi_curenta) {
+                zi_curenta = program_sortat[i].getZi();
                 std::cout << "\n Ziua:  " << zi_curenta << "\n";
             }
 
             std::cout << i << ". ";
-            proiectii[i].afisare();
+            program_sortat[i].afisare();
             std::cout << "\n";
         }
 
@@ -272,9 +325,41 @@ class Cinema {
             std::cout << "Locul " << loc << " este deja ocupat sau este invalid pentru aceasta sala!\n";
         }
     }
+
+    friend std::ostream& operator<<(std::ostream& os, const Cinema& c) {
+        os << "\n==== Programul complet VisionX ====\n";
+        if (c.proiectii.empty()) {
+            std::cout << "Nu exista proiectii programate.\n";
+            return os;
+        }
+
+        for (size_t i = 0; i < c.proiectii.size(); ++i) {
+            os << i << ". ";
+            os << c.proiectii[i] << "\n";
+        }
+        os << "======================================\n";
+        return os;
+    }
 };
 
+#ifdef _WIN32
+#include <windows.h>
+void enable_ansi_coloring() {
+    HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+    if (hOut != INVALID_HANDLE_VALUE) {
+        DWORD dwMode = 0;
+        if (GetConsoleMode(hOut, &dwMode)) {
+            dwMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
+            SetConsoleMode(hOut, dwMode);
+        }
+    }
+}
+#endif
+
 int main() {
+    #ifdef _WIN32
+        enable_ansi_coloring();
+#endif
 
     std::cout.precision(2);
 
@@ -287,6 +372,8 @@ int main() {
     }
 
     std::cout << "Bine ai venit pe site-ul VisionX\n";
+
+    std::cout << cinema;
 
     while (true) {
         std::string comanda;
@@ -325,6 +412,8 @@ int main() {
             std::cout << "Sala este plina! Alege alta proiectie!\n";
             continue;
         }
+
+        proiectie_selectata->getSala().vizualizare_locuri();
 
         int loc;
         std::cout << "Proiectie aleasa: " << proiectie_selectata->getFilm().getTitlu() << "\n";
