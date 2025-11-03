@@ -161,7 +161,7 @@ class Utilizator {
     [[nodiscard]]const std::string& getUsername() const {return username;}
 
     void citire_utilizator() {
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
         std::cout << "Introdu numele clientului: ";
         std::getline(std::cin, username);
 
@@ -397,7 +397,7 @@ int main() {
         if (!(std::cin >> idx)) {
             std::cout << "Intrare invalida. Vanzare anulata.\n";
             std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
             continue;
         }
 
@@ -422,7 +422,7 @@ int main() {
         if (!(std::cin >> loc)) {
             std::cout << "Intrare invalida! Vanzare anulata!\n";
             std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
             continue;
         }
 
