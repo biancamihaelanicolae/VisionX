@@ -279,7 +279,7 @@ int main() {
     std::cout.precision(2);
 
     Cinema cinema;
-    cinema.incarca_din_fisier("tastatura.txt");
+    cinema.incarca_din_fisier("program.txt");
 
     if (cinema.get_proiectie(0) == nullptr) {
         std::cout<< "Programul nu a putut fi incarcat!\n";
