@@ -365,21 +365,13 @@ class Cinema {
 
         if (p.rezervare_multipla(locuri)) {
             double pret_unitar = calculeaza_pret(u.getTip());
-            double pret_total = pret_unitar * locuri.size();
 
             std::cout << "\n----BILETE VANDUTE----\n";
-            std::cout << "Client: " << u.getUsername() << "\n";
-            std::cout << "Proiectie: " << p.getFilm() << " pe " << p.getZi() << " la " << p.getOra() << "\n";
 
-            std::cout << "Locuri rezervate: ";
             for (int loc : locuri) {
-                std::cout << loc << " ";
+                Bilet b(u.getUsername(), p.getFilm(), p.getSala(), loc, pret_unitar, p.getOra(), p.getZi());
+                b.afisare_bilet();
             }
-
-            std::cout << "\n";
-            std::cout << "Pret unitar: " << std::fixed << std::setprecision(2) << pret_unitar << " lei\n";
-            std::cout << "Pret total: " << std::fixed << std::setprecision(2) << pret_total << " lei\n";
-            std::cout << "----------------------\n";
         }else {
             std::cout << "REZERVARE ESUATA: Cel putin unul dintre locurile selectate este invalid!";
         }
