@@ -6,6 +6,21 @@
 #include <iomanip>
 #include <limits>
 #include <map>
+#include <sstream>
+
+#ifdef _WIN32
+#include <windows.h>
+void enable_ansi_coloring() {
+    HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+    if (hOut != INVALID_HANDLE_VALUE) {
+        DWORD dwMode = 0;
+        if (GetConsoleMode(hOut, &dwMode)) {
+            dwMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
+            SetConsoleMode(hOut, dwMode);
+        }
+    }
+}
+#endif
 
 const std::string ANSI_RESET = "\033[0m";
 const std::string ANSI_RED = "\033[31m";
@@ -36,6 +51,7 @@ public:
     ~Film(){}
 
     [[nodiscard]]const std::string& getTitlu() const {  return titlu;  }
+    [[nodiscard]]const std::string& getGen() const {  return gen;  }
 
     friend std::ostream& operator<<(std::ostream& os, const Film& f) {
         os << f.titlu << " (" << f.gen << ", " << f.durata<<" min)";
@@ -59,12 +75,22 @@ class Sala {
 
     ~Sala()=default;
 
-    bool rezervare_loc(int l) {
-        if (l>=1 && l<=capacitate && !locuri_ocupate[l-1]) {
-            locuri_ocupate[l-1]=true;
+    bool rezervare_multipla(const std::vector<int>& locuri) {
+        if (locuri.empty()) {
             return true;
         }
-        return false;
+
+        for (int l : locuri) {
+            if (l < 1 || l > capacitate || locuri_ocupate[l-1]) {
+                return false;
+            }
+        }
+
+        for (int l : locuri) {
+            locuri_ocupate[l-1] = true;
+        }
+
+        return true;
     }
 
     [[nodiscard]]bool sala_plina() const {
@@ -80,7 +106,6 @@ class Sala {
     void vizualizare_locuri() const {
         std::cout << "\n----- Harta Salii " << numar << " ( Locuri libere: " << locuri_libere() << " din " << capacitate << " )-----\n";
 
-        //Afisam pozitia ecranului
         std::cout << "=============================================================\n";
         std::cout << "                         E C R A N\n";
         std::cout << "=============================================================\n";
@@ -128,8 +153,8 @@ class Proiectie {
         std::cout<< film.getTitlu()<< "|" << " " << sala.getNumar()<< " | " << zi<< " - ora: " << ora<< " | " << "Tip: "<< tip<<std::endl;
     }
 
-    bool incearca_rezervare(int loc) {
-        return sala.rezervare_loc(loc);
+    bool rezervare_multipla(const std::vector<int>& locuri) {
+        return sala.rezervare_multipla(locuri);
     }
 
     [[nodiscard]]const std::string& getZi() const {return zi;}
@@ -161,7 +186,6 @@ class Utilizator {
     [[nodiscard]]const std::string& getUsername() const {return username;}
 
     void citire_utilizator() {
-        std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
         std::cout << "Introdu numele clientului: ";
         std::getline(std::cin, username);
 
@@ -304,6 +328,28 @@ class Cinema {
         std::cout << "========================================\n";
     }
 
+    [[nodiscard]]std::vector<Proiectie> filtreaza_pe_gen(const std::string& gen_cautat) const {
+        std::vector<Proiectie> lista_filtrata;
+        for (const auto& p : proiectii) {
+            if (p.getFilm().getGen() == gen_cautat) {
+                lista_filtrata.push_back(p);
+            }
+        }
+
+        std::ranges::sort(lista_filtrata, [](const Proiectie& a, const Proiectie& b) {
+            int ordine_a = Cinema::get_ordinea_zilei(a.getZi());
+            int ordine_b = Cinema::get_ordinea_zilei(b.getZi());
+
+            if (ordine_a != ordine_b) {
+                return ordine_a < ordine_b;
+            }
+
+            return a.getOra() < b.getOra();
+        });
+
+        return lista_filtrata;
+    }
+
     Proiectie* get_proiectie(int index) {
         if (index >= 0 && index < (int)proiectii.size()) {
             return &proiectii[index];
@@ -311,18 +357,43 @@ class Cinema {
         return nullptr;
     }
 
-    void vinde_bilet(const Utilizator& u, Proiectie& p, int loc) {
-        if (p.getSala().getCapacitate() <= loc || loc <= 0) {
-            std::cout << "Loc invalid!\n";
+    void vinde_bilet(const Utilizator& u, Proiectie& p, const std::vector<int>& locuri) {
+        if (locuri.empty()) {
+            std::cout << "Nu ati specificat niciun loc.\n";
             return;
         }
 
-        if (p.incearca_rezervare(loc)) {
-            double pret = calculeaza_pret(u.getTip());
-            Bilet b(u.getUsername(), p.getFilm(), p.getSala(), loc, pret, p.getOra(),p.getZi());
-            b.afisare_bilet();
+        if (p.rezervare_multipla(locuri)) {
+            double pret_unitar = calculeaza_pret(u.getTip());
+            double pret_total = pret_unitar * locuri.size();
+
+            std::cout << "\n----BILETE VANDUTE----\n";
+            std::cout << "Client: " << u.getUsername() << "\n";
+            std::cout << "Proiectie: " << p.getFilm() << " pe " << p.getZi() << " la " << p.getOra() << "\n";
+
+            std::cout << "Locuri rezervate: ";
+            for (int loc : locuri) {
+                std::cout << loc << " ";
+            }
+
+            std::cout << "\n";
+            std::cout << "Pret unitar: " << std::fixed << std::setprecision(2) << pret_unitar << " lei\n";
+            std::cout << "Pret total: " << std::fixed << std::setprecision(2) << pret_total << " lei\n";
+            std::cout << "----------------------\n";
         }else {
-            std::cout << "Locul " << loc << " este deja ocupat sau este invalid pentru aceasta sala!\n";
+            std::cout << "REZERVARE ESUATA: Cel putin unul dintre locurile selectate este invalid!";
+        }
+    }
+
+    void actualizeaza_sala_originala(const Proiectie& proiectie_modificata) {
+        for (auto& p_originala : proiectii) {
+            if (p_originala.getFilm().getTitlu() == proiectie_modificata.getFilm().getTitlu() &&
+                p_originala.getZi() == proiectie_modificata.getZi() &&
+                p_originala.getOra() == proiectie_modificata.getOra())
+            {
+                p_originala = proiectie_modificata;
+                break;
+            }
         }
     }
 
@@ -341,20 +412,6 @@ class Cinema {
         return os;
     }
 };
-
-#ifdef _WIN32
-#include <windows.h>
-void enable_ansi_coloring() {
-    HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
-    if (hOut != INVALID_HANDLE_VALUE) {
-        DWORD dwMode = 0;
-        if (GetConsoleMode(hOut, &dwMode)) {
-            dwMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
-            SetConsoleMode(hOut, dwMode);
-        }
-    }
-}
-#endif
 
 int main() {
     #ifdef _WIN32
@@ -386,11 +443,56 @@ int main() {
             break;
         }
 
+        if (comanda != "cumpara") {
+            std::cout << "Comanda necunoscuta.\n";
+            continue;
+        }
+
+        std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
+
+        std::string raspuns_filtrare;
+        std::cout << "Vrei sa cauti filemele dupa un anumit gen (da/nu)?";
+        std::cin >> raspuns_filtrare;
+        std::transform(raspuns_filtrare.begin(), raspuns_filtrare.end(), raspuns_filtrare.begin(), [](unsigned char c){return std::tolower(c);});
+
+        std::vector<Proiectie> lista_proiectii_curente;
+
+        std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
+
+        if (raspuns_filtrare == "da") {
+            std::string gen_ales;
+            std::cout << "Introdu genul dorit: ";
+            std::cin >> gen_ales;
+
+            std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
+
+            lista_proiectii_curente = cinema.filtreaza_pe_gen(gen_ales);
+
+            if (lista_proiectii_curente.empty()) {
+                std::cout << "\nNu exista proiectii pentru genul " << gen_ales << " Vanzare anulata!\n";
+                continue;
+            }
+
+            std::cout << "\n===== Proiectii Genul " << gen_ales << "=====\n";
+            std::string zi_curenta;
+            for (size_t i=0; i < lista_proiectii_curente.size(); ++i) {
+                if (lista_proiectii_curente[i].getZi() != zi_curenta) {
+                    zi_curenta = lista_proiectii_curente[i].getZi();
+                    std::cout << "\nZiua: " << zi_curenta << "\n";
+                }
+
+                std::cout << i << ". " << lista_proiectii_curente[i].getFilm().getTitlu()
+                          << " | Sala " << lista_proiectii_curente[i].getSala().getNumar()
+                          << " | Ora: " << lista_proiectii_curente[i].getOra()
+                          << " (" << lista_proiectii_curente[i].getTip() << ")\n";
+            }
+
+        }else{
+            cinema.afiseaza_program();
+        }
+
         Utilizator u;
         u.citire_utilizator();
-        std::cout << "Client: " << u.getUsername() << ", Tip bilet: " << u.getTip() << "\n";
-
-        cinema.afiseaza_program();
 
         int idx;
         std::cout << "Introdu numarul proiectiei dorite: ";
@@ -403,6 +505,13 @@ int main() {
 
         Proiectie* proiectie_selectata = cinema.get_proiectie(idx);
 
+        if (!lista_proiectii_curente.empty()) {
+            if (idx >= 0 && idx < (int)lista_proiectii_curente.size()) {
+                proiectie_selectata = &lista_proiectii_curente[idx];
+            }
+        }else {
+            proiectie_selectata = cinema.get_proiectie(idx);
+        }
         if (!proiectie_selectata) {
             std::cout << "Index de proiectie invalid!";
             continue;
@@ -415,18 +524,32 @@ int main() {
 
         proiectie_selectata->getSala().vizualizare_locuri();
 
-        int loc;
         std::cout << "Proiectie aleasa: " << proiectie_selectata->getFilm().getTitlu() << "\n";
         std::cout << "Locuril libere: " << proiectie_selectata->getSala().locuri_libere() << " din " << proiectie_selectata->getSala().getCapacitate() << "\n";
-        std::cout << "Alege locul dorit: ";
-        if (!(std::cin >> loc)) {
-            std::cout << "Intrare invalida! Vanzare anulata!\n";
-            std::cin.clear();
-            std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
+        std::cout << "Alege locurile dorite: ";
+
+        std::vector<int> locuri_dorite;
+        std::string line;
+
+        std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
+
+        std::getline(std::cin, line);
+        std::stringstream ss(line);
+        int loc_curent;
+        while (ss >> loc_curent) {
+            locuri_dorite.push_back(loc_curent);
+        }
+
+        if (locuri_dorite.empty()) {
+            std::cout << "Nu s-au specificat locuri. Vanzare anulata!\n";
             continue;
         }
 
-        cinema.vinde_bilet(u, *proiectie_selectata, loc);
+        cinema.vinde_bilet(u, *proiectie_selectata, locuri_dorite);
+
+        if (!lista_proiectii_curente.empty()) {
+            cinema.actualizeaza_sala_originala(*proiectie_selectata);
+        }
     }
 
     std::cout << "\nMultumim ca ati folosit VisionX!";
