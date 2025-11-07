@@ -18,6 +18,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 include(cmake/Options.cmake)
 include(cmake/CompilerFlags.cmake)
 include(cmake/CopyHelper.cmake)
+include_directories(vendor)
 
 ###############################################################################
 
@@ -50,6 +51,18 @@ include(cmake/CopyHelper.cmake)
 # NOTE: update executable name in .github/workflows/cmake.yml:25 when changing name here
 add_executable(${MAIN_EXECUTABLE_NAME}
     main.cpp
+        Film.cpp
+        Film.h
+        Sala.cpp
+        Sala.h
+        Proiectie.cpp
+        Proiectie.h
+        Utilizator.cpp
+        Utilizator.h
+        Bilet.cpp
+        Bilet.h
+        Cinema.cpp
+        Cinema.h
 )
 
 # NOTE: Add all defined targets (e.g. executables, libraries, etc. )
