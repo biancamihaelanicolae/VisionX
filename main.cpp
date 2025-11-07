@@ -13,7 +13,7 @@
 #include "Sala.h"
 #include "Utilizator.h"
 
-#include "vendor/termcolor/termcolor.hpp"
+#include "vendor/termcolor/termcolor_wrapper.hpp"
 
 int main() {
 
