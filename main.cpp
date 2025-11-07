@@ -13,9 +13,26 @@
 #include "Sala.h"
 #include "Utilizator.h"
 
-#include "vendor/termcolor/termcolor_wrapper.hpp"
+#ifdef _WIN32
+#define NOMINMAX
+#include <windows.h>
+void enable_ansi_coloring() {
+    HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+    if (hOut != INVALID_HANDLE_VALUE) {
+        DWORD dwMode = 0;
+        if (GetConsoleMode(hOut, &dwMode)) {
+            dwMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
+            SetConsoleMode(hOut, dwMode);
+        }
+    }
+}
+#endif
 
 int main() {
+
+    #ifdef _WIN32
+        enable_ansi_coloring();
+    #endif
 
     std::cout.precision(2);
 

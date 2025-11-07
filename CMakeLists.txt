@@ -18,7 +18,6 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 include(cmake/Options.cmake)
 include(cmake/CompilerFlags.cmake)
 include(cmake/CopyHelper.cmake)
-include_directories(vendor)
 
 ###############################################################################
 

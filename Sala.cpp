@@ -3,11 +3,10 @@
 //
 
 #include "Sala.h"
-
 #include <algorithm>
 #include <iostream>
 #include <iomanip>
-#include "vendor/termcolor/termcolor_wrapper.hpp"
+
 
 Sala::Sala(int n, int cap): numar(n), capacitate(cap), locuri_ocupate(cap,false) {}
 
@@ -56,9 +55,9 @@ void Sala::vizualizare_locuri() const {
     for (int i = 0; i< capacitate; i++) {
         std::cout << std::setw(4) << i+1;
         if (locuri_ocupate[i]) {
-            std::cout << termcolor::red <<  "[X]" << termcolor::reset;
+            std::cout << ANSI_RED << "[X]" << ANSI_RESET;
         }else {
-            std::cout << termcolor::green << "[O]" << termcolor::reset;
+            std::cout << ANSI_GREEN << "[O]" << ANSI_RESET;
         }
 
         std::cout << " ";

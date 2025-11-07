@@ -4,8 +4,11 @@
 
 #include "Bilet.h"
 
+#include <iomanip>
+#include <ios>
+
 Bilet::Bilet(const std::string &nume, const Film &f, const Sala &s, int l, double p, const std::string &o,
-    const std::string &z):nume_client(nume), film(f), loc(l), sala(s), pret(p), ora(o), zi(z) {}
+             const std::string &z):nume_client(nume), film(f), loc(l), sala(s), pret(p), ora(o), zi(z) {}
 
 Bilet::Bilet(const Bilet &b) = default;
 

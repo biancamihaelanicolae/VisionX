@@ -6,7 +6,12 @@
 #define OOP_SALA_H
 #pragma once
 #include <iosfwd>
+#include <string>
 #include <vector>
+
+const std::string ANSI_RESET = "\033[0m";
+const std::string ANSI_RED = "\033[31m";
+const std::string ANSI_GREEN = "\033[32m";
 
 
 class Sala {
