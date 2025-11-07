@@ -4,7 +4,6 @@
 
 #ifndef OOP_UTILIZATOR_H
 #define OOP_UTILIZATOR_H
-#include <iostream>
 #include <string>
 
 

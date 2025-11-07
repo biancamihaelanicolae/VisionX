@@ -5,6 +5,7 @@
 #include "Utilizator.h"
 
 #include <algorithm>
+#include <iostream>
 
 Utilizator::Utilizator() = default;
 

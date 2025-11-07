@@ -5,6 +5,7 @@
 #include "Cinema.h"
 
 #include <algorithm>
+#include <iostream>
 
 #include "Bilet.h"
 
