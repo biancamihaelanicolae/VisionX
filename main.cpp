@@ -245,6 +245,7 @@ class Bilet {
            << "Loc: " << b.loc << "\n"
            << "Pret: " << std::fixed << std::setprecision(2) << b.pret << "lei\n"
            <<"---------------------\n";
+        return os;
     }
 };
 
