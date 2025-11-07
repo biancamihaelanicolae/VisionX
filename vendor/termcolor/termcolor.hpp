@@ -1,9 +1,6 @@
 #ifndef TERMCOLOR_HPP_
 #define TERMCOLOR_HPP_
 
-#ifdef CHECKERS_ON
-    #error "Nu analiza acest fisier cu Cppcheck"
-#endif
 #include <cstdint>
 #include <iostream>
 
@@ -95,6 +92,7 @@ namespace termcolor
         }
         return stream;
     }
+
     namespace _internal
     {
         inline int colorize_index()
