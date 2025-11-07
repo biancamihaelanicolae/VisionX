@@ -6,6 +6,7 @@
 
 #include <algorithm>
 #include <iostream>
+#include <iomanip>
 #include "vendor/termcolor/termcolor_wrapper.hpp"
 
 Sala::Sala(int n, int cap): numar(n), capacitate(cap), locuri_ocupate(cap,false) {}

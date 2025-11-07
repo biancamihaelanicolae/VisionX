@@ -5,7 +5,7 @@
 #ifndef OOP_SALA_H
 #define OOP_SALA_H
 #pragma once
-#include <iomanip>
+#include <iosfwd>
 #include <vector>
 
 

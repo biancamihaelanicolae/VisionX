@@ -1,19 +1,19 @@
 #ifndef TERMCOLOR_HPP_
 #define TERMCOLOR_HPP_
 
+#ifdef CHECKERS_ON
+    #error "Nu analiza acest fisier cu Cppcheck"
+#endif
 #include <cstdint>
 #include <iostream>
 
-// Detect target's platform and set some macros in order to wrap platform
-// specific code this library depends on.
+
 #if defined(_WIN32) || defined(_WIN64)
 #   define TERMCOLOR_TARGET_WINDOWS
 #elif defined(__unix__) || defined(__unix) || (defined(__APPLE__) && defined(__MACH__))
 #   define TERMCOLOR_TARGET_POSIX
 #endif
 
-// If implementation has not been explicitly set, try to choose one based on
-// target platform.
 #if !defined(TERMCOLOR_USE_ANSI_ESCAPE_SEQUENCES) && !defined(TERMCOLOR_USE_WINDOWS_API) && !defined(TERMCOLOR_USE_NOOP)
 #   if defined(TERMCOLOR_TARGET_POSIX)
 #       define TERMCOLOR_USE_ANSI_ESCAPE_SEQUENCES
@@ -24,8 +24,6 @@
 #   endif
 #endif
 
-// These headers provide isatty()/fileno() functions, which are used for
-// testing whether a standard stream refers to the terminal.
 #if defined(TERMCOLOR_TARGET_POSIX)
 #   include <unistd.h>
 #elif defined(TERMCOLOR_TARGET_WINDOWS)
@@ -36,8 +34,6 @@
 
 namespace termcolor
 {
-    // Forward declaration of the `_internal` namespace.
-    // All comments are below.
     namespace _internal
     {
         inline int colorize_index();
