@@ -236,15 +236,15 @@ class Bilet {
     ~Bilet()=default;
 
 
-    void afisare_bilet() const {
-        std::cout << "\n---BILET CINEMA---\n"
-                  << "Client: " << nume_client << "\n"
-                  << "Film: " << film << "\n"
-                  <<"Data/ Ora: "<< zi << "/ " << ora << "\n"
-                  << "Sala: " << sala << "\n"
-                  << "Loc: " << loc << "\n"
-                  << "Pret: " << std::fixed << std::setprecision(2) << pret << "lei\n"
-                  <<"---------------------\n";
+    friend std::ostream& operator<<(std::ostream& os, const Bilet& b) {
+        os << "\n---BILET CINEMA---\n"
+           << "Client: " << b.nume_client << "\n"
+           << "Film: " << b.film << "\n"
+           <<"Data/ Ora: "<< b.zi << "/ " << b.ora << "\n"
+           << "Sala: " << b.sala << "\n"
+           << "Loc: " << b.loc << "\n"
+           << "Pret: " << std::fixed << std::setprecision(2) << b.pret << "lei\n"
+           <<"---------------------\n";
     }
 };
 
@@ -370,7 +370,7 @@ class Cinema {
 
             for (int loc : locuri) {
                 Bilet b(u.getUsername(), p.getFilm(), p.getSala(), loc, pret_unitar, p.getOra(), p.getZi());
-                b.afisare_bilet();
+                std::cout << b;
             }
         }else {
             std::cout << "REZERVARE ESUATA: Cel putin unul dintre locurile selectate este invalid!";
