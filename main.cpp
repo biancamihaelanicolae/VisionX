@@ -14,7 +14,6 @@
 #include "Utilizator.h"
 
 #ifdef _WIN32
-#define NOMINMAX
 #include <windows.h>
 void enable_ansi_coloring() {
     HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
