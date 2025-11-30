@@ -1,0 +1,26 @@
+----BILETE CUMPARATE DE UTILIZATOR----
+---------------------------------------
+Bilet 1:
+
+---BILET CINEMA---
+Client: Bianca
+Film: HomeAlone (Comedie, 103 min)
+Data/ Ora: Duminica/ 16:00
+Sala: Sala 4, Capacitate: 90, Locuri libere: 89
+Loc: 55
+Pret: 21.00lei
+---------------------
+
+---------------------------------------
+Bilet 2:
+
+---BILET CINEMA---
+Client: 1
+Film: Deadpool (Comedie, 108 min)
+Data/ Ora: Duminica/ 15:30
+Sala: Sala 4, Capacitate: 60, Locuri libere: 59
+Loc: 16
+Pret: 15.00lei
+---------------------
+
+---------------------------------------

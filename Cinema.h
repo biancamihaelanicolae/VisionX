@@ -7,7 +7,7 @@
 #include <fstream>
 #include <map>
 #include <vector>
-
+#include "Bilet.h"
 #include "Proiectie.h"
 #include "Utilizator.h"
 
@@ -15,6 +15,7 @@
 class Cinema {
     private:
     std::vector<Proiectie> proiectii;
+    std::vector<Bilet> bilete_cumparate;
 
     static int get_ordinea_zilei(const std::string& zi) {
         static const std::map<std::string, int > ordine ={
@@ -38,6 +39,9 @@ class Cinema {
     Proiectie* get_proiectie(int index);
     void vinde_bilet(const Utilizator& u, Proiectie& p, const std::vector<int>& locuri);
     void actualizeaza_sala_originala(const Proiectie& proiectie_modificata);
+    void salvare_bilete_utilizator(const std::string& nume_fisier) const;
+    [[nodiscard]] std::vector<std::string> get_genuri_disponibile() const;
+    [[nodiscard]] std::vector<Proiectie> get_program_sortat() const;
     friend std::ostream& operator<<(std::ostream& os, const Cinema& c);
 };
 

@@ -6,8 +6,9 @@
 
 #include <algorithm>
 #include <iostream>
+#include <fstream>
+#include <set>
 
-#include "Bilet.h"
 
 double Cinema::calculeaza_pret(const std::string &tip_bilet) const {
     double pret_baza = 30.0;
@@ -32,6 +33,23 @@ void Cinema::incarca_din_fisier(const std::string &nume_fisier) {
         proiectii.emplace_back(f, s, zi, ora, tip);
     }
     fin.close();
+}
+
+std::vector<Proiectie> Cinema::get_program_sortat() const {
+    std::vector<Proiectie> program_sortat = proiectii;
+
+    std::ranges::sort(program_sortat, [](const Proiectie& a, const Proiectie& b) {
+        int ordine_a = Cinema::get_ordinea_zilei(a.getZi());
+        int ordine_b = Cinema::get_ordinea_zilei(b.getZi());
+
+        if (ordine_a != ordine_b) {
+            return ordine_a < ordine_b;
+        }
+
+        return a.getOra() < b.getOra();
+    });
+
+    return program_sortat;
 }
 
 void Cinema::afiseaza_program() const {
@@ -112,6 +130,7 @@ void Cinema::vinde_bilet(const Utilizator &u, Proiectie &p, const std::vector<in
 
         for (int loc : locuri) {
             Bilet b(u.getUsername(), p.getFilm(), p.getSala(), loc, pret_unitar, p.getOra(), p.getZi());
+            bilete_cumparate.push_back(b);
             std::cout << b;
         }
     }else {
@@ -129,6 +148,40 @@ void Cinema::actualizeaza_sala_originala(const Proiectie &proiectie_modificata) 
             break;
         }
     }
+}
+
+void Cinema::salvare_bilete_utilizator(const std::string& nume_fisier) const {
+    std::ofstream fisier_out(nume_fisier);
+
+    if (fisier_out.is_open()) {
+        fisier_out << "----BILETE CUMPARATE DE UTILIZATOR----\n";
+        fisier_out<< "---------------------------------------\n";
+
+        if (bilete_cumparate.empty()) {
+            fisier_out << "Nu au fost cumparate bilete.\n";
+        }else {
+            for (size_t i=0; i < bilete_cumparate.size(); ++i) {
+                fisier_out << "Bilet " << i+1 << ":\n";
+                fisier_out << bilete_cumparate[i] << "\n";
+                fisier_out<< "---------------------------------------\n";
+            }
+        }
+
+        fisier_out.close();
+        std::cout << "\n Biletele au fost salvate cu succes in   " << nume_fisier << ".\n";
+    }else {
+        std::cout << "Nu s-a putut deschide fisierul pentru salvare.\n";
+    }
+}
+
+std::vector<std::string> Cinema::get_genuri_disponibile() const {
+    std::set<std::string> genuri_unice;
+
+    for (const auto& p:proiectii) {
+        genuri_unice.insert(p.getFilm().getGen());
+    }
+
+    return std::vector<std::string>(genuri_unice.begin(), genuri_unice.end());
 }
 
 std::ostream & operator<<(std::ostream &os, const Cinema &c) {

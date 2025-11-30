@@ -65,6 +65,19 @@ int main() {
 
         std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
 
+        std::vector<std::string> genuri = cinema.get_genuri_disponibile();
+        std::string lista_genuri;
+        if (!genuri.empty()) {
+            for (size_t i = 0; i < genuri.size(); i++) {
+                lista_genuri += genuri[i];
+                if (i < genuri.size() - 1) {
+                    lista_genuri += ", ";
+                }
+            }
+        }else {
+            lista_genuri = "N/A\n";
+        }
+
         std::string raspuns_filtrare;
         std::cout << "Vrei sa cauti filemele dupa un anumit gen (da/nu)?";
         std::cin >> raspuns_filtrare;
@@ -76,7 +89,7 @@ int main() {
 
         if (raspuns_filtrare == "da") {
             std::string gen_ales;
-            std::cout << "Introdu genul dorit: ";
+            std::cout << "Introdu genul dorit, (Genuri disponibile: " << lista_genuri << "): \n";
             std::cin >> gen_ales;
 
             std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
@@ -103,14 +116,40 @@ int main() {
             }
 
         }else{
-            cinema.afiseaza_program();
+            lista_proiectii_curente = cinema.get_program_sortat();
+
+            if (lista_proiectii_curente.empty()) {
+                std::cout << "\n Nu exista proiectii programate. Vanzare anulata!\n";
+                continue;
+            }
+
+            std::cout << "\n==== Programul cinematografului VisionX ====\n";
+            std::string zi_curenta;
+
+            for (size_t i=0; i < lista_proiectii_curente.size(); ++i) {
+                if (lista_proiectii_curente[i].getZi() != zi_curenta) {
+                    zi_curenta = lista_proiectii_curente[i].getZi();
+                    std::cout << "\nZiua: " << zi_curenta << "\n";
+                }
+
+                std::cout << i << ". " << lista_proiectii_curente[i].getFilm().getTitlu()
+                  << " | Sala " << lista_proiectii_curente[i].getSala().getNumar()
+                  << " | Ora: " << lista_proiectii_curente[i].getOra()
+                  << " (" << lista_proiectii_curente[i].getTip() << ")\n";
+            }
+
+            std::cout << "============================================\n";
+        }
+
+        if (lista_proiectii_curente.empty()) {
+            continue;
         }
 
         Utilizator u;
         u.citire_utilizator();
 
         int idx;
-        std::cout << "Introdu numarul proiectiei dorite: ";
+        std::cout << "Introdu indexul proiectiei dorite: ";
         if (!(std::cin >> idx)) {
             std::cout << "Intrare invalida. Vanzare anulata.\n";
             std::cin.clear();
@@ -118,14 +157,10 @@ int main() {
             continue;
         }
 
-        Proiectie* proiectie_selectata = cinema.get_proiectie(idx);
+        Proiectie* proiectie_selectata = nullptr;
 
-        if (!lista_proiectii_curente.empty()) {
-            if (idx >= 0 && idx < (int)lista_proiectii_curente.size()) {
-                proiectie_selectata = &lista_proiectii_curente[idx];
-            }
-        }else {
-            proiectie_selectata = cinema.get_proiectie(idx);
+        if (idx >= 0 && idx < lista_proiectii_curente.size()) {
+            proiectie_selectata = &lista_proiectii_curente[idx];
         }
         if (!proiectie_selectata) {
             std::cout << "Index de proiectie invalid!";
@@ -166,6 +201,8 @@ int main() {
             cinema.actualizeaza_sala_originala(*proiectie_selectata);
         }
     }
+
+    cinema.salvare_bilete_utilizator("../bilete_utilizator.txt");
 
     std::cout << "\nMultumim ca ati folosit VisionX!";
 
