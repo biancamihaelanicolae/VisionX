@@ -52,42 +52,6 @@ std::vector<Proiectie> Cinema::get_program_sortat() const {
     return program_sortat;
 }
 
-void Cinema::afiseaza_program() const {
-    if (proiectii.empty()) {
-        std::cout << "Nu exista proiectii programate.\n";
-        return;
-    }
-
-    std::vector<Proiectie> program_sortat = proiectii;
-
-    std::ranges::sort(program_sortat, [](const Proiectie& a, const Proiectie& b) {
-        int ordine_a = Cinema::get_ordinea_zilei(a.getZi());
-        int ordine_b = Cinema::get_ordinea_zilei(b.getZi());
-
-        if (ordine_a != ordine_b) {
-            return ordine_a < ordine_b;
-        }
-
-        return a.getOra() < b.getOra();
-    });
-
-    std::cout << "\n==== Programul cinematografului VisionX ====\n";
-    std::string zi_curenta;
-
-    for (size_t i = 0; i < program_sortat.size(); ++i) {
-        if (program_sortat[i].getZi() != zi_curenta) {
-            zi_curenta = program_sortat[i].getZi();
-            std::cout << "\n Ziua:  " << zi_curenta << "\n";
-        }
-
-        std::cout << i << ". ";
-        program_sortat[i].afisare();
-        std::cout << "\n";
-    }
-
-    std::cout << "========================================\n";
-}
-
 std::vector<Proiectie> Cinema::filtreaza_pe_gen(const std::string &gen_cautat) const {
     std::vector<Proiectie> lista_filtrata;
     for (const auto& p : proiectii) {

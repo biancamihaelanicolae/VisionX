@@ -34,7 +34,6 @@ class Cinema {
     public:
     double calculeaza_pret(const std::string& tip_bilet) const;
     void incarca_din_fisier(const std::string& nume_fisier);
-    void afiseaza_program() const;
     [[nodiscard]]std::vector<Proiectie> filtreaza_pe_gen(const std::string& gen_cautat) const;
     Proiectie* get_proiectie(int index);
     void vinde_bilet(const Utilizator& u, Proiectie& p, const std::vector<int>& locuri);
