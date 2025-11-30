@@ -159,7 +159,7 @@ int main() {
 
         Proiectie* proiectie_selectata = nullptr;
 
-        if (idx >= 0 && idx < lista_proiectii_curente.size()) {
+        if (idx >= 0 && static_cast<size_t>(idx)  < lista_proiectii_curente.size()) {
             proiectie_selectata = &lista_proiectii_curente[idx];
         }
         if (!proiectie_selectata) {
