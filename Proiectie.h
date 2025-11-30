@@ -18,7 +18,6 @@ private:
 
 public:
     Proiectie(const Film& f, const Sala& s, const std::string& z, const std::string& o, const std::string& t);
-    void afisare() const;
     bool rezervare_multipla(const std::vector<int>& locuri);
     [[nodiscard]]const std::string& getZi() const;
     [[nodiscard]]const std::string& getOra() const;

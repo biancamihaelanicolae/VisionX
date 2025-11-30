@@ -8,10 +8,6 @@
 
 Proiectie::Proiectie(const Film &f, const Sala &s, const std::string &z, const std::string &o, const std::string &t):film(f),sala(s),zi(z),ora(o),tip(t) {}
 
-void Proiectie::afisare() const {
-    std::cout<< film.getTitlu()<< "|" << " " << sala.getNumar()<< " | " << zi<< " - ora: " << ora<< " | " << "Tip: "<< tip<<std::endl;
-}
-
 bool Proiectie::rezervare_multipla(const std::vector<int> &locuri) {
     return sala.rezervare_multipla(locuri);
 }
