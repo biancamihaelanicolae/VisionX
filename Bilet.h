@@ -15,7 +15,6 @@ private:
     Film film;
     int loc;
     Sala sala;
-    double pret;
     std::string ora;
     std::string zi;
 

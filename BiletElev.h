@@ -6,7 +6,7 @@
 class BiletElev : public BazaBilet{
 public:
     BiletElev() = default;
-    ~BiletElev() = default;
+    ~BiletElev() override= default;
 
     double calculeaza_pret(double pret_baza) const override { return pret_baza*0.50; }
     BazaBilet* clone() const override { return new BiletElev(*this); }
