@@ -23,7 +23,7 @@ private:
     static constexpr double PRET_BAZA = 30.0;
 
 public:
-    Bilet(const std::string& nume_client, const Film& f, const Sala& s, int loc, const std::string& ora, const std::string& zi, const BazaBilet& tip);
+    Bilet(const std::string& nume_client, const Film& f, int loc, const Sala& s, const std::string& ora, const std::string& zi, const BazaBilet& tip);
     Bilet(const Bilet& other);
     Bilet& operator=(Bilet other);
     ~Bilet();
