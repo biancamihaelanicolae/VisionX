@@ -97,7 +97,7 @@ void Cinema::vinde_bilet(const Utilizator &u, Proiectie &p, const std::vector<in
         std::cout << "\n----BILETE VANDUTE----\n";
 
         for (int loc : locuri) {
-            Bilet b(u.getUsername(), p.getFilm(), p.getSala(), loc, p.getOra(), p.getZi(), *tip_ales);
+            Bilet b(u.getUsername(), p.getFilm(), loc, p.getSala(), p.getOra(), p.getZi(), *tip_ales);
             bilete_cumparate.push_back(b);
             std::cout << b;
         }
