@@ -62,6 +62,10 @@ add_executable(${MAIN_EXECUTABLE_NAME}
         Bilet.h
         Cinema.cpp
         Cinema.h
+        BazaBilet.h
+        BiletNormal.h
+        BiletStudent.h
+        BiletElev.h
 )
 
 # NOTE: Add all defined targets (e.g. executables, libraries, etc. )

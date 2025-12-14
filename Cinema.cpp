@@ -3,19 +3,14 @@
 //
 
 #include "Cinema.h"
+#include "BiletNormal.h"
+#include "BiletStudent.h"
+#include "BiletElev.h"
 
 #include <algorithm>
 #include <iostream>
 #include <fstream>
 #include <set>
-
-
-double Cinema::calculeaza_pret(const std::string &tip_bilet) const {
-    double pret_baza = 30.0;
-    if (tip_bilet == "student") return pret_baza * 0.7;
-    if (tip_bilet == "elev") return pret_baza * 0.5;
-    return pret_baza;
-}
 
 void Cinema::incarca_din_fisier(const std::string &nume_fisier) {
     std::ifstream fin(nume_fisier);
@@ -87,19 +82,30 @@ void Cinema::vinde_bilet(const Utilizator &u, Proiectie &p, const std::vector<in
         return;
     }
 
-    if (p.rezervare_multipla(locuri)) {
-        double pret_unitar = calculeaza_pret(u.getTip());
+    BazaBilet* tip_ales = nullptr;
+    std::string tip_u = u.getTip();
 
+    if (tip_u == "student") {
+        tip_ales = new BiletStudent(); // sau tip_ales = new BiletStudent;
+    } else if (tip_u == "elev") {
+        tip_ales = new BiletElev();
+    } else {
+        tip_ales = new BiletNormal();
+    }
+
+    if (p.rezervare_multipla(locuri)) {
         std::cout << "\n----BILETE VANDUTE----\n";
 
         for (int loc : locuri) {
-            Bilet b(u.getUsername(), p.getFilm(), p.getSala(), loc, pret_unitar, p.getOra(), p.getZi());
+            Bilet b(u.getUsername(), p.getFilm(), p.getSala(), loc, p.getOra(), p.getZi(), *tip_ales);
             bilete_cumparate.push_back(b);
             std::cout << b;
         }
     }else {
         std::cout << "REZERVARE ESUATA: Cel putin unul dintre locurile selectate este invalid!";
     }
+
+    delete tip_ales;
 }
 
 void Cinema::actualizeaza_sala_originala(const Proiectie &proiectie_modificata) {
