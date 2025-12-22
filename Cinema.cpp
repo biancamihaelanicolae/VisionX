@@ -107,8 +107,9 @@ void Cinema::vinde_bilet(const Utilizator &u, Proiectie &p, const std::vector<in
         delete tip_ales;
 
     }catch (const VisionX_Exception& e) {
-            delete tip_ales;
-            throw;
+        std::cerr << e.what() << '\n';
+        delete tip_ales;
+        throw;
     }
 }
 

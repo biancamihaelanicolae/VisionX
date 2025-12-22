@@ -4,10 +4,10 @@ Bilet 1:
 
 ---BILET CINEMA---
 Client: Bianca
-Film: Titanic
-Data/ Ora: Sambata/ 20:00
-Sala: 3
-Loc: 65
+Film: Avatar_2
+Data/ Ora: Vineri/ 18:30
+Sala: 1
+Loc: 75
 ---------------------
 Tip: Student (30% reducere)Pret final: 21 RON
 
@@ -16,10 +16,10 @@ Bilet 2:
 
 ---BILET CINEMA---
 Client: Bianca
-Film: Titanic
-Data/ Ora: Sambata/ 20:00
-Sala: 3
-Loc: 66
+Film: Avatar_2
+Data/ Ora: Vineri/ 18:30
+Sala: 1
+Loc: 76
 ---------------------
 Tip: Student (30% reducere)Pret final: 21 RON
 
