@@ -43,6 +43,7 @@ class Cinema {
     [[nodiscard]] std::vector<Proiectie> get_program_sortat() const;
     friend std::ostream& operator<<(std::ostream& os, const Cinema& c);
     void afiseaza_statistici_vanzari() const;
+    void afiseaza_meniu_genuri() const;
 };
 
 

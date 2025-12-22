@@ -17,6 +17,9 @@ private:
     std::string tip; //2D, 3D, IMAX
 
 public:
+    bool are_locuri_disponibile() const;
+    int numar_locuri_libere() const;
+    void afiseaza_harta_sala() const;
     Proiectie(const Film& f, const Sala& s, const std::string& z, const std::string& o, const std::string& t);
     bool rezervare_multipla(const std::vector<int>& locuri);
     [[nodiscard]]const std::string& getZi() const;

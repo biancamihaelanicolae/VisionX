@@ -201,3 +201,18 @@ void Cinema::afiseaza_statistici_vanzari() const {
     std::cout << "\nTotal bilete create: " << Bilet::getNrBileteVandute();
     std::cout <<"\n===========================================\n";
 }
+
+void Cinema::afiseaza_meniu_genuri() const {
+    std::vector<std::string> genuri = get_genuri_disponibile();
+    if (genuri.empty()) {
+        std::cout << "Nu exista genuri programate.\n";
+        return;
+    }
+
+    std::cout << "Genuri disponibile: ";
+    for (size_t i = 0; i < genuri.size(); ++i) {
+        std::cout << "[" << genuri[i] << "]";
+        if (i < genuri.size() - 1) std::cout << ", ";
+    }
+    std::cout << "\n";
+}

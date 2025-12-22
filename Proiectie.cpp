@@ -12,6 +12,18 @@ bool Proiectie::rezervare_multipla(const std::vector<int> &locuri) {
     return sala.rezervare_multipla(locuri);
 }
 
+bool Proiectie::are_locuri_disponibile() const {
+    return !sala.sala_plina();
+}
+
+int Proiectie::numar_locuri_libere() const {
+    return sala.locuri_libere();
+}
+
+void Proiectie::afiseaza_harta_sala() const {
+    sala.vizualizare_locuri();
+}
+
 const std::string & Proiectie::getZi() const {return zi;}
 
 const std::string & Proiectie::getOra() const {return ora;}

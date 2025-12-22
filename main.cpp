@@ -67,18 +67,7 @@ int main() {
 
                 std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
 
-                std::vector<std::string> genuri = cinema.get_genuri_disponibile();
-                std::string lista_genuri;
-                if (!genuri.empty()) {
-                    for (size_t i = 0; i < genuri.size(); i++) {
-                        lista_genuri += genuri[i];
-                        if (i < genuri.size() - 1) {
-                            lista_genuri += ", ";
-                        }
-                    }
-                }else {
-                    lista_genuri = "N/A\n";
-                }
+                cinema.afiseaza_meniu_genuri();
 
                 std::string raspuns_filtrare;
                 std::cout << "Vrei sa cauti filemele dupa un anumit gen (da/nu)?";
@@ -91,7 +80,7 @@ int main() {
 
                 if (raspuns_filtrare == "da") {
                     std::string gen_ales;
-                    std::cout << "Introdu genul dorit, (Genuri disponibile: " << lista_genuri << "): \n";
+                    std::cout << "Introdu genul dorit, (din lista de mami sus): ";
                     std::cin >> gen_ales;
 
                     std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
@@ -167,15 +156,15 @@ int main() {
                     throw Eroare_selectie_invalida();
                 }
 
-                if (proiectie_selectata->getSala().sala_plina()) {
+                if (!proiectie_selectata->are_locuri_disponibile()) {
                     std::cout << "Sala este plina! Alege alta proiectie!\n";
                     continue;
                 }
 
-                proiectie_selectata->getSala().vizualizare_locuri();
+                proiectie_selectata->afiseaza_harta_sala();
 
                 std::cout << "Proiectie aleasa: " << proiectie_selectata->getFilm().getTitlu() << "\n";
-                std::cout << "Locuril libere: " << proiectie_selectata->getSala().locuri_libere() << " din " << proiectie_selectata->getSala().getCapacitate() << "\n";
+                std::cout << "Locuril libere: " << proiectie_selectata->numar_locuri_libere() << "\n";
                 std::cout << "Alege locurile dorite: ";
 
                 std::vector<int> locuri_dorite;

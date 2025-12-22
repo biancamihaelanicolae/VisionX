@@ -4,10 +4,10 @@ Bilet 1:
 
 ---BILET CINEMA---
 Client: Bianca
-Film: Avatar_2
-Data/ Ora: Vineri/ 18:30
+Film: Inception
+Data/ Ora: Vineri/ 18:00
 Sala: 1
-Loc: 75
+Loc: 55
 ---------------------
 Tip: Student (30% reducere)Pret final: 21 RON
 
@@ -16,10 +16,10 @@ Bilet 2:
 
 ---BILET CINEMA---
 Client: Bianca
-Film: Avatar_2
-Data/ Ora: Vineri/ 18:30
+Film: Inception
+Data/ Ora: Vineri/ 18:00
 Sala: 1
-Loc: 76
+Loc: 56
 ---------------------
 Tip: Student (30% reducere)Pret final: 21 RON
 
