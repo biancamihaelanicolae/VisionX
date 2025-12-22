@@ -4,10 +4,10 @@ Bilet 1:
 
 ---BILET CINEMA---
 Client: Bianca
-Film: Barbie
-Data/ Ora: Miercuri/ 16:00
-Sala: 2
-Loc: 45
+Film: Titanic
+Data/ Ora: Sambata/ 20:00
+Sala: 3
+Loc: 65
 ---------------------
 Tip: Student (30% reducere)Pret final: 21 RON
 
@@ -16,10 +16,10 @@ Bilet 2:
 
 ---BILET CINEMA---
 Client: Bianca
-Film: Barbie
-Data/ Ora: Miercuri/ 16:00
-Sala: 2
-Loc: 46
+Film: Titanic
+Data/ Ora: Sambata/ 20:00
+Sala: 3
+Loc: 66
 ---------------------
 Tip: Student (30% reducere)Pret final: 21 RON
 

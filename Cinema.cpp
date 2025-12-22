@@ -86,26 +86,30 @@ void Cinema::vinde_bilet(const Utilizator &u, Proiectie &p, const std::vector<in
     std::string tip_u = u.getTip();
 
     if (tip_u == "student") {
-        tip_ales = new BiletStudent(); // sau tip_ales = new BiletStudent;
+        tip_ales = new BiletStudent();
     } else if (tip_u == "elev") {
         tip_ales = new BiletElev();
     } else {
         tip_ales = new BiletNormal();
     }
 
-    if (p.rezervare_multipla(locuri)) {
+    try{
+        p.rezervare_multipla(locuri);
         std::cout << "\n----BILETE VANDUTE----\n";
 
         for (int loc : locuri) {
             Bilet b(u.getUsername(), p.getFilm(), loc, p.getSala(), p.getOra(), p.getZi(), *tip_ales);
             bilete_cumparate.push_back(b);
-            std::cout << b;
+            Bilet::marcheaza_vanzare();
+            std::cout<<b<<"\n";
         }
-    }else {
-        std::cout << "REZERVARE ESUATA: Cel putin unul dintre locurile selectate este invalid!";
-    }
 
-    delete tip_ales;
+        delete tip_ales;
+
+    }catch (const VisionX_Exception& e) {
+            delete tip_ales;
+            throw;
+    }
 }
 
 void Cinema::actualizeaza_sala_originala(const Proiectie &proiectie_modificata) {
@@ -193,7 +197,6 @@ void Cinema::afiseaza_statistici_vanzari() const {
     std::cout << "\nBilet Student: " << countStudenti << " (30% reducere)";
     std::cout << "\nBilet Elev: " << countElevi << " (50% reducere)";
     std::cout << "\n-------------------------------------------";
-    std::cout << "\nTotal bilete create: " << bilete_cumparate.size();
+    std::cout << "\nTotal bilete create: " << Bilet::getNrBileteVandute();
     std::cout <<"\n===========================================\n";
 }
-

@@ -13,13 +13,15 @@ Bilet::Bilet(const std::string &nume_client, const Film &f, int loc, const Sala 
     :nume_client(nume_client), film(f), loc(loc), sala(s), ora(ora), zi(zi)
     {
         this -> tip_bilet_ptr = tip.clone();
-        nr_bilete_vandute++;
     }
 
 Bilet::Bilet(const Bilet& other)
     : nume_client(other.nume_client), film(other.film), loc(other.loc), sala(other.sala),
       ora(other.ora), zi(other.zi),
       tip_bilet_ptr(other.tip_bilet_ptr ? other.tip_bilet_ptr->clone() : nullptr) {
+}
+
+void Bilet::marcheaza_vanzare() {
     nr_bilete_vandute++;
 }
 

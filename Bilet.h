@@ -24,6 +24,8 @@ private:
     static constexpr double PRET_BAZA = 30.0;
 
 public:
+    static void marcheaza_vanzare();
+    static int getNrBileteVandute();
     BazaBilet* get_tip_ptr() const {return tip_bilet_ptr;}
     Bilet(const std::string& nume_client, const Film& f, int loc, const Sala& s, const std::string& ora, const std::string& zi, const BazaBilet& tip);
     Bilet(const Bilet& other);
@@ -32,7 +34,6 @@ public:
     friend void swap(Bilet& first, Bilet& second) noexcept;
     [[nodiscard]] double get_pret_final() const;
     friend std::ostream& operator<<(std::ostream& os, const Bilet& b);
-    static int getNrBileteVandute();
 };
 
 
