@@ -12,6 +12,7 @@
 #include <iostream>
 #include <fstream>
 #include <set>
+#include <iterator>
 
 void Cinema::incarca_din_fisier(const std::string &nume_fisier) {
     std::ifstream fin(nume_fisier);
@@ -49,11 +50,10 @@ std::vector<Proiectie> Cinema::get_program_sortat() const {
 
 std::vector<Proiectie> Cinema::filtreaza_pe_gen(const std::string &gen_cautat) const {
     std::vector<Proiectie> lista_filtrata;
-    for (const auto& p : proiectii) {
-        if (p.getFilm().getGen() == gen_cautat) {
-            lista_filtrata.push_back(p);
-        }
-    }
+
+    std::copy_if(proiectii.begin(), proiectii.end(), std::back_inserter(lista_filtrata),[&gen_cautat](const Proiectie &p) {
+        return p.getFilm().getGen() == gen_cautat;
+    });
 
     std::ranges::sort(lista_filtrata, [](const Proiectie& a, const Proiectie& b) {
         int ordine_a = Cinema::get_ordinea_zilei(a.getZi());
@@ -114,14 +114,14 @@ void Cinema::vinde_bilet(const Utilizator &u, Proiectie &p, const std::vector<in
 }
 
 void Cinema::actualizeaza_sala_originala(const Proiectie &proiectie_modificata) {
-    for (auto& p_originala : proiectii) {
-        if (p_originala.getFilm().getTitlu() == proiectie_modificata.getFilm().getTitlu() &&
-            p_originala.getZi() == proiectie_modificata.getZi() &&
-            p_originala.getOra() == proiectie_modificata.getOra())
-        {
-            p_originala = proiectie_modificata;
-            break;
-        }
+    auto it = std::find_if(proiectii.begin(), proiectii.end(), [&](const Proiectie &p) {
+        return p.getFilm().getTitlu() == proiectie_modificata.getFilm().getTitlu() &&
+               p.getZi() == proiectie_modificata.getZi() &&
+               p.getOra() == proiectie_modificata.getOra();
+    });
+
+    if (it != proiectii.end()) {
+        *it = proiectie_modificata;
     }
 }
 

@@ -41,9 +41,7 @@ bool Sala::sala_plina() const {
 }
 
 int Sala::locuri_libere() const {
-    int cnt=0;
-    for (bool ocupat : locuri_ocupate) if (!ocupat) cnt++;
-    return cnt;
+    return (int)std::count(locuri_ocupate.begin(), locuri_ocupate.end(), false);
 }
 
 void Sala::vizualizare_locuri() const {
