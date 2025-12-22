@@ -24,6 +24,11 @@ void Proiectie::afiseaza_harta_sala() const {
     sala.vizualizare_locuri();
 }
 
+void Proiectie::afiseaza_detalii_disponibilitate()const {
+    std::cout << "Locuri libere: " << sala.locuri_libere()
+              << " din " << sala.getCapacitate() << "\n";
+}
+
 const std::string & Proiectie::getZi() const {return zi;}
 
 const std::string & Proiectie::getOra() const {return ora;}

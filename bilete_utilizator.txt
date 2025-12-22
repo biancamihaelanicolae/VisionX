@@ -24,3 +24,15 @@ Loc: 56
 Tip: Student (30% reducere)Pret final: 21 RON
 
 ---------------------------------------
+Bilet 3:
+
+---BILET CINEMA---
+Client: Maria
+Film: Inception
+Data/ Ora: Vineri/ 18:00
+Sala: 1
+Loc: 66
+---------------------
+Tip: Elev (50% reducere)Pret final: 15 RON
+
+---------------------------------------
