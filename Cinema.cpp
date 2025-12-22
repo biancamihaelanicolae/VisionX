@@ -6,6 +6,7 @@
 #include "BiletNormal.h"
 #include "BiletStudent.h"
 #include "BiletElev.h"
+#include "Exceptii.h"
 
 #include <algorithm>
 #include <iostream>
@@ -15,8 +16,7 @@
 void Cinema::incarca_din_fisier(const std::string &nume_fisier) {
     std::ifstream fin(nume_fisier);
     if (!fin) {
-        std::cerr << "Eroare la deschiderea fisierului " << nume_fisier << "\n";
-        return;
+        throw Eroare_Fisier(nume_fisier);
     }
 
     std::string titlu, gen, zi, ora, tip;
@@ -168,3 +168,32 @@ std::ostream & operator<<(std::ostream &os, const Cinema &c) {
     os << "======================================\n";
     return os;
 }
+
+void Cinema::afiseaza_statistici_vanzari() const {
+    int countStudenti = 0;
+    int countElevi = 0;
+    int countNormal = 0;
+
+    for (const auto& bilet : bilete_cumparate) {
+        BazaBilet* ptr = bilet.get_tip_ptr();
+
+        if (dynamic_cast<BiletStudent*>(ptr)) {
+            countStudenti++;
+        }else if (dynamic_cast<BiletElev*>(ptr)) {
+            countElevi++;
+        }else if (dynamic_cast<BiletNormal*>(ptr)) {
+            countNormal++;
+        }
+    }
+
+    std::cout << "\n===========================================";
+    std::cout << "\n       STATISTICI VANZARI VISIONX";
+    std::cout << "\n===========================================";
+    std::cout << "\nBilet Normal: " << countNormal;
+    std::cout << "\nBilet Student: " << countStudenti << " (30% reducere)";
+    std::cout << "\nBilet Elev: " << countElevi << " (50% reducere)";
+    std::cout << "\n-------------------------------------------";
+    std::cout << "\nTotal bilete create: " << bilete_cumparate.size();
+    std::cout <<"\n===========================================\n";
+}
+

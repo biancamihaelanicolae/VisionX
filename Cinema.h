@@ -42,6 +42,7 @@ class Cinema {
     [[nodiscard]] std::vector<std::string> get_genuri_disponibile() const;
     [[nodiscard]] std::vector<Proiectie> get_program_sortat() const;
     friend std::ostream& operator<<(std::ostream& os, const Cinema& c);
+    void afiseaza_statistici_vanzari() const;
 };
 
 

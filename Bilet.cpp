@@ -6,19 +6,26 @@
 
 #include <iomanip>
 
+int Bilet::nr_bilete_vandute = 0;
+
 Bilet::Bilet(const std::string &nume_client, const Film &f, int loc, const Sala &s, const std::string &ora,
              const std::string &zi, const BazaBilet& tip)
     :nume_client(nume_client), film(f), loc(loc), sala(s), ora(ora), zi(zi)
     {
         this -> tip_bilet_ptr = tip.clone();
+        nr_bilete_vandute++;
     }
 
 Bilet::Bilet(const Bilet& other)
     : nume_client(other.nume_client), film(other.film), loc(other.loc), sala(other.sala),
       ora(other.ora), zi(other.zi),
+      tip_bilet_ptr(other.tip_bilet_ptr ? other.tip_bilet_ptr->clone() : nullptr) {
+    nr_bilete_vandute++;
+}
 
-      tip_bilet_ptr(other.tip_bilet_ptr ? other.tip_bilet_ptr->clone() : nullptr)
-{}
+int Bilet::getNrBileteVandute() {
+    return nr_bilete_vandute;
+}
 
 Bilet::~Bilet() {
     delete tip_bilet_ptr;

@@ -3,6 +3,8 @@
 //
 
 #include "Sala.h"
+#include "Exceptii.h"
+
 #include <algorithm>
 #include <iostream>
 #include <iomanip>
@@ -23,7 +25,7 @@ bool Sala::rezervare_multipla(const std::vector<int> &locuri) {
 
     for (int l : locuri) {
         if (l < 1 || l > capacitate || locuri_ocupate[l-1]) {
-            return false;
+            throw Eroare_loc_ocupat(l);
         }
     }
 
