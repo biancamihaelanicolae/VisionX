@@ -16,10 +16,6 @@ bool Proiectie::are_locuri_disponibile() const {
     return !sala.sala_plina();
 }
 
-int Proiectie::numar_locuri_libere() const {
-    return sala.locuri_libere();
-}
-
 void Proiectie::afiseaza_harta_sala() const {
     sala.vizualizare_locuri();
 }
