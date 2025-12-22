@@ -164,7 +164,7 @@ int main() {
                 proiectie_selectata->afiseaza_harta_sala();
 
                 std::cout << "Proiectie aleasa: " << proiectie_selectata->getFilm().getTitlu() << "\n";
-                std::cout << "Locuril libere: " << proiectie_selectata->numar_locuri_libere() << "\n";
+                proiectie_selectata->afiseaza_detalii_disponibilitate();
                 std::cout << "Alege locurile dorite: ";
 
                 std::vector<int> locuri_dorite;

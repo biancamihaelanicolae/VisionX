@@ -4,35 +4,11 @@ Bilet 1:
 
 ---BILET CINEMA---
 Client: Bianca
-Film: Inception
-Data/ Ora: Vineri/ 18:00
-Sala: 1
-Loc: 55
+Film: HomeAlone
+Data/ Ora: Duminica/ 16:00
+Sala: 4
+Loc: 65
 ---------------------
 Tip: Student (30% reducere)Pret final: 21 RON
-
----------------------------------------
-Bilet 2:
-
----BILET CINEMA---
-Client: Bianca
-Film: Inception
-Data/ Ora: Vineri/ 18:00
-Sala: 1
-Loc: 56
----------------------
-Tip: Student (30% reducere)Pret final: 21 RON
-
----------------------------------------
-Bilet 3:
-
----BILET CINEMA---
-Client: Maria
-Film: Inception
-Data/ Ora: Vineri/ 18:00
-Sala: 1
-Loc: 66
----------------------
-Tip: Elev (50% reducere)Pret final: 15 RON
 
 ---------------------------------------
