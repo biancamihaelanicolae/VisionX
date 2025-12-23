@@ -1,17 +1,24 @@
-Inception            SF          148   Vineri    18:00  IMAX  1  100
-Inception            SF          148   Duminica  21:00  3D    2  80
-Titanic              Romantic    195   Sambata   20:00  2D    3  120
-HomeAlone            Comedie     103   Duminica  16:00  2D    4  90
-Avatar               SF          160   Joi       19:00  IMAX  5  140
-Avatar_2             Actiune     180   Vineri    18:30  IMAX  1  120
-Barbie               Comedie     114   Miercuri  16:00  2D    2  80
-Dune                 SF          155   Luni      19:00  3D    3  100
-Dune                 SF          155   Marti     19:30  3D    3  100
-Dune                 SF          155   Joi       20:00  3D    3  100
-Oppenheimer          Biografic   180   Luni      18:00  2D    2  80
-Oppenheimer          Biografic   180   Marti     20:30  2D    2  80
-Matrix               SF          136   Miercuri  21:00  3D    1  120
-Matrix               SF          136   Sambata   17:00  3D    1  120
-Mission_Impossible   Actiune     163   Vineri    21:30  IMAX  1  120
-Mission_Impossible   Actiune     163   Sambata   22:00  2D    4  60
-Deadpool             Comedie     108   Duminica  15:30  2D    4  60
+Inception            SF          148   Vineri    18:00  IMAX  1  100  0
+Inception            SF          148   Duminica  21:00  3D    2  80   0
+Titanic              Romantic    195   Sambata   20:00  2D    3  120  0
+HomeAlone            Comedie     103   Duminica  16:00  2D    4  90   0
+Avatar               SF          160   Joi       19:00  IMAX  5  140  0
+Avatar_2             Actiune     180   Vineri    18:30  IMAX  1  120  0
+Barbie               Comedie     114   Miercuri  16:00  2D    2  80   0
+Dune                 SF          155   Luni      19:00  3D    3  100  0
+Dune                 SF          155   Marti     19:30  3D    3  100  0
+Dune                 SF          155   Joi       20:00  3D    3  100  0
+Oppenheimer          Biografic   180   Luni      18:00  2D    2  80   0
+Oppenheimer          Biografic   180   Marti     20:30  2D    2  80   0
+Matrix               SF          136   Miercuri  21:00  3D    1  120  0
+Matrix               SF          136   Sambata   17:00  3D    1  120  0
+Mission_Impossible   Actiune     163   Vineri    21:30  IMAX  1  120  0
+Mission_Impossible   Actiune     163   Sambata   22:00  2D    4  60   0
+Deadpool             Comedie     108   Duminica  15:30  2D    4  60   0
+Zootopia_1           Animatie    108   Sambata   11:00  2D    2  80   1
+Zootopia_2           Animatie    115   Duminica  12:00  3D    1  100  1
+Frozen_1             Animatie    102   Sambata   10:30  2D    3  120  1
+Frozen_2             Animatie    103   Duminica  11:00  3D    4  90   1
+Frozen_3             Animatie    110   Miercuri  14:00  2D    5  100  1
+Minions              Animatie    91    Sambata   13:00  2D    2  80   1
+Shrek_5              Animatie    95    Miercuri  15:30  2D    1  60   1

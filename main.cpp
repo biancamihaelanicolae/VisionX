@@ -67,8 +67,6 @@ int main() {
 
                 std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
 
-                cinema.afiseaza_meniu_genuri();
-
                 std::string raspuns_filtrare;
                 std::cout << "Vrei sa cauti filemele dupa un anumit gen (da/nu)?";
                 std::cin >> raspuns_filtrare;
@@ -79,34 +77,39 @@ int main() {
                 std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
 
                 if (raspuns_filtrare == "da") {
-                    std::string gen_ales;
-                    std::cout << "Introdu genul dorit, (din lista de mami sus): ";
-                    std::cin >> gen_ales;
+                    std::string raspuns_copii;
+                    std::cout << "Doriti sa vedeti doar selectia de filme animate pentru copii (da/nu)?";
+                    std::cin >> raspuns_copii;
+                    std::transform(raspuns_copii.begin(), raspuns_copii.end(), raspuns_copii.begin(), [](unsigned char c){return std::tolower(c);});
 
-                    std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
+                    if (raspuns_copii == "da") {
+                        lista_proiectii_curente = cinema.filtreaza_pentru_copii();
 
-                    lista_proiectii_curente = cinema.filtreaza_pe_gen(gen_ales);
-
-                    if (lista_proiectii_curente.empty()) {
-                        std::cout << "\nNu exista proiectii pentru genul " << gen_ales << " Vanzare anulata!\n";
-                        continue;
-                    }
-
-                    std::cout << "\n===== Proiectii Genul " << gen_ales << "=====\n";
-                    std::string zi_curenta;
-                    for (size_t i=0; i < lista_proiectii_curente.size(); ++i) {
-                        if (lista_proiectii_curente[i].getZi() != zi_curenta) {
-                            zi_curenta = lista_proiectii_curente[i].getZi();
-                            std::cout << "\nZiua: " << zi_curenta << "\n";
+                        if (lista_proiectii_curente.empty()) {
+                            std::cout << "Momentan nu avem animatii in program.";
+                            continue;
                         }
 
-                        std::cout << i << ". " << lista_proiectii_curente[i].getFilm().getTitlu()
-                                  << " | Sala " << lista_proiectii_curente[i].getSala().getNumar()
-                                  << " | Ora: " << lista_proiectii_curente[i].getOra()
-                                  << " (" << lista_proiectii_curente[i].getTip() << ")\n";
+                        std::cout << "\n===== SELECTIE FILME ANIMATE =====\n";
                     }
+                    else {
+                        cinema.afiseaza_meniu_genuri();
+                        std::string gen_ales;
+                        std::cout << "Introdu genul dorit, (din lista de mai sus): ";
+                        std::cin >> gen_ales;
 
-                }else{
+                        std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
+
+                        lista_proiectii_curente = cinema.filtreaza_pe_gen(gen_ales);
+
+                        if (lista_proiectii_curente.empty()) {
+                            std::cout << "\nNu exista proiectii pentru genul " << gen_ales << " Vanzare anulata!\n";
+                            continue;
+                        }
+
+                        std::cout << "\n===== Proiectii Genul " << gen_ales << "=====\n";
+                    }
+                }else {
                     lista_proiectii_curente = cinema.get_program_sortat();
 
                     if (lista_proiectii_curente.empty()) {
@@ -115,28 +118,25 @@ int main() {
                     }
 
                     std::cout << "\n==== Programul cinematografului VisionX ====\n";
-                    std::string zi_curenta;
+                }
+                std::string zi_curenta;
 
-                    for (size_t i=0; i < lista_proiectii_curente.size(); ++i) {
-                        if (lista_proiectii_curente[i].getZi() != zi_curenta) {
-                            zi_curenta = lista_proiectii_curente[i].getZi();
-                            std::cout << "\nZiua: " << zi_curenta << "\n";
-                        }
-
-                        std::cout << i << ". " << lista_proiectii_curente[i].getFilm().getTitlu()
-                          << " | Sala " << lista_proiectii_curente[i].getSala().getNumar()
-                          << " | Ora: " << lista_proiectii_curente[i].getOra()
-                          << " (" << lista_proiectii_curente[i].getTip() << ")\n";
+                for (size_t i=0; i < lista_proiectii_curente.size(); ++i) {
+                    if (lista_proiectii_curente[i].getZi() != zi_curenta) {
+                        zi_curenta = lista_proiectii_curente[i].getZi();
+                        std::cout << "\nZiua: " << zi_curenta << "\n";
                     }
 
-                    std::cout << "============================================\n";
+                    std::cout << i << ". " << lista_proiectii_curente[i].getFilm().getTitlu()
+                              << " | Sala " << lista_proiectii_curente[i].getSala().getNumar()
+                              << " | Ora: " << lista_proiectii_curente[i].getOra()
+                              << " (" << lista_proiectii_curente[i].getTip() << ")\n";
                 }
 
-                if (lista_proiectii_curente.empty()) {
-                    continue;
-                }
+                std::cout << "============================================\n";
 
                 Utilizator u;
+                //std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
                 u.citire_utilizator();
 
                 int idx;
@@ -190,9 +190,7 @@ int main() {
                 if (!lista_proiectii_curente.empty()) {
                     cinema.actualizeaza_sala_originala(*proiectie_selectata);
                 }
-            }
-
-            catch (const VisionX_Exception& e) {
+            }catch (const VisionX_Exception& e) {
                 std::cerr << "\nEROARE: " << e.what() << " Incercati din nou!\n";
             }
         }

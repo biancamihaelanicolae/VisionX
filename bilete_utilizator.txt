@@ -4,10 +4,10 @@ Bilet 1:
 Tip: Student (30% reducere)
 ---BILET CINEMA---
 Client: Bianca
-Film: Inception
-Data/ Ora: Duminica/ 21:00
-Sala: 2
-Loc: 75
+Film: Frozen_2
+Data/ Ora: Duminica/ 11:00
+Sala: 4
+Loc: 85
 ---------------------
 Pret final: 21 RON
 
@@ -16,10 +16,10 @@ Bilet 2:
 Tip: Student (30% reducere)
 ---BILET CINEMA---
 Client: Bianca
-Film: Inception
-Data/ Ora: Duminica/ 21:00
-Sala: 2
-Loc: 76
+Film: Frozen_2
+Data/ Ora: Duminica/ 11:00
+Sala: 4
+Loc: 86
 ---------------------
 Pret final: 21 RON
 
@@ -28,10 +28,10 @@ Bilet 3:
 Tip: Student (30% reducere)
 ---BILET CINEMA---
 Client: Bianca
-Film: Inception
-Data/ Ora: Duminica/ 21:00
-Sala: 2
-Loc: 77
+Film: Frozen_2
+Data/ Ora: Duminica/ 11:00
+Sala: 4
+Loc: 87
 ---------------------
 Pret final: 21 RON
 

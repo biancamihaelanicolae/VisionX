@@ -16,6 +16,16 @@
 #include <iterator>
 #include <map>
 
+std::vector<Proiectie> Cinema::filtreaza_pentru_copii() const {
+    std::vector<Proiectie > proiectie_copii;
+
+    std::copy_if(proiectii.begin(), proiectii.end(),std::back_inserter(proiectie_copii),[](const Proiectie& p) {
+        return p.getFilm().esteAnimatie();
+    });
+
+    return proiectie_copii;
+}
+
 void Cinema::incarca_din_fisier(const std::string &nume_fisier) {
     std::ifstream fin(nume_fisier);
     if (!fin) {
@@ -25,8 +35,9 @@ void Cinema::incarca_din_fisier(const std::string &nume_fisier) {
     std::string titlu, gen, zi, ora, tip;
     int durata, nr_sala, capacitate;
 
-    while (fin >> titlu >> gen >> durata >> zi >> ora >> tip >> nr_sala >> capacitate) {
-        Film f(titlu, gen, durata);
+    bool este_animatie;
+    while (fin >> titlu >> gen >> durata >> zi >> ora >> tip >> nr_sala >> capacitate >> este_animatie) {
+        Film f(titlu, gen, durata, este_animatie);
         Sala s(nr_sala, capacitate);
         proiectii.emplace_back(f, s, zi, ora, tip);
     }

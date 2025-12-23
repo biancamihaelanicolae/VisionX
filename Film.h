@@ -13,12 +13,14 @@ private:
     std::string titlu;
     std::string gen;
     int durata; // in minute
+    bool animatie;
 
 public:
-    explicit Film(const std::string& t="", const std::string& g="", int d=0);
+    explicit Film(const std::string& t="", const std::string& g="", int d=0, bool anim = false);
     Film(const Film& f);
     Film& operator=(const Film& f);
     ~Film();
+    [[nodiscard]]bool esteAnimatie() const;
     [[nodiscard]]const std::string& getTitlu() const;
     [[nodiscard]]const std::string& getGen() const;
     friend std::ostream& operator<<(std::ostream& os, const Film& f);
