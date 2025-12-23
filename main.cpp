@@ -136,7 +136,6 @@ int main() {
                 std::cout << "============================================\n";
 
                 Utilizator u;
-                //std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
                 u.citire_utilizator();
 
                 int idx;
@@ -154,6 +153,13 @@ int main() {
                 }
                 if (!proiectie_selectata) {
                     throw Eroare_selectie_invalida();
+                }
+
+                if (proiectie_selectata->getZi() == "Miercuri" && proiectie_selectata->getTip() != "IMAX") {
+                    std::cout << ANSI_GREEN
+                              << "\n [Promo] Pentru proiectiile din ziua de MIERCURI beneficiati de o reducere generala la toate filmele 2D si 3D: \n"
+                              << "Biletul va costa doar 15 RON!"
+                              << ANSI_RESET <<"\n";
                 }
 
                 if (!proiectie_selectata->are_locuri_disponibile()) {

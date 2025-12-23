@@ -1,38 +1,26 @@
 ----BILETE CUMPARATE DE UTILIZATOR----
 ---------------------------------------
 Bilet 1:
-Tip: Student (30% reducere)
+
 ---BILET CINEMA---
 Client: Bianca
-Film: Frozen_2
-Data/ Ora: Duminica/ 11:00
-Sala: 4
-Loc: 85
+Film: Frozen_3
+Data/ Ora: Miercuri/ 14:00
+Sala: 5
+Loc: 65
 ---------------------
-Pret final: 21 RON
+Tip: Student (30% reducere)Pret final: 15 RON
 
 ---------------------------------------
 Bilet 2:
-Tip: Student (30% reducere)
----BILET CINEMA---
-Client: Bianca
-Film: Frozen_2
-Data/ Ora: Duminica/ 11:00
-Sala: 4
-Loc: 86
----------------------
-Pret final: 21 RON
 
----------------------------------------
-Bilet 3:
-Tip: Student (30% reducere)
 ---BILET CINEMA---
 Client: Bianca
-Film: Frozen_2
-Data/ Ora: Duminica/ 11:00
-Sala: 4
-Loc: 87
+Film: Frozen_3
+Data/ Ora: Miercuri/ 14:00
+Sala: 5
+Loc: 66
 ---------------------
-Pret final: 21 RON
+Tip: Student (30% reducere)Pret final: 15 RON
 
 ---------------------------------------

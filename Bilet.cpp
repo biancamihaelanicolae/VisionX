@@ -10,15 +10,15 @@
 int Bilet::nr_bilete_vandute = 0;
 
 Bilet::Bilet(const std::string &nume_client, const Film &f, int loc, const Sala &s, const std::string &ora,
-             const std::string &zi, const BazaBilet& tip)
-    :nume_client(nume_client), film(f), loc(loc), sala(s), ora(ora), zi(zi)
+             const std::string &zi, const std::string &tip_pr, const BazaBilet& tip)
+    :nume_client(nume_client), film(f), loc(loc), sala(s), ora(ora), zi(zi), tip_proiectie(tip_pr)
     {
         this -> tip_bilet_ptr = tip.clone();
     }
 
 Bilet::Bilet(const Bilet& other)
     : nume_client(other.nume_client), film(other.film), loc(other.loc), sala(other.sala),
-      ora(other.ora), zi(other.zi),
+      ora(other.ora), zi(other.zi),tip_proiectie(other.tip_proiectie),
       tip_bilet_ptr(other.tip_bilet_ptr ? other.tip_bilet_ptr->clone() : nullptr) {
 }
 
@@ -42,6 +42,7 @@ void swap(Bilet& first, Bilet& second) noexcept {
     swap(first.sala, second.sala);
     swap(first.ora, second.ora);
     swap(first.zi, second.zi);
+    swap(first.tip_proiectie, second.tip_proiectie);
     swap(first.tip_bilet_ptr, second.tip_bilet_ptr);
 }
 
@@ -51,6 +52,9 @@ Bilet& Bilet::operator = (Bilet other) {
 }
 
 double Bilet::get_pret_final() const {
+    if (zi == "Miercuri" && tip_proiectie!="IMAX") {
+        return 15.0;
+    }
     if (tip_bilet_ptr) {
         return tip_bilet_ptr->calculeaza_pret(PRET_BAZA);
     }
@@ -59,8 +63,7 @@ double Bilet::get_pret_final() const {
 }
 
 std::ostream & operator<<(std::ostream &os, const Bilet &b) {
-    std::stringstream ss;
-    ss << "\n---BILET CINEMA---\n"
+    os << "\n---BILET CINEMA---\n"
             << "Client: " << b.nume_client << "\n"
             << "Film: " << b.film.getTitlu() << "\n"
             <<"Data/ Ora: "<< b.zi << "/ " << b.ora << "\n"
@@ -68,11 +71,11 @@ std::ostream & operator<<(std::ostream &os, const Bilet &b) {
             << "Loc: " << b.loc << "\n"
             <<"---------------------\n";
 
+
     if (b.tip_bilet_ptr) {
         b.tip_bilet_ptr->afisare_detalii_tip(os);
     }
 
-    ss << "Pret final: " << b.get_pret_final() << " RON\n";
-    os << ss.str();
+    os << "Pret final: " << b.get_pret_final() << " RON\n";
     return os;
 }
