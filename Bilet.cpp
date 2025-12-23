@@ -5,6 +5,7 @@
 #include "Bilet.h"
 
 #include <iomanip>
+#include <sstream>
 
 int Bilet::nr_bilete_vandute = 0;
 
