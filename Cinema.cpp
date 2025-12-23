@@ -11,8 +11,10 @@
 #include <algorithm>
 #include <iostream>
 #include <fstream>
+#include <iomanip>
 #include <set>
 #include <iterator>
+#include <map>
 
 void Cinema::incarca_din_fisier(const std::string &nume_fisier) {
     std::ifstream fin(nume_fisier);
@@ -175,29 +177,29 @@ std::ostream & operator<<(std::ostream &os, const Cinema &c) {
 }
 
 void Cinema::afiseaza_statistici_vanzari() const {
-    int countStudenti = 0;
-    int countElevi = 0;
-    int countNormal = 0;
+    std::map<std::string, int> statistici = {
+        {"Normal", 0}, {"Student", 0}, {"Elev", 0}
+    };
 
     for (const auto& bilet : bilete_cumparate) {
         BazaBilet* ptr = bilet.get_tip_ptr();
 
         if (dynamic_cast<BiletStudent*>(ptr)) {
-            countStudenti++;
+            statistici["Student"] += 1;
         }else if (dynamic_cast<BiletElev*>(ptr)) {
-            countElevi++;
+            statistici["Elev"] += 1;
         }else if (dynamic_cast<BiletNormal*>(ptr)) {
-            countNormal++;
+            statistici["Normal"] += 1;
         }
     }
 
     std::cout << "\n===========================================";
     std::cout << "\n       STATISTICI VANZARI VISIONX";
-    std::cout << "\n===========================================";
-    std::cout << "\nBilet Normal: " << countNormal;
-    std::cout << "\nBilet Student: " << countStudenti << " (30% reducere)";
-    std::cout << "\nBilet Elev: " << countElevi << " (50% reducere)";
-    std::cout << "\n-------------------------------------------";
+    std::cout << "\n===========================================\n";
+    for (const auto& [tip, count] : statistici) {
+        std::cout << std::left << std::setw(12) << tip << ": " << count << "\n";
+    }
+    std::cout << "-------------------------------------------";
     std::cout << "\nTotal bilete create: " << Bilet::getNrBileteVandute();
     std::cout <<"\n===========================================\n";
 }

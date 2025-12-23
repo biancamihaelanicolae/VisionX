@@ -12,3 +12,27 @@ Loc: 75
 Pret final: 21 RON
 
 ---------------------------------------
+Bilet 2:
+Tip: Student (30% reducere)
+---BILET CINEMA---
+Client: Bianca
+Film: Inception
+Data/ Ora: Duminica/ 21:00
+Sala: 2
+Loc: 76
+---------------------
+Pret final: 21 RON
+
+---------------------------------------
+Bilet 3:
+Tip: Student (30% reducere)
+---BILET CINEMA---
+Client: Bianca
+Film: Inception
+Data/ Ora: Duminica/ 21:00
+Sala: 2
+Loc: 77
+---------------------
+Pret final: 21 RON
+
+---------------------------------------
