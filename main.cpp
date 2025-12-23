@@ -39,6 +39,7 @@ int main() {
     try {
         Cinema cinema;
         cinema.incarca_din_fisier("program.txt");
+        cinema.aplica_reguli_sarbatori();
 
         if (cinema.get_proiectie(0) == nullptr) {
             std::cout<< "Programul nu a putut fi incarcat!\n";

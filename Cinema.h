@@ -32,6 +32,7 @@ class Cinema {
     }
 
     public:
+    void aplica_reguli_sarbatori();
     [[nodiscard]]std::vector<Proiectie> filtreaza_pentru_copii() const;
     double calculeaza_pret(const std::string& tip_bilet) const;
     void incarca_din_fisier(const std::string& nume_fisier);

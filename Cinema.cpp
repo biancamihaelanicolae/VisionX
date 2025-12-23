@@ -16,6 +16,26 @@
 #include <iterator>
 #include <map>
 
+void Cinema::aplica_reguli_sarbatori() {
+    static const std::map<std::string, std::string> reguli ={
+        {"31_Octombrie", "Horror"},
+        {"24_Decembrie", "Craciun"},
+        {"25_Decembrie", "Craciun"}
+    };
+
+    for (auto it = proiectii.begin(); it!= proiectii.end(); ) {
+        auto regula_gasita = reguli.find(it->getZi());
+
+        if (regula_gasita != reguli.end()) {
+            if (it->getFilm().getGen() != regula_gasita->second) {
+                it = proiectii.erase(it);
+                continue;
+            }
+        }
+        ++it;
+    }
+}
+
 std::vector<Proiectie> Cinema::filtreaza_pentru_copii() const {
     std::vector<Proiectie > proiectie_copii;
 

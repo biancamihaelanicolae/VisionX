@@ -4,23 +4,35 @@ Bilet 1:
 
 ---BILET CINEMA---
 Client: Bianca
-Film: Frozen_3
-Data/ Ora: Miercuri/ 14:00
-Sala: 5
-Loc: 65
+Film: Avatar_2
+Data/ Ora: Vineri/ 18:30
+Sala: 1
+Loc: 55
 ---------------------
-Tip: Student (30% reducere)Pret final: 15 RON
+Tip: Student (30% reducere)Pret final: 21 RON
 
 ---------------------------------------
 Bilet 2:
 
 ---BILET CINEMA---
 Client: Bianca
-Film: Frozen_3
-Data/ Ora: Miercuri/ 14:00
-Sala: 5
-Loc: 66
+Film: Avatar_2
+Data/ Ora: Vineri/ 18:30
+Sala: 1
+Loc: 56
 ---------------------
-Tip: Student (30% reducere)Pret final: 15 RON
+Tip: Student (30% reducere)Pret final: 21 RON
+
+---------------------------------------
+Bilet 3:
+
+---BILET CINEMA---
+Client: Bianca
+Film: The_Conjuring
+Data/ Ora: 31_Octombrie/ 20:00
+Sala: 4
+Loc: 75
+---------------------
+Tip: Elev (50% reducere)Pret final: 15 RON
 
 ---------------------------------------
