@@ -1,14 +1,14 @@
 ----BILETE CUMPARATE DE UTILIZATOR----
 ---------------------------------------
 Bilet 1:
-
+Tip: Student (30% reducere)
 ---BILET CINEMA---
 Client: Bianca
-Film: HomeAlone
-Data/ Ora: Duminica/ 16:00
-Sala: 4
-Loc: 65
+Film: Inception
+Data/ Ora: Duminica/ 21:00
+Sala: 2
+Loc: 75
 ---------------------
-Tip: Student (30% reducere)Pret final: 21 RON
+Pret final: 21 RON
 
 ---------------------------------------

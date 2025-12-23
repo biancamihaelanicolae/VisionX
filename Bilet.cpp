@@ -58,7 +58,8 @@ double Bilet::get_pret_final() const {
 }
 
 std::ostream & operator<<(std::ostream &os, const Bilet &b) {
-    os << "\n---BILET CINEMA---\n"
+    std::stringstream ss;
+    ss << "\n---BILET CINEMA---\n"
             << "Client: " << b.nume_client << "\n"
             << "Film: " << b.film.getTitlu() << "\n"
             <<"Data/ Ora: "<< b.zi << "/ " << b.ora << "\n"
@@ -70,6 +71,7 @@ std::ostream & operator<<(std::ostream &os, const Bilet &b) {
         b.tip_bilet_ptr->afisare_detalii_tip(os);
     }
 
-    os << "Pret final: " << b.get_pret_final() << " RON\n";
+    ss << "Pret final: " << b.get_pret_final() << " RON\n";
+    os << ss.str();
     return os;
 }
