@@ -10,7 +10,7 @@
 int Bilet::nr_bilete_vandute = 0;
 
 Bilet::Bilet(const std::string &nume_client, const Film &f, int loc, const Sala &s, const std::string &ora,
-             const std::string &zi, const std::string &tip_pr, const BazaBilet& tip, bool ochelari3D)
+             const std::string &zi, const std::string &tip_pr, bool ochelari3D, const BazaBilet& tip)
     :nume_client(nume_client), film(f), loc(loc), sala(s), ora(ora), zi(zi), tip_proiectie(tip_pr), ochelari3D(ochelari3D)
     {
         this -> tip_bilet_ptr = tip.clone();
@@ -18,8 +18,8 @@ Bilet::Bilet(const std::string &nume_client, const Film &f, int loc, const Sala 
 
 Bilet::Bilet(const Bilet& other)
     : nume_client(other.nume_client), film(other.film), loc(other.loc), sala(other.sala),
-      ora(other.ora), zi(other.zi),tip_proiectie(other.tip_proiectie),
-      tip_bilet_ptr(other.tip_bilet_ptr ? other.tip_bilet_ptr->clone() : nullptr), ochelari3D(other.ochelari3D) {}
+      ora(other.ora), zi(other.zi),tip_proiectie(other.tip_proiectie), ochelari3D(other.ochelari3D),
+      tip_bilet_ptr(other.tip_bilet_ptr ? other.tip_bilet_ptr->clone() : nullptr) {}
 
 void Bilet::marcheaza_vanzare() {
     nr_bilete_vandute++;
@@ -42,6 +42,7 @@ void swap(Bilet& first, Bilet& second) noexcept {
     swap(first.ora, second.ora);
     swap(first.zi, second.zi);
     swap(first.tip_proiectie, second.tip_proiectie);
+    swap(first.ochelari3D, second.ochelari3D);
     swap(first.tip_bilet_ptr, second.tip_bilet_ptr);
 }
 
