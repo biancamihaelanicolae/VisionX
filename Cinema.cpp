@@ -109,7 +109,7 @@ Proiectie * Cinema::get_proiectie(int index) {
     return nullptr;
 }
 
-void Cinema::vinde_bilet(const Utilizator &u, Proiectie &p, const std::vector<int> &locuri) {
+void Cinema::vinde_bilet(const Utilizator &u, Proiectie &p, const std::vector<int> &locuri, bool ochelari = false) {
     if (locuri.empty()) {
         std::cout << "Nu ati specificat niciun loc.\n";
         return;
@@ -131,7 +131,7 @@ void Cinema::vinde_bilet(const Utilizator &u, Proiectie &p, const std::vector<in
         std::cout << "\n----BILETE VANDUTE----\n";
 
         for (int loc : locuri) {
-            Bilet b(u.getUsername(), p.getFilm(), loc, p.getSala(), p.getOra(), p.getZi(), p.getTip(), *tip_ales);
+            Bilet b(u.getUsername(), p.getFilm(), loc, p.getSala(), p.getOra(), p.getZi(), p.getTip(), *tip_ales, ochelari);
             bilete_cumparate.push_back(b);
             Bilet::marcheaza_vanzare();
             std::cout<<b<<"\n";

@@ -17,6 +17,7 @@ private:
     std::string ora;
     std::string zi;
     std::string tip_proiectie;
+    bool ochelari3D;
 
     BazaBilet* tip_bilet_ptr = nullptr;
 
@@ -26,7 +27,7 @@ public:
     static void marcheaza_vanzare();
     static int getNrBileteVandute();
     BazaBilet* get_tip_ptr() const {return tip_bilet_ptr;}
-    Bilet(const std::string& nume_client, const Film& f, int loc, const Sala& s, const std::string& ora, const std::string& zi, const std::string& tip_pr, const BazaBilet& tip);
+    Bilet(const std::string& nume_client, const Film& f, int loc, const Sala& s, const std::string& ora, const std::string& zi, const std::string& tip_pr, const BazaBilet& tip, bool ochelari3D);
     Bilet(const Bilet& other);
     Bilet& operator=(Bilet other);
     ~Bilet();

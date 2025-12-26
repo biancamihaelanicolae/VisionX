@@ -156,6 +156,19 @@ int main() {
                     throw Eroare_selectie_invalida();
                 }
 
+                bool vrea_ochelari = false;
+                if (proiectie_selectata->getTip() == "3D") {
+                    std::string raspuns_ochelari;
+                    std::cout << "Filmul este in format 3D. Doriti sa inchiriati ochelari 3D pentru proiectie (cost: 5 RON)? (da/nu): ";
+                    std::cin >> raspuns_ochelari;
+
+                    std::transform(raspuns_ochelari.begin(), raspuns_ochelari.end(), raspuns_ochelari.begin(), [](unsigned char c){ return std::tolower(c); });
+
+                    if (raspuns_ochelari == "da") {
+                        vrea_ochelari = true;
+                    }
+                }
+
                 if (proiectie_selectata->getZi() == "Miercuri" && proiectie_selectata->getTip() != "IMAX") {
                     std::cout << ANSI_GREEN
                               << "\n [Promo] Pentru proiectiile din ziua de MIERCURI beneficiati de o reducere generala la toate filmele 2D si 3D: \n"
@@ -192,7 +205,7 @@ int main() {
                     continue;
                 }
 
-                cinema.vinde_bilet(u, *proiectie_selectata, locuri_dorite);
+                cinema.vinde_bilet(u, *proiectie_selectata, locuri_dorite, vrea_ochelari);
 
                 if (!lista_proiectii_curente.empty()) {
                     cinema.actualizeaza_sala_originala(*proiectie_selectata);

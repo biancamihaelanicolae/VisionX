@@ -4,35 +4,12 @@ Bilet 1:
 
 ---BILET CINEMA---
 Client: Bianca
-Film: Avatar_2
-Data/ Ora: Vineri/ 18:30
-Sala: 1
-Loc: 55
+Film: Halloween_Ends
+Data/ Ora: 31_Octombrie/ 23:59
+Sala: 3
+Loc: 95
+Ochelari 3D inchiriati: Da
 ---------------------
-Tip: Student (30% reducere)Pret final: 21 RON
-
----------------------------------------
-Bilet 2:
-
----BILET CINEMA---
-Client: Bianca
-Film: Avatar_2
-Data/ Ora: Vineri/ 18:30
-Sala: 1
-Loc: 56
----------------------
-Tip: Student (30% reducere)Pret final: 21 RON
-
----------------------------------------
-Bilet 3:
-
----BILET CINEMA---
-Client: Bianca
-Film: The_Conjuring
-Data/ Ora: 31_Octombrie/ 20:00
-Sala: 4
-Loc: 75
----------------------
-Tip: Elev (50% reducere)Pret final: 15 RON
+Tip: Student (30% reducere)Pret final: 26 RON
 
 ---------------------------------------

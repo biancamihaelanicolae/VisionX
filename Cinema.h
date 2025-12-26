@@ -38,7 +38,7 @@ class Cinema {
     void incarca_din_fisier(const std::string& nume_fisier);
     [[nodiscard]]std::vector<Proiectie> filtreaza_pe_gen(const std::string& gen_cautat) const;
     Proiectie* get_proiectie(int index);
-    void vinde_bilet(const Utilizator& u, Proiectie& p, const std::vector<int>& locuri);
+    void vinde_bilet(const Utilizator& u, Proiectie& p, const std::vector<int>& locuri, bool ochelari);
     void actualizeaza_sala_originala(const Proiectie& proiectie_modificata);
     void salvare_bilete_utilizator(const std::string& nume_fisier) const;
     [[nodiscard]] std::vector<std::string> get_genuri_disponibile() const;

@@ -10,8 +10,8 @@
 int Bilet::nr_bilete_vandute = 0;
 
 Bilet::Bilet(const std::string &nume_client, const Film &f, int loc, const Sala &s, const std::string &ora,
-             const std::string &zi, const std::string &tip_pr, const BazaBilet& tip)
-    :nume_client(nume_client), film(f), loc(loc), sala(s), ora(ora), zi(zi), tip_proiectie(tip_pr)
+             const std::string &zi, const std::string &tip_pr, const BazaBilet& tip, bool ochelari3D)
+    :nume_client(nume_client), film(f), loc(loc), sala(s), ora(ora), zi(zi), tip_proiectie(tip_pr), ochelari3D(ochelari3D)
     {
         this -> tip_bilet_ptr = tip.clone();
     }
@@ -19,8 +19,7 @@ Bilet::Bilet(const std::string &nume_client, const Film &f, int loc, const Sala 
 Bilet::Bilet(const Bilet& other)
     : nume_client(other.nume_client), film(other.film), loc(other.loc), sala(other.sala),
       ora(other.ora), zi(other.zi),tip_proiectie(other.tip_proiectie),
-      tip_bilet_ptr(other.tip_bilet_ptr ? other.tip_bilet_ptr->clone() : nullptr) {
-}
+      tip_bilet_ptr(other.tip_bilet_ptr ? other.tip_bilet_ptr->clone() : nullptr), ochelari3D(other.ochelari3D) {}
 
 void Bilet::marcheaza_vanzare() {
     nr_bilete_vandute++;
@@ -52,14 +51,22 @@ Bilet& Bilet::operator = (Bilet other) {
 }
 
 double Bilet::get_pret_final() const {
+    double pret_total = 0.0;
+
     if (zi == "Miercuri" && tip_proiectie!="IMAX") {
-        return 15.0;
+        pret_total = 15.0;
     }
-    if (tip_bilet_ptr) {
-        return tip_bilet_ptr->calculeaza_pret(PRET_BAZA);
+    else if (tip_bilet_ptr) {
+        pret_total =  tip_bilet_ptr->calculeaza_pret(PRET_BAZA);
+    }else {
+        pret_total = PRET_BAZA;
     }
 
-    return PRET_BAZA;
+    if (ochelari3D) {
+        pret_total += 5.0;
+    }
+
+    return pret_total;
 }
 
 std::ostream & operator<<(std::ostream &os, const Bilet &b) {
@@ -69,6 +76,7 @@ std::ostream & operator<<(std::ostream &os, const Bilet &b) {
             <<"Data/ Ora: "<< b.zi << "/ " << b.ora << "\n"
             << "Sala: " << b.sala.getNumar() << "\n"
             << "Loc: " << b.loc << "\n"
+            <<"Ochelari 3D inchiriati: " << (b.ochelari3D ? "Da" : "Nu") << "\n"
             <<"---------------------\n";
 
 
@@ -76,6 +84,6 @@ std::ostream & operator<<(std::ostream &os, const Bilet &b) {
         b.tip_bilet_ptr->afisare_detalii_tip(os);
     }
 
-    os << "Pret final: " << b.get_pret_final() << " RON\n";
+    os << "\nPret final: " << b.get_pret_final() << " RON\n";
     return os;
 }
