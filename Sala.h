@@ -25,6 +25,7 @@ class Sala {
     Sala(const Sala& s);
     Sala& operator=(const Sala& s);
     ~Sala();
+    void elibereaza_loc(int nr);
     bool rezervare_multipla(const std::vector<int>& locuri);
     [[nodiscard]]bool sala_plina() const;
     [[nodiscard]]int locuri_libere() const;

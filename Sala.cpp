@@ -18,6 +18,13 @@ Sala & Sala::operator=(const Sala &s) = default;
 
 Sala::~Sala() = default;
 
+void Sala::elibereaza_loc(int nr) {
+    if (nr >= 1 && nr <= capacitate) {
+        locuri_ocupate[nr-1] = false;
+    }
+}
+
+
 bool Sala::rezervare_multipla(const std::vector<int> &locuri) {
     if (locuri.empty()) {
         return true;

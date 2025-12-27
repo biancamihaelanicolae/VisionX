@@ -17,6 +17,7 @@ private:
     std::string tip; //2D, 3D, IMAX
 
 public:
+    void eliberare_loc(int nr);
     bool are_locuri_disponibile() const;
     void afiseaza_harta_sala() const;
     void afiseaza_detalii_disponibilitate()const;

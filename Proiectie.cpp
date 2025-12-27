@@ -12,6 +12,10 @@ bool Proiectie::rezervare_multipla(const std::vector<int> &locuri) {
     return sala.rezervare_multipla(locuri);
 }
 
+void Proiectie::eliberare_loc(int nr) {
+    sala.elibereaza_loc(nr);
+}
+
 bool Proiectie::are_locuri_disponibile() const {
     return !sala.sala_plina();
 }

@@ -108,13 +108,52 @@ int main() {
         while (true) {
             try {
                 std::string comanda;
-                std::cout << "\nPentru a cumpara un bilet foloseste comanda 'cumpara',daca doresti sa aplici mai multe filtre de cautare foloseste 'filtre', iar daca vrei sa inchizi pagina foloseste comanda 'exit page'!";
+                std::cout << "\nPentru a cumpara un bilet foloseste comanda 'cumpara'!"
+                             "\nDaca doresti sa aplici mai multe filtre de cautare foloseste 'filtre'!"
+                             "\nDaca doresti sa renunti la un bilet deja cumparat foloseste comanda 'anulare'!"
+                             "\nDaca vrei sa inchizi pagina foloseste comanda 'exit page'!";
                 if (!(std::cin >> comanda)) break;
 
                 std::transform(comanda.begin(), comanda.end(), comanda.begin(), [](unsigned char c){return std::tolower(c); });
 
                 if (comanda == "exit" || comanda == "exit page") {
                     break;
+                }
+
+                if (comanda == "anulare") {
+                    std::string nume_confirmare;
+                    int idx_anulare;
+
+                    std::cout << "\n----ANULARE BILET----\n";
+                    std::cout << "Introdu numele pe care a fost facuta operatiunea de cumparare a biletului: ";
+                    std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
+                    std::getline(std::cin, nume_confirmare);
+
+                    cinema.afiseaza_bilete_utilizator(nume_confirmare);
+
+                    std::cout << "\nIntroduceti indecsii biletelor de anulat (separati prin spatiu): ";
+                    std::string linie_indecsi;
+                    std::getline(std::cin, linie_indecsi);
+
+                    std::stringstream ss(linie_indecsi);
+                    std::vector<int> de_sters;
+                    int index_citit;
+                    while (ss >> index_citit) {
+                        de_sters.push_back(index_citit - 1);
+                    }
+
+                    if (!de_sters.empty()) {
+                        try {
+                            double bani = cinema.anuleaza_bilete(nume_confirmare, de_sters);
+                            if (bani > 0)
+                                std::cout << "S-au anulat cu success biletele selectate. Suma returnata: " << bani << " RON.\n";
+                            else
+                                std::cout << "Nu a fost anulat niciun bilet (verificati indecsii sau numele).\n";
+                        } catch (const std::exception& e) {
+                            std::cerr << "Eroare: " << e.what() << "\n";
+                        }
+                    }
+                    continue;
                 }
 
                 if (comanda == "filtre") {

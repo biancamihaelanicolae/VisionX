@@ -16,6 +16,51 @@
 #include <iterator>
 #include <map>
 
+void Cinema::afiseaza_bilete_utilizator(const std::string &username) const {
+    bool gasit = false;
+    std::cout << "----Bilete gasite pentru utilizatorul: " << username << "----\n";
+
+    for (size_t i=0; i < bilete_cumparate.size(); i++) {
+        if (bilete_cumparate[i].getNumeClient() == username) {
+            std::cout << i + 1 << ". " << bilete_cumparate[i].getFilm().getTitlu()
+                      << " [" << bilete_cumparate[i].getZi() << " " << bilete_cumparate[i].getOra()
+                      << "] - Loc: " << bilete_cumparate[i].getLoc() << "\n";
+            gasit = true;
+        }
+    }
+
+    if (!gasit) {
+        std::cout << "Nu s-au gaist bilete pentru acest nume!\n";
+    }
+}
+
+double Cinema::anuleaza_bilete(const std::string& username, std::vector<int> idx) {
+    double total_refund = 0;
+
+    std::sort(idx.begin(), idx.end(), std::greater<int>());
+
+    for (int index : idx) {
+        if (index < 0 || index >= (int)bilete_cumparate.size()) continue;
+
+        Bilet& bilet = bilete_cumparate[index];
+        if (bilet.getNumeClient() == username) {
+            for (auto& p : proiectii) {
+                if (p.getFilm().getTitlu() == bilet.getFilm().getTitlu() &&
+                    p.getZi() == bilet.getZi() && p.getOra() == bilet.getOra()) {
+                    p.eliberare_loc(bilet.getLoc());
+                    break;
+                    }
+            }
+
+            total_refund += bilet.get_pret_final() * 0.7;
+            bilete_cumparate.erase(bilete_cumparate.begin() + index);
+        }
+    }
+
+    return total_refund;
+}
+
+
 std::vector<Proiectie> Cinema::filtrare_smart(const CriteriiCautare& c) const {
     std::vector<Proiectie> rezultat;
 
@@ -30,6 +75,7 @@ std::vector<Proiectie> Cinema::filtrare_smart(const CriteriiCautare& c) const {
     }
     return rezultat;
 }
+
 void Cinema::aplica_reguli_sarbatori() {
     static const std::map<std::string, std::string> reguli ={
         {"31_Octombrie", "Horror"},

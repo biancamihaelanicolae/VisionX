@@ -24,6 +24,12 @@ private:
     static constexpr double PRET_BAZA = 30.0;
 
 public:
+    [[nodiscard]]const std::string& getNumeClient() const;
+    [[nodiscard]]int getLoc() const;
+    [[nodiscard]]const Film& getFilm() const;
+    [[nodiscard]]const std::string& getOra() const;
+    [[nodiscard]]const std::string& getZi() const;
+
     static void marcheaza_vanzare();
     static int getNrBileteVandute();
     BazaBilet* get_tip_ptr() const {return tip_bilet_ptr;}

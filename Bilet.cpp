@@ -21,6 +21,26 @@ Bilet::Bilet(const Bilet& other)
       ora(other.ora), zi(other.zi),tip_proiectie(other.tip_proiectie), ochelari3D(other.ochelari3D),
       tip_bilet_ptr(other.tip_bilet_ptr ? other.tip_bilet_ptr->clone() : nullptr) {}
 
+const std::string& Bilet::getNumeClient() const {
+    return nume_client;
+}
+
+int Bilet::getLoc() const {
+    return loc;
+}
+
+const Film& Bilet::getFilm() const {
+    return film;
+}
+
+const std::string& Bilet::getOra() const {
+    return ora;
+}
+
+const std::string& Bilet::getZi() const {
+    return zi;
+}
+
 void Bilet::marcheaza_vanzare() {
     nr_bilete_vandute++;
 }

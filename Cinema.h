@@ -37,6 +37,8 @@ class Cinema {
     }
 
     public:
+    void afiseaza_bilete_utilizator(const std::string& username) const;
+    double anuleaza_bilete(const std::string& username, std::vector<int> idx);
     std::vector<Proiectie> filtrare_smart(const CriteriiCautare& c) const;
     void aplica_reguli_sarbatori();
     [[nodiscard]]std::vector<Proiectie> filtreaza_pentru_copii() const;
