@@ -167,7 +167,7 @@ int main() {
                             if (!(std::cin >> idx_ales) || idx_ales < 0 || idx_ales >= (int)rezultat.size()) {
                                 std::cout << "Index invalid! Revenire la meniul principal.\n";
                                 std::cin.clear();
-                                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                                std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
                             }else {
                                 proceseaza_cumparare(cinema, rezultat[idx_ales],u);
                             }
@@ -267,9 +267,7 @@ int main() {
                         throw Eroare_selectie_invalida();
                     }
 
-                    if (proiectie_selectata) {
-                        proceseaza_cumparare(cinema, *proiectie_selectata,u);
-                    }
+                    proceseaza_cumparare(cinema, *proiectie_selectata,u);
                 }else{
                     std::cout << "Comanda necunoscuta.\n";
                 }
