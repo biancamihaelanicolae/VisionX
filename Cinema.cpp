@@ -42,7 +42,7 @@ double Cinema::anuleaza_bilete(const std::string& username, std::vector<int> idx
     for (int index : idx) {
         if (index < 0 || index >= (int)bilete_cumparate.size()) continue;
 
-        Bilet& bilet = bilete_cumparate[index];
+        const Bilet& bilet = bilete_cumparate[index];
         if (bilet.getNumeClient() == username) {
             for (auto& p : proiectii) {
                 if (p.getFilm().getTitlu() == bilet.getFilm().getTitlu() &&

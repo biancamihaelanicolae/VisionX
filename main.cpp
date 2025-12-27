@@ -122,7 +122,6 @@ int main() {
 
                 if (comanda == "anulare") {
                     std::string nume_confirmare;
-                    int idx_anulare;
 
                     std::cout << "\n----ANULARE BILET----\n";
                     std::cout << "Introdu numele pe care a fost facuta operatiunea de cumparare a biletului: ";
