@@ -23,6 +23,7 @@ public:
     [[nodiscard]]bool esteAnimatie() const;
     [[nodiscard]]const std::string& getTitlu() const;
     [[nodiscard]]const std::string& getGen() const;
+    [[nodiscard]]int getDurata() const;
     friend std::ostream& operator<<(std::ostream& os, const Film& f);
 };
 

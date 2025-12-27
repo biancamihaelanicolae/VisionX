@@ -11,6 +11,11 @@
 #include "Proiectie.h"
 #include "Utilizator.h"
 
+struct CriteriiCautare {
+    std::string zi = "";
+    std::string tip_proiectie = "";
+    int durata_maxima = 0;
+};
 
 class Cinema {
     private:
@@ -32,6 +37,7 @@ class Cinema {
     }
 
     public:
+    std::vector<Proiectie> filtrare_smart(const CriteriiCautare& c) const;
     void aplica_reguli_sarbatori();
     [[nodiscard]]std::vector<Proiectie> filtreaza_pentru_copii() const;
     double calculeaza_pret(const std::string& tip_bilet) const;

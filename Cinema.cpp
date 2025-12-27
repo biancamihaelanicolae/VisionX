@@ -16,6 +16,20 @@
 #include <iterator>
 #include <map>
 
+std::vector<Proiectie> Cinema::filtrare_smart(const CriteriiCautare& c) const {
+    std::vector<Proiectie> rezultat;
+
+    for (const auto& p:proiectii) {
+        bool match = true;
+
+        if (!c.zi.empty() && p.getZi() != c.zi) {match = false;}
+        if (!c.tip_proiectie.empty() && p.getTip() != c.tip_proiectie) {match = false;}
+        if (c.durata_maxima > 0 && p.getFilm().getDurata() > c.durata_maxima) {match = false;}
+
+        if (match) {rezultat.push_back(p);}
+    }
+    return rezultat;
+}
 void Cinema::aplica_reguli_sarbatori() {
     static const std::map<std::string, std::string> reguli ={
         {"31_Octombrie", "Horror"},
@@ -117,6 +131,8 @@ void Cinema::vinde_bilet(const Utilizator &u, Proiectie &p, const std::vector<in
 
     BazaBilet* tip_ales = nullptr;
     std::string tip_u = u.getTip();
+
+    std::transform(tip_u.begin(), tip_u.end(), tip_u.begin(), ::tolower);
 
     if (tip_u == "student") {
         tip_ales = new BiletStudent();

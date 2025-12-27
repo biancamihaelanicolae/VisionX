@@ -3,13 +3,28 @@
 Bilet 1:
 
 ---BILET CINEMA---
-Client: Bianca
-Film: Halloween_Ends
-Data/ Ora: 31_Octombrie/ 23:59
-Sala: 3
-Loc: 95
-Ochelari 3D inchiriati: Da
+Client: 
+Film: Deadpool
+Data/ Ora: Duminica/ 15:30
+Sala: 4
+Loc: 34
+Ochelari 3D inchiriati: Nu
 ---------------------
-Tip: Student (30% reducere)Pret final: 26 RON
+Tip: Normal
+Pret final: 30 RON
+
+---------------------------------------
+Bilet 2:
+
+---BILET CINEMA---
+Client: 
+Film: The_Nun
+Data/ Ora: 31_Octombrie/ 22:00
+Sala: 2
+Loc: 25
+Ochelari 3D inchiriati: Nu
+---------------------
+Tip: Normal
+Pret final: 30 RON
 
 ---------------------------------------

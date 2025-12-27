@@ -27,6 +27,8 @@ const std::string & Film::getTitlu() const {  return titlu;  }
 
 const std::string & Film::getGen() const {  return gen;  }
 
+int Film::getDurata() const {  return durata;  }
+
 std::ostream & operator<<(std::ostream &os, const Film &f) {
     os << f.titlu << " (" << f.gen << ", " << f.durata<<" min, Animatie: " << (f.animatie? "Da" : "Nu") << ")" ;
     return os;
