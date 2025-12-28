@@ -330,6 +330,9 @@ int main() {
                         throw Eroare_selectie_invalida();
                     }
 
+                    std::cout << "\nRecenzii pentru acest film: ";
+                    cinema.afiseaza_rating_film(proiectie_selectata->getFilm().getTitlu());
+
                     proceseaza_cumparare(cinema, *proiectie_selectata,u);
                 }else{
                     std::cout << "Comanda necunoscuta.\n";
