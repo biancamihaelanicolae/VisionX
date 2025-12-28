@@ -38,6 +38,8 @@ class Cinema {
     }
 
     public:
+    void salvare_ratinguri(const std::string& nume_fisier) const;
+    void incarcare_ratinguri(const std::string& nume_fisier);
     void adauga_rating(const std::string& titlu_film, int nota, const std::string& comentariu);
     void afiseaza_rating_film(const std::string& titlu_film) const;
     double calculeaza_medie_film(const std::string& titlu_film) const;

@@ -11,10 +11,46 @@
 #include <algorithm>
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <iomanip>
 #include <set>
 #include <iterator>
 #include <map>
+
+void Cinema::salvare_ratinguri(const std::string &nume_fisier) const {
+    std::ofstream f(nume_fisier);
+    if (!f.is_open()) return;
+
+    for (const auto& [titlu,date] : rating_filme) {
+        f << titlu << "|" << date.first << "|" << date.second << "\n";
+    }
+
+    f.close();
+}
+
+void Cinema::incarcare_ratinguri(const std::string& nume_fisier){
+    std::ifstream f(nume_fisier);
+    if (!f.is_open()) return;
+
+    std::string linie;
+    while (std::getline(f, linie)) {
+        if (linie.empty()) continue;
+
+        std::stringstream ss(linie);
+        std::string titlu, nota_str, comentariu;
+
+        if (std::getline(ss, titlu, '|') &&
+            std::getline(ss, nota_str, '|') &&
+            std::getline(ss, comentariu)) {
+            int nota = std::stoi(nota_str);
+            rating_filme.insert({titlu, {nota, comentariu}});
+        }
+    }
+
+    f.close();
+}
+
+
 void Cinema:: adauga_rating(const std::string& titlu_film, int nota, const std::string& comentariu) {
     if (nota < 1 || nota > 10) {
         throw VisionX_Exception("Nota trebuie sa fie intre 1 si 10!");
