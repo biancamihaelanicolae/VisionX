@@ -37,22 +37,6 @@ double Cinema::calculeaza_medie_film(const std::string &titlu_film) const {
     return (count == 0) ? 0 : (suma/count);
 }
 
-void Cinema::afiseaza_rating_film(const std::string& titlu_film) const {
-    auto range = rating_filme.equal_range(titlu_film);
-    std::cout << "\n-----Recenzii pentru " << titlu_film << " (Media: " << std::fixed << std::setprecision(1) << calculeaza_medie_film(titlu_film) << "/10)-----\n";
-
-    bool are_recenzii = false;
-    for (auto it = range.first; it != range.second; it++) {
-        std::cout << "Nota: " << it->second.first << "/10 | Comentariu: " << it->second.second << "\n";
-        are_recenzii = true;
-    }
-
-    if (!are_recenzii) {
-        std::cout << "Acest film nu are inca recenzii.\n";
-    }
-
-}
-
 void Cinema::afiseaza_bilete_utilizator(const std::string &username) const {
     bool gasit = false;
     std::cout << "----Bilete gasite pentru utilizatorul: " << username << "----\n";

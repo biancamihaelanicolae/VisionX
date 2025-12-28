@@ -39,7 +39,6 @@ class Cinema {
 
     public:
     void adauga_rating(const std::string& titlu_film, int nota, const std::string& comentariu);
-    void afiseaza_rating_film(const std::string& titlu_film) const;
     double calculeaza_medie_film(const std::string& titlu_film) const;
     void afiseaza_bilete_utilizator(const std::string& username) const;
     double anuleaza_bilete(const std::string& username, std::vector<int> idx);
