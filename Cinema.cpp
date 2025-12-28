@@ -15,6 +15,43 @@
 #include <set>
 #include <iterator>
 #include <map>
+void Cinema:: adauga_rating(const std::string& titlu_film, int nota, const std::string& comentariu) {
+    if (nota < 1 || nota > 10) {
+        throw VisionX_Exception("Nota trebuie sa fie intre 1 si 10!");
+    }
+
+    rating_filme.insert({titlu_film, {nota, comentariu}});
+    std::cout << "Rating adaugat cu succes pentru " << titlu_film << "!\n";
+}
+
+double Cinema::calculeaza_medie_film(const std::string &titlu_film) const {
+    auto range = rating_filme.equal_range(titlu_film);
+    int count = 0;
+    double suma = 0;
+
+    for (auto it = range.first; it != range.second; ++it) {
+        suma += it->second.first;
+        count ++;
+    }
+
+    return (count == 0) ? 0 : (suma/count);
+}
+
+void Cinema::afiseaza_rating_film(const std::string& titlu_film) const {
+    auto range = rating_filme.equal_range(titlu_film);
+    std::cout << "\n-----Recenzii pentru " << titlu_film << " (Media: " << std::fixed << std::setprecision(1) << calculeaza_medie_film(titlu_film) << "/10)-----\n";
+
+    bool are_recenzii = false;
+    for (auto it = range.first; it != range.second; it++) {
+        std::cout << "Nota: " << it->second.first << "/10 | Comentariu: " << it->second.second << "\n";
+        are_recenzii = true;
+    }
+
+    if (!are_recenzii) {
+        std::cout << "Acest film nu are inca recenzii.\n";
+    }
+
+}
 
 void Cinema::afiseaza_bilete_utilizator(const std::string &username) const {
     bool gasit = false;

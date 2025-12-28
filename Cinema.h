@@ -19,6 +19,7 @@ struct CriteriiCautare {
 
 class Cinema {
     private:
+    std::multimap<std::string, std::pair<int, std::string>> rating_filme;
     std::vector<Proiectie> proiectii;
     std::vector<Bilet> bilete_cumparate;
 
@@ -37,6 +38,9 @@ class Cinema {
     }
 
     public:
+    void adauga_rating(const std::string& titlu_film, int nota, const std::string& comentariu);
+    void afiseaza_rating_film(const std::string& titlu_film) const;
+    double calculeaza_medie_film(const std::string& titlu_film) const;
     void afiseaza_bilete_utilizator(const std::string& username) const;
     double anuleaza_bilete(const std::string& username, std::vector<int> idx);
     std::vector<Proiectie> filtrare_smart(const CriteriiCautare& c) const;

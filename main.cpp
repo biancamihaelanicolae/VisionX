@@ -111,13 +111,38 @@ int main() {
                 std::cout << "\nPentru a cumpara un bilet foloseste comanda 'cumpara'!"
                              "\nDaca doresti sa aplici mai multe filtre de cautare foloseste 'filtre'!"
                              "\nDaca doresti sa renunti la un bilet deja cumparat foloseste comanda 'anulare'!"
-                             "\nDaca vrei sa inchizi pagina foloseste comanda 'exit page'!";
+                             "\nDaca vrei sa inchizi pagina foloseste comanda 'exit page'!"
+                             "\nDaca vrei sa dai un rating pentru unul dintre filmele vizionate foloseste comanda 'rating'!";
                 if (!(std::cin >> comanda)) break;
 
                 std::transform(comanda.begin(), comanda.end(), comanda.begin(), [](unsigned char c){return std::tolower(c); });
 
                 if (comanda == "exit" || comanda == "exit page") {
                     break;
+                }
+
+                if (comanda == "rating") {
+                    std::string titlu,comentariu;
+                    int nota;
+
+                    std::cout << "Introduceti numele filmului pentru recenzie: ";
+                    std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
+                    std::getline(std::cin, titlu);
+
+                    std::cout << "Nota (1-10): ";
+                    std::cin >> nota;
+                    std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
+
+                    std::cout << "Comentariu: ";
+                    std::getline(std::cin, comentariu);
+
+                    try {
+                        cinema.adauga_rating(titlu, nota , comentariu);
+                    }catch (const VisionX_Exception& e) {
+                        std::cout << e.what() << "\n";
+                    }
+
+                    continue;
                 }
 
                 if (comanda == "anulare") {
