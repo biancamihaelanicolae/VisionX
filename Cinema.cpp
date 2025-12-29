@@ -6,6 +6,7 @@
 #include "BiletNormal.h"
 #include "BiletStudent.h"
 #include "BiletElev.h"
+#include "BiletPensionar.h"
 #include "Exceptii.h"
 
 #include <algorithm>
@@ -287,7 +288,9 @@ void Cinema::vinde_bilet(const Utilizator &u, Proiectie &p, const std::vector<in
         tip_ales = new BiletStudent();
     } else if (tip_u == "elev") {
         tip_ales = new BiletElev();
-    } else {
+    } else if (tip_u == "pensionar") {
+        tip_ales = new BiletPensionar();
+    }else {
         tip_ales = new BiletNormal();
     }
 

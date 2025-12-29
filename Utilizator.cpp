@@ -22,7 +22,7 @@ void Utilizator::citire_utilizator() {
     std::string temp_tip;
 
     while (true) {
-        std::cout<< "Introdu tipul biletului dorit (normal/student/elev): ";
+        std::cout<< "Introdu tipul biletului dorit (normal/student/elev/pensionar): ";
 
         if (!(std::cin >> temp_tip)) {
             std::cin.clear();
@@ -35,11 +35,11 @@ void Utilizator::citire_utilizator() {
             return std::tolower(c);
         });
 
-        if (temp_tip == "normal" || temp_tip == "student" || temp_tip == "elev") {
+        if (temp_tip == "normal" || temp_tip == "student" || temp_tip == "elev" || temp_tip == "pensionar") {
             tip = temp_tip;
             break;
         } else {
-            std::cout << "Tipul biletului este invalid! Te rog introdu 'normal', 'student' sau 'elev'\n";
+            std::cout << "Tipul biletului este invalid! Te rog introdu 'normal', 'student', 'elev' sau 'pensionar'.\n";
         }
     }
 }
