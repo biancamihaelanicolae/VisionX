@@ -205,6 +205,18 @@ int main() {
 
                     std::vector<Proiectie> rezultat = cinema.filtrare_smart(criteriu);
 
+                    std::vector<Proiectie> sugestii = cinema.genereaza_sugestii(criteriu);
+                    if (!sugestii.empty()) {
+                        std::cout << "\n[TOP RECOMANDARI PENTRU TINE]: \n";
+                        for (size_t i = 0; i < sugestii.size(); i++) {
+                            double medie = cinema.calculeaza_medie_film(sugestii[i].getFilm().getTitlu());
+                            std::cout << i + 1 << ". " << sugestii[i].getFilm().getTitlu()
+                                      << " - Rating: " << std::fixed << std::setprecision(1) << medie << "/10\n";
+                        }
+
+                        std::cout << "-------------------------------\n";
+                    }
+
                     if (rezultat.empty()) {
                         std::cout << "\nNe pare rau, nu am gasit nicio proiectie care sa corespunda criteriilor alese.\n";
                     } else {

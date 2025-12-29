@@ -38,6 +38,7 @@ class Cinema {
     }
 
     public:
+    std::vector<Proiectie> genereaza_sugestii(const CriteriiCautare& c, size_t limita = 3) const;
     void salvare_ratinguri(const std::string& nume_fisier) const;
     void incarcare_ratinguri(const std::string& nume_fisier);
     void adauga_rating(const std::string& titlu_film, int nota, const std::string& comentariu);

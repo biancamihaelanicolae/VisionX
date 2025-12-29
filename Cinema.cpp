@@ -17,6 +17,36 @@
 #include <iterator>
 #include <map>
 
+std::vector<Proiectie> Cinema::genereaza_sugestii(const CriteriiCautare &c, size_t limita) const {
+    std::vector<Proiectie> candidate = filtrare_smart(c);
+
+    if (candidate.empty()) return{};
+
+    std::map<std::string, Proiectie> filme_unice;
+    for (const auto& p : candidate) {
+        filme_unice.insert({p.getFilm().getTitlu(), p});
+    }
+
+    std::vector<std::pair<double, Proiectie>> ratinguri_sortate;
+    for (auto const& [titlu, proiectie] : filme_unice) {
+        double medie = calculeaza_medie_film(titlu);
+        ratinguri_sortate.push_back({medie, proiectie});
+    }
+
+    std::sort(ratinguri_sortate.begin(), ratinguri_sortate.end(),
+        [](const std::pair<double, Proiectie>& a, const std::pair<double, Proiectie>& b) {
+            return a.first > b.first;
+        });
+
+    std::vector<Proiectie> rezultate;
+    for (size_t i = 0; i < std::min(limita, ratinguri_sortate.size()); i++) {
+        rezultate.push_back(ratinguri_sortate[i].second);
+    }
+
+    return rezultate;
+}
+
+
 void Cinema::salvare_ratinguri(const std::string &nume_fisier) const {
     std::ofstream f(nume_fisier);
     if (!f.is_open()) return;
