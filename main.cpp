@@ -94,7 +94,7 @@ int main() {
 
     try {
         Cinema cinema;
-        cinema.incarcare_ratinguri("/ratinguri.txt");
+        cinema.incarcare_ratinguri("ratinguri.txt");
         cinema.incarca_din_fisier("program.txt");
         cinema.aplica_reguli_sarbatori();
 
@@ -139,15 +139,12 @@ int main() {
 
                     try {
                         cinema.adauga_rating(titlu, nota , comentariu);
-                        cinema.salvare_ratinguri("/ratinguri.txt");
+                        cinema.salvare_ratinguri("ratinguri.txt");
                     }catch (const VisionX_Exception& e) {
                         std::cout << e.what() << "\n";
                     }
-
-                    continue;
                 }
-
-                if (comanda == "anulare") {
+                else if (comanda == "anulare") {
                     std::string nume_confirmare;
 
                     std::cout << "\n----ANULARE BILET----\n";
@@ -179,10 +176,8 @@ int main() {
                             std::cerr << "Eroare: " << e.what() << "\n";
                         }
                     }
-                    continue;
                 }
-
-                if (comanda == "filtre") {
+                else if (comanda == "filtre") {
                     CriteriiCautare criteriu;
                     std::string optiune;
 
@@ -250,10 +245,8 @@ int main() {
                             }
                         }
                     }
-                    continue;
                 }
-
-                if (comanda == "cumpara") {
+                else if (comanda == "cumpara") {
                     std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
 
                     std::string raspuns_filtrare;
@@ -357,8 +350,8 @@ int main() {
             }
         }
 
-        cinema.salvare_ratinguri("/ratinguri.txt");
-        cinema.salvare_bilete_utilizator("/bilete_utilizator.txt");
+        cinema.salvare_ratinguri("ratinguri.txt");
+        cinema.salvare_bilete_utilizator("bilete_utilizator.txt");
         cinema.afiseaza_statistici_vanzari();
     }
     catch (const Eroare_Fisier& e) {
