@@ -94,6 +94,6 @@ if(APPLE)
     install(FILES launcher.command DESTINATION ${DESTINATION_DIR})
 endif()
 
-copy_files(FILES tastatura.txt program.txt program.txt COPY_TO_DESTINATION TARGET_NAME ${MAIN_EXECUTABLE_NAME})
+copy_files(FILES tastatura.txt program.txt ratinguri.txt bilete_utilizator.txt COPY_TO_DESTINATION TARGET_NAME ${MAIN_EXECUTABLE_NAME})
 # copy_files(FILES tastatura.txt config.json DIRECTORY images sounds COPY_TO_DESTINATION TARGET_NAME ${MAIN_EXECUTABLE_NAME})
 # copy_files(DIRECTORY images sounds COPY_TO_DESTINATION TARGET_NAME ${MAIN_EXECUTABLE_NAME})
