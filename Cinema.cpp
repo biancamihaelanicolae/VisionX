@@ -8,6 +8,7 @@
 #include "BiletElev.h"
 #include "BiletPensionar.h"
 #include "Exceptii.h"
+#include "CreareObiect.h"
 
 #include <algorithm>
 #include <iostream>
@@ -17,6 +18,8 @@
 #include <set>
 #include <iterator>
 #include <map>
+
+#include "CreareObiect.h"
 
 std::vector<Proiectie> Cinema::genereaza_sugestii(const CriteriiCautare &c, size_t limita) const {
     std::vector<Proiectie> candidate = filtrare_smart(c);
@@ -279,20 +282,7 @@ void Cinema::vinde_bilet(const Utilizator &u, Proiectie &p, const std::vector<in
         return;
     }
 
-    BazaBilet* tip_ales = nullptr;
-    std::string tip_u = u.getTip();
-
-    std::transform(tip_u.begin(), tip_u.end(), tip_u.begin(), ::tolower);
-
-    if (tip_u == "student") {
-        tip_ales = new BiletStudent();
-    } else if (tip_u == "elev") {
-        tip_ales = new BiletElev();
-    } else if (tip_u == "pensionar") {
-        tip_ales = new BiletPensionar();
-    }else {
-        tip_ales = new BiletNormal();
-    }
+    BazaBilet* tip_ales = CreareObiect::creeazaBilet(u.getTip());
 
     if ( !tip_ales->este_valid_la_ora(p.getOra())) {
         std::string mentiune_eroare = "Acest tip de bilet nu este valid la ora " + p.getOra() + "!\n";

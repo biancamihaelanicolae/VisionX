@@ -3,6 +3,7 @@
 //
 
 #include "Utilizator.h"
+#include "CreareObiect.h"
 
 #include <algorithm>
 #include <iostream>
@@ -35,7 +36,7 @@ void Utilizator::citire_utilizator() {
             return std::tolower(c);
         });
 
-        if (temp_tip == "normal" || temp_tip == "student" || temp_tip == "elev" || temp_tip == "pensionar") {
+        if (CreareObiect::esteTipValid(temp_tip)) {
             tip = temp_tip;
             break;
         } else {

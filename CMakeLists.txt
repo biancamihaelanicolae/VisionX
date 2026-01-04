@@ -68,6 +68,7 @@ add_executable(${MAIN_EXECUTABLE_NAME}
         BiletElev.h
         Exceptii.h
         BiletPensionar.h
+        CreareObiect.h
 )
 
 # NOTE: Add all defined targets (e.g. executables, libraries, etc. )
