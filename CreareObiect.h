@@ -10,6 +10,8 @@
 #include "BiletStudent.h"
 #include "BiletElev.h"
 #include "BiletPensionar.h"
+
+#include <vector>
 #include <string>
 #include <algorithm>
 
@@ -32,11 +34,11 @@ class CreareObiect {
     }
 
     static bool esteTipValid(const std::string& tip) {
-        static const std::vector<std::string> tiputi_validate = {
+        static const std::vector<std::string> tipuri_validate = {
             "normal", "student", "elev", "pensionar"
         };
 
-        return std::find(tiputi_validate.begin(), tiputi_validate.end(), tip) != tiputi_validate.end();
+        return std::find(tipuri_validate.begin(), tipuri_validate.end(), tip) != tipuri_validate.end();
     }
 };
 
