@@ -301,6 +301,7 @@ void Cinema::vinde_bilet(const Utilizator &u, Proiectie &p, const std::vector<in
     }
 
     double pret_final = tip_ales->calculeaza_pret(Bilet::PRET_BAZA, p.getZi(), ochelari);
+    std::cout << "Confirmare pret: " << std::fixed << std::setprecision(2) << pret_final << " RON pe bilet.\n";
 
     try{
         p.rezervare_multipla(locuri);
