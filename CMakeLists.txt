@@ -69,6 +69,8 @@ add_executable(${MAIN_EXECUTABLE_NAME}
         Exceptii.h
         BiletPensionar.h
         CreareObiect.h
+        MeniuConsola.cpp
+        MeniuConsola.h
 )
 
 # NOTE: Add all defined targets (e.g. executables, libraries, etc. )
