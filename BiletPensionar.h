@@ -12,6 +12,10 @@ class BiletPensionar : public BazaBilet {
     BiletPensionar() = default;
     ~BiletPensionar() override = default;
 
+    std::string get_nume_tip() const override {
+        return "Pensionar";
+    }
+
     double calculeaza_pret(double pret_baza, const std::string& /*zi*/, bool /*ochelari*/) const override {
         return pret_baza * 0.6;
     }

@@ -16,21 +16,33 @@
 #include <algorithm>
 
 class CreareObiect {
+private:
+    static inline std::map<std::string, int> contor_bilete;
     public:
     static BazaBilet* creeazaBilet(std::string tip) {
+        BazaBilet* b = nullptr;
         std::transform(tip.begin(), tip.end(), tip.begin(), ::tolower);
 
         if (tip == "student") {
-            return new BiletStudent();
+            b = new BiletStudent();
         }
-        if (tip == "elev") {
-            return new BiletElev();
+        else if (tip == "elev") {
+            b = new BiletElev();
         }
-        if (tip == "pensionar") {
-            return new BiletPensionar();
+        else if (tip == "pensionar") {
+            b = new BiletPensionar();
+        }
+        else b = new BiletNormal();
+
+        if (b) {
+            contor_bilete[b->get_nume_tip()]++;
         }
 
-        return new BiletNormal();
+        return b;
+    }
+
+    static const std::map<std::string, int>& get_statistici() {
+        return contor_bilete;
     }
 
     static bool esteTipValid(const std::string& tip) {

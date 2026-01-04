@@ -7,6 +7,10 @@ public:
     BiletStudent() = default;
     ~BiletStudent() override = default;
 
+    std::string get_nume_tip() const override {
+        return "Student";
+    }
+
     //reducere 30% in timpul saptamanii
     //reducere 10% in weekend
     double calculeaza_pret(double pret_baza, const std::string& zi, bool ochelari) const override {

@@ -7,6 +7,10 @@ public:
     BiletNormal() = default;
     ~BiletNormal() override = default;
 
+    std::string get_nume_tip() const override {
+        return "Normal";
+    }
+
     double calculeaza_pret(double pret_baza, const std::string& , bool ochelari) const override {
         double pret = pret_baza;
         if (ochelari) pret += 5;

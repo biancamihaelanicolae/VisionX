@@ -374,23 +374,7 @@ std::ostream & operator<<(std::ostream &os, const Cinema &c) {
 }
 
 void Cinema::afiseaza_statistici_vanzari() const {
-    std::map<std::string, int> statistici = {
-        {"Normal", 0}, {"Student", 0}, {"Elev", 0}, {"Pensionar", 0}
-    };
-
-    for (const auto& bilet : bilete_cumparate) {
-        BazaBilet* ptr = bilet.get_tip_ptr();
-
-        if (dynamic_cast<BiletStudent*>(ptr)) {
-            statistici["Student"] += 1;
-        }else if (dynamic_cast<BiletElev*>(ptr)) {
-            statistici["Elev"] += 1;
-        }else if (dynamic_cast<BiletNormal*>(ptr)) {
-            statistici["Normal"] += 1;
-        }else if (dynamic_cast<BiletPensionar*>(ptr)) {
-            statistici["Pensionar"] += 1;
-        }
-    }
+    const auto& statistici = CreareObiect::get_statistici();
 
     std::cout << "\n===========================================";
     std::cout << "\n       STATISTICI VANZARI VISIONX";

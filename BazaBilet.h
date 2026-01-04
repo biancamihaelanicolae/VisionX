@@ -7,6 +7,7 @@
 
 class BazaBilet {
 public:
+    virtual std::string get_nume_tip() const = 0;
     virtual double calculeaza_pret(double pret_baza, const std::string& zi, bool ochelari) const = 0;
     virtual void tipareste_mentiuni_speciale(std::ostream& os) const = 0;
     virtual bool este_valid_la_ora(const std::string& ora) const = 0;
