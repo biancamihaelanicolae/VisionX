@@ -7,7 +7,7 @@ public:
     BiletNormal() = default;
     ~BiletNormal() override = default;
 
-    double calculeaza_pret(double pret_baza, const std::string& zi, bool ochelari) const override {
+    double calculeaza_pret(double pret_baza, const std::string& , bool ochelari) const override {
         double pret = pret_baza;
         if (ochelari) pret += 5;
 
@@ -15,7 +15,7 @@ public:
         return pret + 2.0;
     }
 
-    bool este_valid_la_ora(const std::string &ora) const override {
+    bool este_valid_la_ora(const std::string &) const override {
         return true;
     }
 

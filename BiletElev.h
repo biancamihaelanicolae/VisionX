@@ -8,7 +8,7 @@ public:
     BiletElev() = default;
     ~BiletElev() override= default;
 
-    double calculeaza_pret(double pret_baza, const std::string& zi, bool ochelari) const override {
+    double calculeaza_pret(double pret_baza, const std::string& , bool ochelari) const override {
         double pret = pret_baza * 0.5;
         if (ochelari) pret += 5;
         return pret;

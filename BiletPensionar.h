@@ -12,11 +12,11 @@ class BiletPensionar : public BazaBilet {
     BiletPensionar() = default;
     ~BiletPensionar() override = default;
 
-    double calculeaza_pret(double pret_baza, const std::string& zi, bool ochelari) const override {
+    double calculeaza_pret(double pret_baza, const std::string& /*zi*/, bool /*ochelari*/) const override {
         return pret_baza * 0.6;
     }
 
-    bool este_valid_la_ora(const std::string &ora) const override {
+    bool este_valid_la_ora(const std::string &/*ora*/) const override {
         return true;
     }
 

@@ -14,7 +14,7 @@ public:
         return (pret_baza * m) + (ochelari ? 5 : 0);
     }
 
-    bool este_valid_la_ora(const std::string &ora) const override{ return true; }
+    bool este_valid_la_ora(const std::string &) const override{ return true; }
 
     void tipareste_mentiuni_speciale(std::ostream &os) const override {
         os << "Reducerea de 30% va fi valabila de Luni pana Joi. Pe weekend se va aplica o reducere de 10%!";
