@@ -31,7 +31,6 @@ public:
 
     static void marcheaza_vanzare();
     static int getNrBileteVandute();
-    BazaBilet* get_tip_ptr() const {return tip_bilet_ptr;}
     Bilet(const std::string& nume_client, const Film& f, int loc, const Sala& s, const std::string& ora, const std::string& zi, const std::string& tip_pr, bool ochelari3D, const BazaBilet& tip);
     Bilet(const Bilet& other);
     Bilet& operator=(Bilet other);
