@@ -294,6 +294,14 @@ void Cinema::vinde_bilet(const Utilizator &u, Proiectie &p, const std::vector<in
         tip_ales = new BiletNormal();
     }
 
+    if ( !tip_ales->este_valid_la_ora(p.getOra())) {
+        std::string mentiune_eroare = "Acest tip de bilet nu este valid la ora " + p.getOra() + "!\n";
+        delete tip_ales;
+        throw VisionX_Exception(mentiune_eroare);
+    }
+
+    double pret_final = tip_ales->calculeaza_pret(Bilet::PRET_BAZA, p.getZi(), ochelari);
+
     try{
         p.rezervare_multipla(locuri);
         std::cout << "\n----BILETE VANDUTE----\n";
@@ -306,7 +314,6 @@ void Cinema::vinde_bilet(const Utilizator &u, Proiectie &p, const std::vector<in
         }
 
         delete tip_ales;
-
     }catch (const VisionX_Exception& e) {
         std::cerr << e.what() << '\n';
         delete tip_ales;
@@ -377,7 +384,7 @@ std::ostream & operator<<(std::ostream &os, const Cinema &c) {
 
 void Cinema::afiseaza_statistici_vanzari() const {
     std::map<std::string, int> statistici = {
-        {"Normal", 0}, {"Student", 0}, {"Elev", 0}
+        {"Normal", 0}, {"Student", 0}, {"Elev", 0}, {"Pensionar", 0}
     };
 
     for (const auto& bilet : bilete_cumparate) {
@@ -389,6 +396,8 @@ void Cinema::afiseaza_statistici_vanzari() const {
             statistici["Elev"] += 1;
         }else if (dynamic_cast<BiletNormal*>(ptr)) {
             statistici["Normal"] += 1;
+        }else if (dynamic_cast<BiletPensionar*>(ptr)) {
+            statistici["Pensionar"] += 1;
         }
     }
 

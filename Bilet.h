@@ -21,9 +21,8 @@ private:
 
     BazaBilet* tip_bilet_ptr = nullptr;
 
-    static constexpr double PRET_BAZA = 30.0;
-
 public:
+    static constexpr double PRET_BAZA = 30.0;
     [[nodiscard]]const std::string& getNumeClient() const;
     [[nodiscard]]int getLoc() const;
     [[nodiscard]]const Film& getFilm() const;

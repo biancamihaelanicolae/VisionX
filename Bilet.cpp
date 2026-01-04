@@ -78,7 +78,7 @@ double Bilet::get_pret_final() const {
         pret_total = 15.0;
     }
     else if (tip_bilet_ptr) {
-        pret_total =  tip_bilet_ptr->calculeaza_pret(PRET_BAZA);
+        pret_total =  tip_bilet_ptr->calculeaza_pret(PRET_BAZA, zi , ochelari3D);
     }else {
         pret_total = PRET_BAZA;
     }
@@ -103,6 +103,8 @@ std::ostream & operator<<(std::ostream &os, const Bilet &b) {
 
     if (b.tip_bilet_ptr) {
         b.tip_bilet_ptr->afisare_detalii_tip(os);
+        os << "\n";
+        b.tip_bilet_ptr->tipareste_mentiuni_speciale(os);
     }
 
     os << "\nPret final: " << b.get_pret_final() << " RON\n";

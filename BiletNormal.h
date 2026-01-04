@@ -7,7 +7,22 @@ public:
     BiletNormal() = default;
     ~BiletNormal() override = default;
 
-    double calculeaza_pret(double pret_baza) const override { return pret_baza; }
+    double calculeaza_pret(double pret_baza, const std::string& zi, bool ochelari) const override {
+        double pret = pret_baza;
+        if (ochelari) pret += 5;
+
+        //adaug o taxa de procesare a biletului online, de asemenea taxa adauga si 10 puncte la cardul de fidelitate facut automat la cumpararea biletului
+        return pret + 2.0;
+    }
+
+    bool este_valid_la_ora(const std::string &ora) const override {
+        return true;
+    }
+
+    void tipareste_mentiuni_speciale(std::ostream &os) const override {
+        os << "Acest bilet v-a adus 10 puncte VisionX! "
+              "Acestea se acumuleaza pe cardul de fidelitate si pot fi folosite pentru diferite promotii sau reduceri!\n";
+    }
     BazaBilet* clone() const override { return new BiletNormal(*this); }
     void afisare_detalii_tip(std::ostream& os) const override{os << "Tip: Normal"; }
 };
