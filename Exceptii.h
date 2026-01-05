@@ -42,7 +42,7 @@ class RatingException : public VisionX_Exception {
 
 class ValidationError : public RatingException {
 public:
-    ValidationError(const std::string& msg) : RatingException("Eroare Validare: " + msg) {}
+    explicit ValidationError(const std::string& msg) : RatingException("Eroare Validare: " + msg) {}
 };
 
 #endif //OOP_EXCEPTII_H
