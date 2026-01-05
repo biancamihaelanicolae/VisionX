@@ -51,28 +51,38 @@ void proceseaza_cumparare(Cinema& cinema, Proiectie& proiectie_selectata,const U
     proiectie_selectata.afiseaza_harta_sala();
 
     std::cout << "Proiectie aleasa: " << proiectie_selectata.getFilm().getTitlu() << "\n";
-    proiectie_selectata.afiseaza_detalii_disponibilitate();
-    std::cout << "Alege locurile dorite: ";
 
-    std::vector<int> locuri_dorite;
-    std::string line;
+    bool succes = false;
+    do {
+        proiectie_selectata.afiseaza_detalii_disponibilitate();
+        std::cout << "Alege locurile dorite: ";
 
-    std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
+        std::vector<int> locuri_dorite;
+        std::string line;
 
-    std::getline(std::cin, line);
-    std::stringstream ss(line);
-    int loc_curent;
+        std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
 
-    while (ss >> loc_curent) {
-        locuri_dorite.push_back(loc_curent);
-    }
+        std::getline(std::cin, line);
+        std::stringstream ss(line);
+        int loc_curent;
 
-    if (locuri_dorite.empty()) {
-        std::cout << "Nu s-au specificat locuri. Vanzare anulata!\n";
-        return;
-    }
+        while (ss >> loc_curent) {
+            locuri_dorite.push_back(loc_curent);
+        }
 
-    cinema.vinde_bilet(u, proiectie_selectata, locuri_dorite, vrea_ochelari);
+        if (locuri_dorite.empty()) {
+            std::cout << "Nu s-au specificat locuri. Vanzare anulata!\n";
+            return;
+        }
+
+        try {
+            cinema.vinde_bilet(u, proiectie_selectata, locuri_dorite, vrea_ochelari);
+            cinema.get_vanzari().salvare_bilete_utilizator("bilete_utilizator.txt");
+            succes = true;
+        }catch (const Eroare_loc_ocupat& e) {
+            std::cerr << "\n" << e.what() << "Te rog sa alegi alte locuri libere!\n";
+        }
+    }while (!succes);
 }
 
 void MeniuConsola::ruleaza() {
@@ -239,8 +249,10 @@ void MeniuConsola::meniuAnulare() {
     if (!de_sters.empty()) {
         try {
             double bani = cinema.get_vanzari().anuleaza_bilete(nume_confirmare, de_sters, cinema.get_toate_proiectiile());
-            if (bani > 0)
+            if (bani > 0) {
                 std::cout << "S-au anulat cu success biletele selectate. Suma returnata: " << bani << " RON.\n";
+                cinema.get_vanzari().salvare_bilete_utilizator("bilete_utilizator.txt");
+            }
             else
                 std::cout << "Nu a fost anulat niciun bilet (verificati indecsii sau numele).\n";
         } catch (const std::exception& e) {
@@ -326,7 +338,3 @@ std::string MeniuConsola::citesteComanda() {
     std::transform(comanda.begin(), comanda.end(), comanda.begin(), [](unsigned char c){return std::tolower(c); });
     return comanda;
 }
-
-
-
-
