@@ -5,9 +5,9 @@
 #ifndef OOP_CINEMA_H
 #define OOP_CINEMA_H
 #include <fstream>
-#include <map>
 #include <vector>
-#include "Bilet.h"
+#include "ManagerRating.h"
+#include "ManagerVanzari.h"
 #include "Proiectie.h"
 #include "Utilizator.h"
 
@@ -19,11 +19,14 @@ struct CriteriiCautare {
 
 class Cinema {
     private:
-    std::multimap<std::string, std::pair<int, std::string>> rating_filme;
+    ManagerRating m_rating;
+    ManagerVanzari m_vanzari;
     std::vector<Proiectie> proiectii;
-    std::vector<Bilet> bilete_cumparate;
 
-    static int get_ordinea_zilei(const std::string& zi) {
+    void actualizare_sala_originala(const Proiectie& p);
+    [[nodiscard]] std::vector<std::string> get_genuri_disponibile() const;
+    static int get_ordinea_zilei(const std::string& zi)
+    {
         static const std::map<std::string, int > ordine ={
             {"Luni", 0}, {"Marti", 1}, {"Miercuri", 2}, {"Joi", 3},
             {"Vineri", 4}, {"Sambata", 5}, {"Duminica", 6}
@@ -38,29 +41,24 @@ class Cinema {
     }
 
     public:
-    std::vector<Proiectie> genereaza_sugestii(const CriteriiCautare& c, size_t limita = 3) const;
-    void salvare_ratinguri(const std::string& nume_fisier) const;
-    void incarcare_ratinguri(const std::string& nume_fisier);
-    void adauga_rating(const std::string& titlu_film, int nota, const std::string& comentariu);
-    void afiseaza_rating_film(const std::string& titlu_film) const;
-    double calculeaza_medie_film(const std::string& titlu_film) const;
-    void afiseaza_bilete_utilizator(const std::string& username) const;
-    double anuleaza_bilete(const std::string& username, std::vector<int> idx);
-    std::vector<Proiectie> filtrare_smart(const CriteriiCautare& c) const;
-    void aplica_reguli_sarbatori();
-    [[nodiscard]]std::vector<Proiectie> filtreaza_pentru_copii() const;
-    double calculeaza_pret(const std::string& tip_bilet) const;
+    ManagerRating& get_rating(){return m_rating;}
+    ManagerVanzari& get_vanzari(){return m_vanzari;}
+
     void incarca_din_fisier(const std::string& nume_fisier);
-    [[nodiscard]]std::vector<Proiectie> filtreaza_pe_gen(const std::string& gen_cautat) const;
-    Proiectie* get_proiectie(int index);
+    void aplica_reguli_sarbatori();
     void vinde_bilet(const Utilizator& u, Proiectie& p, const std::vector<int>& locuri, bool ochelari);
-    void actualizeaza_sala_originala(const Proiectie& proiectie_modificata);
-    void salvare_bilete_utilizator(const std::string& nume_fisier) const;
-    [[nodiscard]] std::vector<std::string> get_genuri_disponibile() const;
+
     [[nodiscard]] std::vector<Proiectie> get_program_sortat() const;
-    friend std::ostream& operator<<(std::ostream& os, const Cinema& c);
-    void afiseaza_statistici_vanzari() const;
+    [[nodiscard]] std::vector<Proiectie> filtrare_smart(const CriteriiCautare& c) const;
+    [[nodiscard]] std::vector<Proiectie> filtreaza_pe_gen(const std::string& gen_cautat) const;
+    [[nodiscard]]std::vector<Proiectie> filtreaza_pentru_copii() const;
+
+    std::vector<Proiectie> genereaza_sugestii(const CriteriiCautare& c, size_t limita = 3) const;
+    Proiectie* get_proiectie(int index);
+    std::vector<Proiectie>& get_toate_proiectiile() { return proiectii; }
     void afiseaza_meniu_genuri() const;
+
+    friend std::ostream& operator<<(std::ostream& os, const Cinema& c);
 };
 
 

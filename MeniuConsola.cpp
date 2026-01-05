@@ -73,8 +73,6 @@ void proceseaza_cumparare(Cinema& cinema, Proiectie& proiectie_selectata,const U
     }
 
     cinema.vinde_bilet(u, proiectie_selectata, locuri_dorite, vrea_ochelari);
-
-    cinema.actualizeaza_sala_originala(proiectie_selectata);
 }
 
 void MeniuConsola::ruleaza() {
@@ -111,8 +109,8 @@ void MeniuConsola::meniuRating() {
     std::getline(std::cin, comentariu);
 
     try {
-        cinema.adauga_rating(titlu, nota , comentariu);
-        cinema.salvare_ratinguri("ratinguri.txt");
+        cinema.get_rating().adauga_rating(titlu, nota , comentariu);
+        cinema.get_rating().salvare_ratinguri("ratinguri.txt");
     }catch (const VisionX_Exception& e) {
         std::cout << e.what() << "\n";
     }
@@ -210,7 +208,7 @@ void MeniuConsola::meniuCumparare() {
                     }
 
                     std::cout << "\nRecenzii pentru acest film: ";
-                    cinema.afiseaza_rating_film(proiectie_selectata->getFilm().getTitlu());
+                    cinema.get_rating().afiseaza_rating_film(proiectie_selectata->getFilm().getTitlu());
 
                     proceseaza_cumparare(cinema, *proiectie_selectata,u);
 }
@@ -223,7 +221,7 @@ void MeniuConsola::meniuAnulare() {
     std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
     std::getline(std::cin, nume_confirmare);
 
-    cinema.afiseaza_bilete_utilizator(nume_confirmare);
+    cinema.get_vanzari().afiseaza_bilete_utilizator(nume_confirmare);
 
     std::cout << "\nIntroduceti indecsii biletelor de anulat (separati prin spatiu): ";
     std::string linie_indecsi;
@@ -238,7 +236,7 @@ void MeniuConsola::meniuAnulare() {
 
     if (!de_sters.empty()) {
         try {
-            double bani = cinema.anuleaza_bilete(nume_confirmare, de_sters);
+            double bani = cinema.get_vanzari().anuleaza_bilete(nume_confirmare, de_sters, cinema.get_toate_proiectiile());
             if (bani > 0)
                 std::cout << "S-au anulat cu success biletele selectate. Suma returnata: " << bani << " RON.\n";
             else
@@ -276,7 +274,7 @@ void MeniuConsola::meniuFiltre() {
                     if (!sugestii.empty()) {
                         std::cout << "\n[TOP RECOMANDARI PENTRU TINE]: \n";
                         for (size_t i = 0; i < sugestii.size(); i++) {
-                            double medie = cinema.calculeaza_medie_film(sugestii[i].getFilm().getTitlu());
+                            double medie = cinema.get_rating().calculeaza_medie_film(sugestii[i].getFilm().getTitlu());
                             std::cout << i + 1 << ". " << sugestii[i].getFilm().getTitlu()
                                       << " - Rating: " << std::fixed << std::setprecision(1) << medie << "/10\n";
                         }

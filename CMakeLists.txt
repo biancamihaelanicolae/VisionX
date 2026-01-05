@@ -71,6 +71,10 @@ add_executable(${MAIN_EXECUTABLE_NAME}
         CreareObiect.h
         MeniuConsola.cpp
         MeniuConsola.h
+        ManagerRating.cpp
+        ManagerRating.h
+        ManagerVanzari.cpp
+        ManagerVanzari.h
 )
 
 # NOTE: Add all defined targets (e.g. executables, libraries, etc. )
