@@ -32,7 +32,7 @@ int main() {
 
     try {
         Cinema cinema;
-        cinema.incarcare_ratinguri("ratinguri.txt");
+        cinema.get_rating().incarcare_ratinguri("ratinguri.txt");
         cinema.incarca_din_fisier("program.txt");
         cinema.aplica_reguli_sarbatori();
 
@@ -47,9 +47,9 @@ int main() {
         MeniuConsola meniu(cinema);
         meniu.ruleaza();
 
-        cinema.salvare_ratinguri("ratinguri.txt");
-        cinema.salvare_bilete_utilizator("bilete_utilizator.txt");
-        cinema.afiseaza_statistici_vanzari();
+        cinema.get_rating().salvare_ratinguri("ratinguri.txt");
+        cinema.get_vanzari().salvare_bilete_utilizator("bilete_utilizator.txt");
+        cinema.get_vanzari().afiseaza_statistici_vanzari();
     }
     catch (const Eroare_Fisier& e) {
         std::cerr << "\nEROARE: " << e.what() << " Programul se va inchide!\n";

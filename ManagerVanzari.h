@@ -27,7 +27,6 @@ public:
     void salvare_bilete_utilizator(const std::string& nume_fisier) const;
     void afiseaza_bilete_utilizator(const std::string& username) const;
     double anuleaza_bilete(const std::string& username, std::vector<int> idx, std::vector<Proiectie>& proiectii);
-    const std::vector<Bilet>& get_bilete() const { return bilete_cumparate; }
 };
 
 
