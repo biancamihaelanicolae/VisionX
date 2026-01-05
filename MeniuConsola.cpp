@@ -48,6 +48,11 @@ void proceseaza_cumparare(Cinema& cinema, Proiectie& proiectie_selectata,const U
         return;
     }
 
+    std::cout << "\n==================================================";
+    std::cout << "\nRECENZII PENTRU: " << proiectie_selectata.getFilm().getTitlu();
+    cinema.get_rating().afiseaza_rating_film(proiectie_selectata.getFilm().getTitlu());
+    std::cout << "\n==================================================";
+
     proiectie_selectata.afiseaza_harta_sala();
 
     std::cout << "Proiectie aleasa: " << proiectie_selectata.getFilm().getTitlu() << "\n";
@@ -191,10 +196,18 @@ void MeniuConsola::meniuCumparare() {
                             std::cout << "\nZiua: " << zi_curenta << "\n";
                         }
 
+                        double medie = cinema.get_rating().calculeaza_medie_film(lista_proiectii_curente[i].getFilm().getTitlu());
                         std::cout << i << ". " << lista_proiectii_curente[i].getFilm().getTitlu()
                                   << " | Sala " << lista_proiectii_curente[i].getSala().getNumar()
                                   << " | Ora: " << lista_proiectii_curente[i].getOra()
                                   << " (" << lista_proiectii_curente[i].getTip() << ")\n";
+
+                        if (medie > 0) {
+                            std::cout << "[Rating: " << std::fixed <<std::setprecision(1) << medie << "/10]\n";
+                        }
+                        else {
+                            std::cout << "[Fara rating]\n";
+                        }
                     }
 
                     std::cout << "============================================\n";
@@ -301,11 +314,20 @@ void MeniuConsola::meniuFiltre() {
                     } else {
                         std::cout << "\n===== REZULTATE FILTRARE (" << rezultat.size() << ") =====\n";
                         for (size_t i = 0; i < rezultat.size(); ++i) {
+                            double medie = cinema.get_rating().calculeaza_medie_film(rezultat[i].getFilm().getTitlu());
+
                             std::cout << i << ". " << rezultat[i].getFilm().getTitlu()
                                       << " | " << rezultat[i].getZi()
                                       << " | " << rezultat[i].getOra()
                                       << " | " << rezultat[i].getTip()
                                       << " | " << rezultat[i].getFilm().getDurata() << " min\n";
+
+                            if (medie > 0) {
+                                std::cout << "[Rating: " << std::fixed <<std::setprecision(1) << medie << "/10]\n";
+                            }
+                            else {
+                                std::cout << "[Fara rating]\n";
+                            }
                         }
                         std::cout << "==========================================\n";
 
