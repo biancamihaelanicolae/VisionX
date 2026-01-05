@@ -10,7 +10,7 @@
 
 void ManagerRating::adauga_rating(const std::string &titlu_film, int nota, const std::string &comentariu) {
     if (nota < 1 || nota > 10) {
-        throw VisionX_Exception("Nota trebuie sa fie intre 1 si 10!");
+        throw ValidationError("Nota trebuie sa fie intre 1 si 10!");
     }
 
     rating_filme.insert({titlu_film, {nota, comentariu}});

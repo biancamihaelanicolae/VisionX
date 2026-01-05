@@ -35,4 +35,14 @@ class Eroare_selectie_invalida : public VisionX_Exception {
             : VisionX_Exception ("EROARE: Selectia introdusa nu este valida!"){}
 };
 
+class RatingException : public VisionX_Exception {
+    public:
+    using VisionX_Exception::VisionX_Exception;
+};
+
+class ValidationError : public RatingException {
+public:
+    ValidationError(const std::string& msg) : RatingException("Eroare Validare: " + msg) {}
+};
+
 #endif //OOP_EXCEPTII_H

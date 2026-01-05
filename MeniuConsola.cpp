@@ -111,8 +111,10 @@ void MeniuConsola::meniuRating() {
     try {
         cinema.get_rating().adauga_rating(titlu, nota , comentariu);
         cinema.get_rating().salvare_ratinguri("ratinguri.txt");
+    }catch (const ValidationError& e) {
+        std::cerr << "\nDate invalide: " << e.what() << "Te rog sa introduci o nota valida (1-10)!\n";
     }catch (const VisionX_Exception& e) {
-        std::cout << e.what() << "\n";
+        std::cerr << "\nEroare: " << e.what() << "\n";
     }
 }
 

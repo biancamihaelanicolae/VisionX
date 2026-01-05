@@ -55,6 +55,12 @@ int main() {
         std::cerr << "\nEROARE: " << e.what() << " Programul se va inchide!\n";
         return 1;
     }
+    catch (const ValidationError& e) {
+        std::cerr << "\nEroare de validare: " << e.what() << "\n";
+    }
+    catch (const VisionX_Exception& e) {
+        std::cerr << "\nEroare sistem: " << e.what() << "\n";
+    }
     catch (const std::exception& e) {
         std::cerr <<"EROARE: " << e.what() << "\n";
         return 1;
