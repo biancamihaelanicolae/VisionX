@@ -75,6 +75,7 @@ add_executable(${MAIN_EXECUTABLE_NAME}
         ManagerRating.h
         ManagerVanzari.cpp
         ManagerVanzari.h
+        GestiuneResurse.h
 )
 
 # NOTE: Add all defined targets (e.g. executables, libraries, etc. )

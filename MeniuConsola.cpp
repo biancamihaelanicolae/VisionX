@@ -261,7 +261,7 @@ void MeniuConsola::meniuAnulare() {
 
     if (!de_sters.empty()) {
         try {
-            double bani = cinema.get_vanzari().anuleaza_bilete(nume_confirmare, de_sters, cinema.get_toate_proiectiile());
+            double bani = cinema.get_vanzari().anuleaza_bilete(nume_confirmare, de_sters, cinema.get_toate_proiectiile().getReferinta());
             if (bani > 0) {
                 std::cout << "S-au anulat cu success biletele selectate. Suma returnata: " << bani << " RON.\n";
                 cinema.get_vanzari().salvare_bilete_utilizator("bilete_utilizator.txt");

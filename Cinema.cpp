@@ -86,8 +86,9 @@ std::vector<Proiectie> Cinema::genereaza_sugestii(const CriteriiCautare &c, size
 
 std::vector<Proiectie> Cinema::filtrare_smart(const CriteriiCautare& c) const {
     std::vector<Proiectie> rezultat;
+    const auto& toate = proiectii.getReferinta();
 
-    for (const auto& p:proiectii) {
+    for (const auto& p : toate) {
         bool match = true;
 
         if (!c.zi.empty() && p.getZi() != c.zi) {match = false;}
@@ -106,12 +107,13 @@ void Cinema::aplica_reguli_sarbatori() {
         {"25_Decembrie", "Craciun"}
     };
 
-    for (auto it = proiectii.begin(); it!= proiectii.end(); ) {
+    auto& ref = proiectii.getReferinta();
+    for (auto it = ref.begin(); it!= ref.end(); ) {
         auto regula_gasita = reguli.find(it->getZi());
 
         if (regula_gasita != reguli.end()) {
             if (it->getFilm().getGen() != regula_gasita->second) {
-                it = proiectii.erase(it);
+                it = ref.erase(it);
                 continue;
             }
         }
@@ -121,8 +123,10 @@ void Cinema::aplica_reguli_sarbatori() {
 
 std::vector<Proiectie> Cinema::filtreaza_pentru_copii() const {
     std::vector<Proiectie > proiectie_copii;
+    const auto& ref = proiectii.getReferinta();
 
-    std::copy_if(proiectii.begin(), proiectii.end(),std::back_inserter(proiectie_copii),[](const Proiectie& p) {
+
+    std::copy_if(ref.begin(), ref.end(),std::back_inserter(proiectie_copii),[](const Proiectie& p) {
         return p.getFilm().esteAnimatie();
     });
 
@@ -131,7 +135,7 @@ std::vector<Proiectie> Cinema::filtreaza_pentru_copii() const {
 
 void Cinema::incarca_din_fisier(const std::string &nume_fisier) {
     std::ifstream fin(nume_fisier);
-    if (!fin) {
+    if (!fin.is_open()) {
         throw Eroare_Fisier(nume_fisier);
     }
 
@@ -142,13 +146,13 @@ void Cinema::incarca_din_fisier(const std::string &nume_fisier) {
     while (fin >> titlu >> gen >> durata >> zi >> ora >> tip >> nr_sala >> capacitate >> este_animatie) {
         Film f(titlu, gen, durata, este_animatie);
         Sala s(nr_sala, capacitate);
-        proiectii.emplace_back(f, s, zi, ora, tip);
+        proiectii.adauga(Proiectie(f, s, zi, ora, tip)) ;
     }
     fin.close();
 }
 
 std::vector<Proiectie> Cinema::get_program_sortat() const {
-    std::vector<Proiectie> program_sortat = proiectii;
+    std::vector<Proiectie> program_sortat = proiectii.getReferinta();
 
     std::ranges::sort(program_sortat, [](const Proiectie& a, const Proiectie& b) {
         int ordine_a = Cinema::get_ordinea_zilei(a.getZi());
@@ -166,8 +170,8 @@ std::vector<Proiectie> Cinema::get_program_sortat() const {
 
 std::vector<Proiectie> Cinema::filtreaza_pe_gen(const std::string &gen_cautat) const {
     std::vector<Proiectie> lista_filtrata;
-
-    std::copy_if(proiectii.begin(), proiectii.end(), std::back_inserter(lista_filtrata),[&gen_cautat](const Proiectie &p) {
+    const auto& ref = proiectii.getReferinta();
+    std::copy_if(ref.begin(), ref.end(), std::back_inserter(lista_filtrata),[&gen_cautat](const Proiectie &p) {
         return p.getFilm().getGen() == gen_cautat;
     });
 
@@ -186,22 +190,23 @@ std::vector<Proiectie> Cinema::filtreaza_pe_gen(const std::string &gen_cautat) c
 }
 
 Proiectie * Cinema::get_proiectie(int index) {
-    if (index >= 0 && index < (int)proiectii.size()) {
-        return &proiectii[index];
+    if (index <  0 || (size_t)index >= proiectii.nrElemente()) {
+        return nullptr;
     }
-    return nullptr;
+    return &proiectii.getReferinta()[index];
 }
 
 
 
 void Cinema::actualizare_sala_originala(const Proiectie &proiectie_modificata) {
-    auto it = std::find_if(proiectii.begin(), proiectii.end(), [&](const Proiectie &p) {
+    auto& toate = proiectii.getReferinta();
+    auto it = std::find_if(toate.begin(), toate.end(), [&](const Proiectie &p) {
         return p.getFilm().getTitlu() == proiectie_modificata.getFilm().getTitlu() &&
                p.getZi() == proiectie_modificata.getZi() &&
                p.getOra() == proiectie_modificata.getOra();
     });
 
-    if (it != proiectii.end()) {
+    if (it != toate.end()) {
         *it = proiectie_modificata;
     }
 }
@@ -209,7 +214,7 @@ void Cinema::actualizare_sala_originala(const Proiectie &proiectie_modificata) {
 std::vector<std::string> Cinema::get_genuri_disponibile() const {
     std::set<std::string> genuri_unice;
 
-    for (const auto& p:proiectii) {
+    for (const auto& p : proiectii.getReferinta()) {
         genuri_unice.insert(p.getFilm().getGen());
     }
 
@@ -218,14 +223,15 @@ std::vector<std::string> Cinema::get_genuri_disponibile() const {
 
 std::ostream & operator<<(std::ostream &os, const Cinema &c) {
     os << "\n==== Programul complet VisionX ====\n";
-    if (c.proiectii.empty()) {
-        std::cout << "Nu exista proiectii programate.\n";
+    if (c.proiectii.nrElemente() == 0) {
+        os << "Nu exista proiectii programate.\n";
         return os;
     }
 
-    for (size_t i = 0; i < c.proiectii.size(); ++i) {
+    const auto& lista = c.proiectii.getReferinta();
+    for (size_t i = 0; i < lista.size(); ++i) {
         os << i << ". ";
-        os << c.proiectii[i] << "\n";
+        os << lista[i] << "\n";
     }
     os << "======================================\n";
     return os;
@@ -239,9 +245,5 @@ void Cinema::afiseaza_meniu_genuri() const {
     }
 
     std::cout << "Genuri disponibile: ";
-    for (size_t i = 0; i < genuri.size(); ++i) {
-        std::cout << "[" << genuri[i] << "]";
-        if (i < genuri.size() - 1) std::cout << ", ";
-    }
-    std::cout << "\n";
+    afiseazaElementeVector(genuri,  " | ");
 }

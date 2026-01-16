@@ -19,10 +19,13 @@
 class CreareObiect {
 private:
     static inline std::map<std::string, int> contor_bilete;
+
     public:
+    CreareObiect() = delete;
+
     static BazaBilet* creeazaBilet(std::string tip) {
         BazaBilet* b = nullptr;
-        std::transform(tip.begin(), tip.end(), tip.begin(), ::tolower);
+        std::transform(tip.begin(), tip.end(), tip.begin(), [](unsigned char c){return std::tolower(c);});
 
         if (tip == "student") {
             b = new BiletStudent();

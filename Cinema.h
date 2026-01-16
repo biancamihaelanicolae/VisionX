@@ -6,6 +6,10 @@
 #define OOP_CINEMA_H
 #include <fstream>
 #include <vector>
+#include <map>
+#include <string>
+
+#include "GestiuneResurse.h"
 #include "ManagerRating.h"
 #include "ManagerVanzari.h"
 #include "Proiectie.h"
@@ -17,11 +21,25 @@ struct CriteriiCautare {
     int durata_maxima = 0;
 };
 
+template <typename T>
+void afiseazaElementeVector(const std::vector<T> &v, const std::string& separator = ", ") {
+    for (size_t i = 0; i < v.size(); i++) {
+        std::cout << v[i];
+        if (i < v.size() - 1) std::cout << separator;
+    }
+    std::cout << "\n";
+}
+
 class Cinema {
     private:
     ManagerRating m_rating;
     ManagerVanzari m_vanzari;
-    std::vector<Proiectie> proiectii;
+    GestiuneResurse<Proiectie> proiectii;
+
+    Cinema() = default;
+
+    Cinema(const Cinema&) = delete;
+    Cinema& operator=(const Cinema&) = delete;
 
     void actualizare_sala_originala(const Proiectie& p);
     [[nodiscard]] std::vector<std::string> get_genuri_disponibile() const;
@@ -44,6 +62,11 @@ class Cinema {
     ManagerRating& get_rating(){return m_rating;}
     ManagerVanzari& get_vanzari(){return m_vanzari;}
 
+    static Cinema& getInstance() {
+        static Cinema instance;
+        return instance;
+    }
+
     void incarca_din_fisier(const std::string& nume_fisier);
     void aplica_reguli_sarbatori();
     void vinde_bilet(const Utilizator& u, Proiectie& p, const std::vector<int>& locuri, bool ochelari);
@@ -55,7 +78,7 @@ class Cinema {
 
     std::vector<Proiectie> genereaza_sugestii(const CriteriiCautare& c, size_t limita = 3) const;
     Proiectie* get_proiectie(int index);
-    std::vector<Proiectie>& get_toate_proiectiile() { return proiectii; }
+    GestiuneResurse<Proiectie>& get_toate_proiectiile() { return proiectii; }
     void afiseaza_meniu_genuri() const;
 
     friend std::ostream& operator<<(std::ostream& os, const Cinema& c);

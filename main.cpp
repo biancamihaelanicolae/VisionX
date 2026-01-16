@@ -31,7 +31,7 @@ int main() {
     std::cout.precision(2);
 
     try {
-        Cinema cinema;
+        Cinema& cinema = Cinema::getInstance();
         cinema.get_rating().incarcare_ratinguri("ratinguri.txt");
         cinema.incarca_din_fisier("program.txt");
         cinema.aplica_reguli_sarbatori();

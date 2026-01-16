@@ -22,11 +22,12 @@ void ManagerVanzari::afiseaza_bilete_utilizator(const std::string &username) con
     bool gasit = false;
     std::cout << "----Bilete gasite pentru utilizatorul: " << username << "----\n";
 
-    for (size_t i=0; i < bilete_cumparate.size(); i++) {
-        if (bilete_cumparate[i].getNumeClient() == username) {
-            std::cout << i + 1 << ". " << bilete_cumparate[i].getFilm().getTitlu()
-                      << " [" << bilete_cumparate[i].getZi() << " " << bilete_cumparate[i].getOra()
-                      << "] - Loc: " << bilete_cumparate[i].getLoc() << "\n";
+    const auto& lista = bilete_cumparate.getReferinta();
+    for (size_t i=0; i < bilete_cumparate.nrElemente(); i++) {
+        if (lista[i].getNumeClient() == username) {
+            std::cout << i + 1 << ". " << lista[i].getFilm().getTitlu()
+                      << " [" << lista[i].getZi() << " " << lista[i].getOra()
+                      << "] - Loc: " << lista[i].getLoc() << "\n";
             gasit = true;
         }
     }
@@ -38,13 +39,14 @@ void ManagerVanzari::afiseaza_bilete_utilizator(const std::string &username) con
 
 double ManagerVanzari::anuleaza_bilete(const std::string &username, std::vector<int> idx, std::vector<Proiectie> &proiectii) {
     double total_refund = 0;
+    auto& lista = bilete_cumparate.getReferinta();
 
     std::sort(idx.begin(), idx.end(), std::greater<int>());
 
     for (int index : idx) {
-        if (index < 0 || index >= (int)bilete_cumparate.size()) continue;
+        if (index < 0 || (size_t)index >= bilete_cumparate.nrElemente()) continue;
 
-        const Bilet& bilet = bilete_cumparate[index];
+        const Bilet& bilet = lista[index];
         if (bilet.getNumeClient() == username) {
             for (auto& p : proiectii) {
                 if (p.getFilm().getTitlu() == bilet.getFilm().getTitlu() &&
@@ -55,7 +57,7 @@ double ManagerVanzari::anuleaza_bilete(const std::string &username, std::vector<
             }
 
             total_refund += bilet.get_pret_final() * 0.7;
-            bilete_cumparate.erase(bilete_cumparate.begin() + index);
+            lista.erase(lista.begin() + index);
         }
     }
 
@@ -64,17 +66,18 @@ double ManagerVanzari::anuleaza_bilete(const std::string &username, std::vector<
 
 void ManagerVanzari::salvare_bilete_utilizator(const std::string &nume_fisier) const {
     std::ofstream fisier_out(nume_fisier);
-
+    const auto& lista = bilete_cumparate.getReferinta();
     if (fisier_out.is_open()) {
         fisier_out << "----BILETE CUMPARATE DE UTILIZATOR----\n";
         fisier_out<< "---------------------------------------\n";
 
-        if (bilete_cumparate.empty()) {
+        if (lista.empty()) {
             fisier_out << "Nu au fost cumparate bilete.\n";
         }else {
-            for (size_t i=0; i < bilete_cumparate.size(); ++i) {
-                fisier_out << "Bilet " << i+1 << ":\n";
-                fisier_out << bilete_cumparate[i] << "\n";
+            int contor = 1;
+            for (const auto& bilet : lista) {
+                fisier_out << "Bilet " << contor++ << ":\n";
+                fisier_out << bilet << "\n";
                 fisier_out<< "---------------------------------------\n";
             }
         }

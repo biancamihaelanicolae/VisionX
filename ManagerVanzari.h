@@ -12,17 +12,17 @@
 #include <algorithm>
 #include <string>
 #include "Bilet.h"
-#include "Utilizator.h"
+#include "GestiuneResurse.h"
 #include "Proiectie.h"
 #include "CreareObiect.h"
 
 
 class ManagerVanzari {
 private:
-    std::vector<Bilet> bilete_cumparate;
+    GestiuneResurse<Bilet> bilete_cumparate;
 
 public:
-    void adauga_bilet_vandut(const Bilet& b) { bilete_cumparate.push_back(b); }
+    void adauga_bilet_vandut(const Bilet& b) { bilete_cumparate.adauga(b); }
     void afiseaza_statistici_vanzari() const;
     void salvare_bilete_utilizator(const std::string& nume_fisier) const;
     void afiseaza_bilete_utilizator(const std::string& username) const;
