@@ -20,10 +20,6 @@ public:
         elemente.push_back(element);
     }
 
-    const std::vector<T>& getToate() const {
-        return elemente;
-    }
-
     const std::vector<T>& getReferinta() const{
         return elemente;
     }
@@ -36,10 +32,5 @@ public:
         return elemente.size();
     }
 
-    void afiseazaToate() const {
-        for (const auto& e : elemente) {
-            std::cout << e << "\n";
-        }
-    }
 };
 #endif //OOP_GESTIUNERESURSE_H
