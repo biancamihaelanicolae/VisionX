@@ -83,6 +83,10 @@ void proceseaza_cumparare(Cinema& cinema, Proiectie& proiectie_selectata,const U
         try {
             cinema.vinde_bilet(u, proiectie_selectata, locuri_dorite, vrea_ochelari);
             cinema.get_vanzari().salvare_bilete_utilizator("bilete_utilizator.txt");
+            const auto& toate_biletele = cinema.get_vanzari().get_toate_biletele_intern();
+            if (!toate_biletele.empty()) {
+                std::cout << "\n" << toate_biletele.back() << "\n";
+            }
             succes = true;
         }catch (const Eroare_loc_ocupat& e) {
             std::cerr << "\n" << e.what() << "Te rog sa alegi alte locuri libere!\n";
@@ -96,7 +100,8 @@ void MeniuConsola::ruleaza() {
                              "\nDaca doresti sa aplici mai multe filtre de cautare foloseste 'filtre'!"
                              "\nDaca doresti sa renunti la un bilet deja cumparat foloseste comanda 'anulare'!"
                              "\nDaca vrei sa inchizi pagina foloseste comanda 'exit page'!"
-                             "\nDaca vrei sa dai un rating pentru unul dintre filmele vizionate foloseste comanda 'rating'!";
+                             "\nDaca vrei sa dai un rating pentru unul dintre filmele vizionate foloseste comanda 'rating'!"
+                             "\nDaca doresti sa cauti un film dupa denumire foloseste comanda 'cauta'!";
         std::string comanda = citesteComanda();
 
         if (comanda == "exit" || comanda == "exit page") break;
@@ -104,7 +109,57 @@ void MeniuConsola::ruleaza() {
         else if (comanda == "filtre") meniuFiltre();
         else if (comanda == "anulare") meniuAnulare();
         else if (comanda == "rating") meniuRating();
+        else if (comanda == "cauta") meniuCautare();
         else std::cout << "Comanda necunoscuta!\n";
+    }
+}
+
+void MeniuConsola::meniuCautare() {
+    std::string query;
+    std::cout << "Introdu numele filmului (sau o parte din el): ";
+    std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
+    std::getline(std::cin, query);
+
+    std::vector<Proiectie> rezultate = cinema.cauta_film(query);
+
+    if (rezultate.empty()) {
+        std::cout << "Ne pare rau, nu am gasit niciun film care sa contina: \"" << query << "\"\n";
+    }else {
+        std::cout << "\n---REZULTATE CAUTARE (" << rezultate.size() << ")---\n";
+        for (size_t i = 0; i < rezultate.size(); i++) {
+            double medie = cinema.get_rating().calculeaza_medie_film(rezultate[i].getFilm().getTitlu());
+            std::cout << i << ". " << rezultate[i].getFilm().getTitlu() << " | " << rezultate[i].getZi() << ", " << rezultate[i].getOra();
+
+            if (medie > 0) {
+                std::cout << "[Rating : " << std::fixed << std::setprecision(1) << medie << "]";
+                std::cout << "\n";
+            }else std::cout << "[Fara rating]\n";
+        }
+
+        std::string raspuns;
+        std::cout << "\nDoriti sa cumparati bilet la unul dintre aceste filme? (da/nu): ";
+        std::cin >> raspuns;
+
+        if (raspuns == "da") {
+            int idx;
+            std::cout << "Introduceti indexul filmului: ";
+
+            if (!(std::cin >> idx) || idx < 0 || (size_t)idx >= rezultate.size()) {
+                std::cout << "Index invalid!\n";
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                return;
+            }
+
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            Utilizator u;
+            u.citire_utilizator();
+
+            std::cout << "\nRecenzii text pentru acest film: ";
+            cinema.get_rating().afiseaza_rating_film(rezultate[idx].getFilm().getTitlu());
+
+            proceseaza_cumparare(cinema, rezultate[idx], u);
+        }
     }
 }
 

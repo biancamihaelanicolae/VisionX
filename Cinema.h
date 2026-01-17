@@ -59,6 +59,8 @@ class Cinema {
     }
 
     public:
+
+    [[nodiscard]] std::vector<Proiectie> cauta_film(const std::string& query) const;
     ManagerRating& get_rating(){return m_rating;}
     ManagerVanzari& get_vanzari(){return m_vanzari;}
 

@@ -19,6 +19,25 @@
 #include <iterator>
 #include <map>
 
+std::vector<Proiectie> Cinema::cauta_film(const std::string &query) const {
+    std::vector<Proiectie> rezultat;
+    std::string cautare = query;
+
+    std::transform(cautare.begin(), cautare.end(), cautare.begin(), [](unsigned char c){return std::tolower(c);});
+
+    const auto& toate = proiectii.getReferinta();
+    for (const auto& p : toate) {
+        std::string titlu = p.getFilm().getTitlu();
+
+        std::transform(titlu.begin(), titlu.end(), titlu.begin(), [](unsigned char c){return std::tolower(c);});
+        if (titlu.find(cautare) != std::string::npos) {
+            rezultat.push_back(p);
+        }
+    }
+    return rezultat;
+}
+
+
 void Cinema::vinde_bilet(const Utilizator &u, Proiectie &p, const std::vector<int> &locuri, bool ochelari = false) {
     if (locuri.empty()) {
         std::cout << "Nu ati specificat niciun loc.\n";

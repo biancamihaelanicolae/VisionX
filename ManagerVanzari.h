@@ -22,6 +22,9 @@ private:
     GestiuneResurse<Bilet> bilete_cumparate;
 
 public:
+    const std::vector<Bilet>& get_toate_biletele_intern() const {
+        return bilete_cumparate.getReferinta();
+    }
     void adauga_bilet_vandut(const Bilet& b) { bilete_cumparate.adauga(b); }
     void afiseaza_statistici_vanzari() const;
     void salvare_bilete_utilizator(const std::string& nume_fisier) const;

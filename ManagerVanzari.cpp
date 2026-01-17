@@ -65,22 +65,16 @@ double ManagerVanzari::anuleaza_bilete(const std::string &username, std::vector<
 }
 
 void ManagerVanzari::salvare_bilete_utilizator(const std::string &nume_fisier) const {
-    std::ofstream fisier_out(nume_fisier);
+    std::ofstream fisier_out(nume_fisier, std::ios::app);
     const auto& lista = bilete_cumparate.getReferinta();
     if (fisier_out.is_open()) {
         fisier_out << "----BILETE CUMPARATE DE UTILIZATOR----\n";
-        fisier_out<< "---------------------------------------\n";
-
         if (lista.empty()) {
-            fisier_out << "Nu au fost cumparate bilete.\n";
+            std::cout << "Nu exista bilete in memorie.\n";
         }else {
-            int contor = 1;
-            for (const auto& bilet : lista) {
-                fisier_out << "Bilet " << contor++ << ":\n";
-                fisier_out << bilet << "\n";
-                fisier_out<< "---------------------------------------\n";
-            }
+            fisier_out << lista.back() << "\n";
         }
+        fisier_out<< "---------------------------------------\n";
 
         fisier_out.close();
         std::cout << "\n Biletele au fost salvate cu succes in   " << nume_fisier << ".\n";

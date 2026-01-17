@@ -16,6 +16,7 @@ private:
     void meniuAnulare();
     void meniuFiltre();
     void meniuCumparare();
+    void meniuCautare();
     std::string citesteComanda();
 
     public:
