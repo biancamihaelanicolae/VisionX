@@ -20,7 +20,6 @@ public:
     virtual double calculeazaPret() const = 0;
     virtual std::string getDetalii() const = 0;
 
-    const std::string& getNume() const;
 };
 
 class Snack : public ProdusConsumabil {

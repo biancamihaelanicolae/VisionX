@@ -6,10 +6,6 @@
 
 ProdusConsumabil::ProdusConsumabil(std::string n, double p) : nume(n), pretBaza(p) {}
 
-const std::string& ProdusConsumabil::getNume() const {
-    return nume;
-}
-
 Snack::Snack(std::string& n, double p, std::string& m) : ProdusConsumabil(n, p) , marime (m){}
 
 double Snack::calculeazaPret() const {
