@@ -15,6 +15,7 @@
 #include "ManagerVanzari.h"
 #include "Proiectie.h"
 #include "Utilizator.h"
+#include "ManagerProduse.h"
 
 struct CriteriiCautare {
     std::string zi = "";
@@ -37,6 +38,7 @@ class Cinema {
     ManagerVanzari m_vanzari;
     GestiuneResurse<Proiectie> proiectii;
     ManagerFidelitate m_fidelitate;
+    ManagerProduse m_produse;
 
     Cinema() = default;
 
@@ -62,6 +64,7 @@ class Cinema {
 
     public:
 
+    ManagerProduse& get_manager_produse() { return m_produse; }
     ManagerFidelitate& get_fidelitate() {return m_fidelitate;}
     [[nodiscard]] std::vector<Proiectie> cauta_film(const std::string& query) const;
     ManagerRating& get_rating(){return m_rating;}
@@ -74,7 +77,7 @@ class Cinema {
 
     void incarca_din_fisier(const std::string& nume_fisier);
     void aplica_reguli_sarbatori();
-    void vinde_bilet(const Utilizator& u, Proiectie& p, const std::vector<int>& locuri, bool ochelari, double factor_reducere);
+    void vinde_bilet(const Utilizator& u, Proiectie& p, const std::vector<int>& locuri, bool ochelari, double factor_reducere, const std::vector<std::string>& snacks = {}, double pret_snacks = 0.0);
 
     [[nodiscard]] std::vector<Proiectie> get_program_sortat() const;
     [[nodiscard]] std::vector<Proiectie> filtrare_smart(const CriteriiCautare& c) const;

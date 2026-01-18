@@ -80,6 +80,10 @@ add_executable(${MAIN_EXECUTABLE_NAME}
         ManagerFidelitate.h
         Logger.cpp
         Logger.h
+        ProdusConsumabil.cpp
+        ProdusConsumabil.h
+        ManagerProduse.cpp
+        ManagerProduse.h
 )
 
 # NOTE: Add all defined targets (e.g. executables, libraries, etc. )

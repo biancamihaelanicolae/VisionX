@@ -80,6 +80,26 @@ void proceseaza_cumparare(Cinema& cinema, Proiectie& proiectie_selectata,const U
             return;
         }
 
+        auto& mp = cinema.get_manager_produse();
+        mp.reseteazaCos();
+
+        std::string vrea_gustare;
+        std::cout << "Doriti sa adaugati snaks sau bauturi la aceasta comanda? (da/nu): ";
+        std::cin >> vrea_gustare;
+
+        if (vrea_gustare == "da" || vrea_gustare == "DA") {
+            mp.afiseazaMeniu();
+            int idx_snack;
+            while (true) {
+                std::cout << "Introduceti indexul produsului dorit (-1 pentru a termina selectia): ";
+                if (!(std::cin >> idx_snack) || idx_snack == -1) break;
+                mp.adaugaInCos(idx_snack);
+            }
+        }
+
+        std::vector<std::string> snacks_ales = mp.getCos();
+        double pret_snacks = mp.getTotal();
+
         double factor_reducere = 1.0;
         std::string username = u.getUsername();
         auto& mf = cinema.get_fidelitate();
@@ -118,7 +138,7 @@ void proceseaza_cumparare(Cinema& cinema, Proiectie& proiectie_selectata,const U
         mf.salveaza_puncte();
 
         try {
-            cinema.vinde_bilet(u, proiectie_selectata, locuri_dorite, vrea_ochelari, factor_reducere);
+            cinema.vinde_bilet(u, proiectie_selectata, locuri_dorite, vrea_ochelari, factor_reducere, snacks_ales, pret_snacks);
             cinema.get_vanzari().salvare_bilete_utilizator("bilete_utilizator.txt");
             cinema.get_vanzari().afiseaza_bilete_utilizator(u.getUsername());
 

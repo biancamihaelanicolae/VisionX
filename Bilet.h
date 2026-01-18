@@ -18,10 +18,15 @@ private:
     std::string zi;
     std::string tip_proiectie;
     bool ochelari3D;
+    std::vector<std::string> snacks_cumparate;
+    double cost_snacks;
 
     BazaBilet* tip_bilet_ptr = nullptr;
 
 public:
+    Bilet(const std::string& nume, const Film& f, int loc, const Sala& s, const std::string& ora, const std::string& zi, const std::string& tip_pr,
+        bool ochelari, const BazaBilet& tip, const std::vector<std::string>& snacks_alese = {},  double p_snacks = 0.0);
+
     static constexpr double PRET_BAZA = 30.0;
     [[nodiscard]]const std::string& getNumeClient() const;
     [[nodiscard]]int getLoc() const;

@@ -38,7 +38,7 @@ std::vector<Proiectie> Cinema::cauta_film(const std::string &query) const {
 }
 
 
-void Cinema::vinde_bilet(const Utilizator &u, Proiectie &p, const std::vector<int> &locuri, bool ochelari = false, double factor_reducere = 1.0) {
+void Cinema::vinde_bilet(const Utilizator &u, Proiectie &p, const std::vector<int> &locuri, bool ochelari = false, double factor_reducere = 1.0, const std::vector<std::string>& snacks, double pret_snacks) {
     if (locuri.empty()) {
         std::cout << "Nu ati specificat niciun loc.\n";
         return;
@@ -59,10 +59,16 @@ void Cinema::vinde_bilet(const Utilizator &u, Proiectie &p, const std::vector<in
         p.rezervare_multipla(locuri);
         std::cout << "\n----BILETE VANDUTE----\n";
 
+        std::vector<std::string> temp_snacks = snacks;
+        double temp_pret_snacks = pret_snacks;
+
         for (int loc : locuri) {
-            Bilet b(u.getUsername(), p.getFilm(), loc, p.getSala(), p.getOra(), p.getZi(), p.getTip(), ochelari, *tip_ales);
+            Bilet b(u.getUsername(), p.getFilm(), loc, p.getSala(), p.getOra(), p.getZi(), p.getTip(), ochelari, *tip_ales, temp_snacks, temp_pret_snacks);
             m_vanzari.adauga_bilet_vandut(b);
             Bilet::marcheaza_vanzare();
+
+            temp_snacks.clear();
+            temp_pret_snacks = 0;
         }
 
         actualizare_sala_originala(p);

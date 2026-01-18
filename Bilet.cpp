@@ -9,9 +9,10 @@
 
 int Bilet::nr_bilete_vandute = 0;
 
-Bilet::Bilet(const std::string &nume_client, const Film &f, int loc, const Sala &s, const std::string &ora,
-             const std::string &zi, const std::string &tip_pr, bool ochelari3D, const BazaBilet& tip)
-    :nume_client(nume_client), film(f), loc(loc), sala(s), ora(ora), zi(zi), tip_proiectie(tip_pr), ochelari3D(ochelari3D)
+Bilet::Bilet(const std::string& nume, const Film& f, int loc, const Sala& s, const std::string& ora, const std::string& zi, const std::string& tip_pr,
+             bool ochelari, const BazaBilet& tip, const std::vector<std::string>& snacks_alese, double p_snacks)
+    : nume_client(nume), film(f), loc(loc), sala(s), ora(ora), zi(zi), tip_proiectie(tip_pr), ochelari3D(ochelari),
+      snacks_cumparate(snacks_alese), cost_snacks(p_snacks), tip_bilet_ptr(tip.clone())
     {
         this -> tip_bilet_ptr = tip.clone();
     }
@@ -19,7 +20,7 @@ Bilet::Bilet(const std::string &nume_client, const Film &f, int loc, const Sala 
 Bilet::Bilet(const Bilet& other)
     : nume_client(other.nume_client), film(other.film), loc(other.loc), sala(other.sala),
       ora(other.ora), zi(other.zi),tip_proiectie(other.tip_proiectie), ochelari3D(other.ochelari3D),
-      tip_bilet_ptr(other.tip_bilet_ptr ? other.tip_bilet_ptr->clone() : nullptr) {}
+      snacks_cumparate(other.snacks_cumparate), cost_snacks(other.cost_snacks), tip_bilet_ptr(other.tip_bilet_ptr ? other.tip_bilet_ptr->clone() : nullptr) {}
 
 const std::string& Bilet::getNumeClient() const {
     return nume_client;
@@ -64,6 +65,8 @@ void swap(Bilet& first, Bilet& second) noexcept {
     swap(first.tip_proiectie, second.tip_proiectie);
     swap(first.ochelari3D, second.ochelari3D);
     swap(first.tip_bilet_ptr, second.tip_bilet_ptr);
+    swap(first.snacks_cumparate, second.snacks_cumparate);
+    swap(first.cost_snacks, second.cost_snacks);
 }
 
 Bilet& Bilet::operator = (Bilet other) {
@@ -107,6 +110,19 @@ std::ostream & operator<<(std::ostream &os, const Bilet &b) {
         b.tip_bilet_ptr->tipareste_mentiuni_speciale(os);
     }
 
-    os << "\nPret final: " << b.get_pret_final() << " RON\n";
+    if (!b.snacks_cumparate.empty()) {
+        os << "\n GUSTARI SI BAUTURI:\n";
+        for (const auto& snack : b.snacks_cumparate) {
+            os << snack << "\n";
+        }
+        os << " Cost Produse: " << std::fixed << std::setprecision(2) << b.cost_snacks << " RON\n";
+    }
+
+    os <<"---------------------\n";
+    os << "\nPret final: " << (b.get_pret_final() + b.cost_snacks) << " RON\n";
+
+    os << "\033[31m"
+       << "VA RUGAM SA PREZENTATI ACEST BILET LA CASA PENTRU A RIDICA PRODUSELE COMANDATE INAINTE DE INCEPEREA FILMULUI!"
+       << "\033[0m" << "\n";
     return os;
 }
