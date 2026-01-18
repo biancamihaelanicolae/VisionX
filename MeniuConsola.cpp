@@ -80,12 +80,50 @@ void proceseaza_cumparare(Cinema& cinema, Proiectie& proiectie_selectata,const U
             return;
         }
 
+        double factor_reducere = 1.0;
+        std::string username = u.getUsername();
+        auto& mf = cinema.get_fidelitate();
+
+        if (mf.are_card(username)) {
+            int puncte_actuale = mf.get_puncte(username);
+            std::cout << ANSI_GREEN << "\n[Fidelitate] Aveti un card activ cu " << puncte_actuale << " puncte." << ANSI_RESET << "\n";
+
+            if (puncte_actuale >= 100) {
+                std::string optiune;
+                std::cout << "Doriti sa folositi 100 de puncte pentru o reducere de 90% la un bilet? (da/nu): ";
+                std::cin >> optiune;
+                if (optiune == "da") {
+                    factor_reducere = 0.1;
+                    mf.consuma_puncte(username, 100);
+                    std::cout << "[Fidelitate] S-au consumat 100 puncte. Reducere aplicata!\n";
+                } else {
+                    mf.adauga_puncte(username, 10);
+                    std::cout << "[Fidelitate] S-au adaugat 10 puncte pe card.\n";
+                }
+            } else {
+                mf.adauga_puncte(username, 10);
+                std::cout << "[Fidelitate] S-au adaugat 10 puncte pentru achizitia curenta.\n";
+            }
+        } else {
+            std::string raspuns;
+            std::cout << "Nu aveti card de fidelitate VisionX. Doriti sa va creati unul acum? (da/nu): ";
+            std::cin >> raspuns;
+            if (raspuns == "da") {
+                mf.creeaza_card(username);
+                mf.adauga_puncte(username, 10);
+                std::cout << "[Fidelitate] Card creat! S-au adaugat primele 10 puncte.\n";
+            }
+        }
+
+        mf.salveaza_puncte();
+
         try {
-            cinema.vinde_bilet(u, proiectie_selectata, locuri_dorite, vrea_ochelari);
+            cinema.vinde_bilet(u, proiectie_selectata, locuri_dorite, vrea_ochelari, factor_reducere);
             cinema.get_vanzari().salvare_bilete_utilizator("bilete_utilizator.txt");
-            const auto& toate_biletele = cinema.get_vanzari().get_toate_biletele_intern();
-            if (!toate_biletele.empty()) {
-                std::cout << "\n" << toate_biletele.back() << "\n";
+            cinema.get_vanzari().afiseaza_bilete_utilizator(u.getUsername());
+
+            if (mf.are_card(username)) {
+                std::cout << ANSI_GREEN << "Puncte fidelitate dupa tranzactie: " << mf.get_puncte(username) << ANSI_RESET << "\n";
             }
             succes = true;
         }catch (const Eroare_loc_ocupat& e) {

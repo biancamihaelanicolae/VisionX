@@ -25,9 +25,7 @@ void ManagerVanzari::afiseaza_bilete_utilizator(const std::string &username) con
     const auto& lista = bilete_cumparate.getReferinta();
     for (size_t i=0; i < bilete_cumparate.nrElemente(); i++) {
         if (lista[i].getNumeClient() == username) {
-            std::cout << i + 1 << ". " << lista[i].getFilm().getTitlu()
-                      << " [" << lista[i].getZi() << " " << lista[i].getOra()
-                      << "] - Loc: " << lista[i].getLoc() << "\n";
+            std::cout << lista[i] << "\n";
             gasit = true;
         }
     }
@@ -66,14 +64,15 @@ double ManagerVanzari::anuleaza_bilete(const std::string &username, std::vector<
 
 void ManagerVanzari::salvare_bilete_utilizator(const std::string &nume_fisier) const {
     std::ofstream fisier_out(nume_fisier, std::ios::app);
-    const auto& lista = bilete_cumparate.getReferinta();
+
     if (fisier_out.is_open()) {
+        const auto& lista = bilete_cumparate.getReferinta();
         fisier_out << "----BILETE CUMPARATE DE UTILIZATOR----\n";
         if (lista.empty()) {
-            std::cout << "Nu exista bilete in memorie.\n";
-        }else {
-            fisier_out << lista.back() << "\n";
+            //std::cout << "Nu exista bilete cumparate.\n";
+            return;
         }
+        fisier_out << lista.back() << std::endl;
         fisier_out<< "---------------------------------------\n";
 
         fisier_out.close();

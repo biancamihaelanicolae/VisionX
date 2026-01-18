@@ -48,7 +48,6 @@ int main() {
         meniu.ruleaza();
 
         cinema.get_rating().salvare_ratinguri("ratinguri.txt");
-        cinema.get_vanzari().salvare_bilete_utilizator("bilete_utilizator.txt");
         cinema.get_vanzari().afiseaza_statistici_vanzari();
     }
     catch (const Eroare_Fisier& e) {

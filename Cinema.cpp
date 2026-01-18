@@ -38,7 +38,7 @@ std::vector<Proiectie> Cinema::cauta_film(const std::string &query) const {
 }
 
 
-void Cinema::vinde_bilet(const Utilizator &u, Proiectie &p, const std::vector<int> &locuri, bool ochelari = false) {
+void Cinema::vinde_bilet(const Utilizator &u, Proiectie &p, const std::vector<int> &locuri, bool ochelari = false, double factor_reducere = 1.0) {
     if (locuri.empty()) {
         std::cout << "Nu ati specificat niciun loc.\n";
         return;
@@ -52,7 +52,7 @@ void Cinema::vinde_bilet(const Utilizator &u, Proiectie &p, const std::vector<in
         throw VisionX_Exception(mentiune_eroare);
     }
 
-    double pret_final = tip_ales->calculeaza_pret(Bilet::PRET_BAZA, p.getZi(), ochelari);
+    double pret_final = tip_ales->calculeaza_pret(Bilet::PRET_BAZA, p.getZi(), ochelari) * factor_reducere;
     std::cout << "Confirmare pret: " << std::fixed << std::setprecision(2) << pret_final << " RON pe bilet.\n";
 
     try{

@@ -1,3 +1,46 @@
 ----BILETE CUMPARATE DE UTILIZATOR----
+
+---BILET CINEMA---
+Client: Maria
+Film: Oppenheimer
+Data/ Ora: Luni/ 18:00
+Sala: 2
+Loc: 55
+Ochelari 3D inchiriati: Nu
+---------------------
+Tip: Student 
+Reducerea de 30% va fi valabila de Luni pana Joi. Pe weekend se va aplica o reducere de 10%!
+Pret final: 21 RON
+
 ---------------------------------------
-Nu au fost cumparate bilete.
+----BILETE CUMPARATE DE UTILIZATOR----
+
+---BILET CINEMA---
+Client: Andreea
+Film: Oppenheimer
+Data/ Ora: Luni/ 18:00
+Sala: 2
+Loc: 47
+Ochelari 3D inchiriati: Nu
+---------------------
+Tip: Student 
+Reducerea de 30% va fi valabila de Luni pana Joi. Pe weekend se va aplica o reducere de 10%!
+Pret final: 21 RON
+
+---------------------------------------
+----BILETE CUMPARATE DE UTILIZATOR----
+
+---BILET CINEMA---
+Client: Andra
+Film: Oppenheimer
+Data/ Ora: Luni/ 18:00
+Sala: 2
+Loc: 15
+Ochelari 3D inchiriati: Nu
+---------------------
+Tip: Normal
+Acest bilet v-a adus 10 puncte VisionX! Acestea se acumuleaza pe cardul de fidelitate si pot fi folosite pentru diferite promotii sau reduceri!
+
+Pret final: 32 RON
+
+---------------------------------------

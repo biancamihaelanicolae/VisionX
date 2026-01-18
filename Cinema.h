@@ -9,6 +9,7 @@
 #include <map>
 #include <string>
 
+#include "ManagerFidelitate.h"
 #include "GestiuneResurse.h"
 #include "ManagerRating.h"
 #include "ManagerVanzari.h"
@@ -35,6 +36,7 @@ class Cinema {
     ManagerRating m_rating;
     ManagerVanzari m_vanzari;
     GestiuneResurse<Proiectie> proiectii;
+    ManagerFidelitate m_fidelitate;
 
     Cinema() = default;
 
@@ -60,6 +62,7 @@ class Cinema {
 
     public:
 
+    ManagerFidelitate& get_fidelitate() {return m_fidelitate;}
     [[nodiscard]] std::vector<Proiectie> cauta_film(const std::string& query) const;
     ManagerRating& get_rating(){return m_rating;}
     ManagerVanzari& get_vanzari(){return m_vanzari;}
@@ -71,7 +74,7 @@ class Cinema {
 
     void incarca_din_fisier(const std::string& nume_fisier);
     void aplica_reguli_sarbatori();
-    void vinde_bilet(const Utilizator& u, Proiectie& p, const std::vector<int>& locuri, bool ochelari);
+    void vinde_bilet(const Utilizator& u, Proiectie& p, const std::vector<int>& locuri, bool ochelari, double factor_reducere);
 
     [[nodiscard]] std::vector<Proiectie> get_program_sortat() const;
     [[nodiscard]] std::vector<Proiectie> filtrare_smart(const CriteriiCautare& c) const;
