@@ -6,11 +6,11 @@
 
 ProdusConsumabil::ProdusConsumabil(std::string n, double p) : nume(n), pretBaza(p) {}
 
-std::string ProdusConsumabil::getNume() const {
+const std::string& ProdusConsumabil::getNume() const {
     return nume;
 }
 
-Snack::Snack(std::string n, double p, std::string m) : ProdusConsumabil(n, p) , marime (m){}
+Snack::Snack(std::string& n, double p, std::string& m) : ProdusConsumabil(n, p) , marime (m){}
 
 double Snack::calculeazaPret() const {
     if (marime == "Mare") return pretBaza + 10.0;
@@ -22,7 +22,7 @@ std::string Snack::getDetalii() const {
     return nume + " (" + marime + ")";
 }
 
-Bautura::Bautura(std::string n, double p, bool g) : ProdusConsumabil(n , p), areGheata(g){}
+Bautura::Bautura(std::string& n, double p, bool g) : ProdusConsumabil(n , p), areGheata(g){}
 
 double Bautura::calculeazaPret() const {
     return pretBaza + 0.5; /// taxa sgr

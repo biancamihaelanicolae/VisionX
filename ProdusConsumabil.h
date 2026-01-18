@@ -20,14 +20,14 @@ public:
     virtual double calculeazaPret() const = 0;
     virtual std::string getDetalii() const = 0;
 
-    std::string getNume() const;
+    const std::string& getNume() const;
 };
 
 class Snack : public ProdusConsumabil {
 private:
     std::string marime;
 public:
-    Snack(std::string n, double p, std::string m);
+    Snack(std::string& n, double p, std::string& m);
     double calculeazaPret() const override;
     std::string getDetalii() const override;
 };
@@ -36,7 +36,7 @@ class Bautura : public ProdusConsumabil {
 private:
     bool areGheata;
 public:
-    Bautura(std::string n, double p, bool g);
+    Bautura(std::string& n, double p, bool g);
     double calculeazaPret() const override;
     std::string getDetalii() const override;
 };
