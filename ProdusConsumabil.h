@@ -14,7 +14,7 @@ protected:
     std::string nume;
     double pretBaza;
 public:
-    ProdusConsumabil(std::string& n, double p);
+    ProdusConsumabil(const std::string& n, double p);
     virtual ~ProdusConsumabil() = default;
 
     virtual double calculeazaPret() const = 0;
@@ -26,7 +26,7 @@ class Snack : public ProdusConsumabil {
 private:
     std::string marime;
 public:
-    Snack(std::string& n, double p, std::string& m);
+    Snack(const std::string& n, double p, const std::string& m);
     double calculeazaPret() const override;
     std::string getDetalii() const override;
 };
@@ -35,7 +35,7 @@ class Bautura : public ProdusConsumabil {
 private:
     bool areGheata;
 public:
-    Bautura(std::string& n, double p, bool g);
+    Bautura(const std::string& n, double p, bool g);
     double calculeazaPret() const override;
     std::string getDetalii() const override;
 };
