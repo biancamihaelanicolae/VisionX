@@ -3,6 +3,7 @@
 //
 
 #include "ManagerFidelitate.h"
+#include "Logger.h"
 #include <fstream>
 
 ManagerFidelitate::ManagerFidelitate() {incarca_puncte();}
@@ -39,6 +40,7 @@ int ManagerFidelitate::get_puncte(const std::string &username) const {
 
 void ManagerFidelitate::creeaza_card(const std::string &username) {
     baza_puncte[username] = 0;
+    Logger::getInstance().log("Card fidelitate creat pentru: " + username);
     salveaza_puncte();
 }
 

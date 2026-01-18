@@ -7,6 +7,7 @@
 #include "Cinema.h"
 #include "MeniuConsola.h"
 #include "Exceptii.h"
+#include "Logger.h"
 
 #ifdef _WIN32
 #include <windows.h>
@@ -30,10 +31,13 @@ int main() {
 
     std::cout.precision(2);
 
+    Logger::getInstance().log("Aplicatia VisionX a pornit.");
     try {
         Cinema& cinema = Cinema::getInstance();
         cinema.get_rating().incarcare_ratinguri("ratinguri.txt");
+        Logger::getInstance().log("Ratingurile au fost incarcate.");
         cinema.incarca_din_fisier("program.txt");
+        Logger::getInstance().log("Programul filmelor a fost incarcat.");
         cinema.aplica_reguli_sarbatori();
 
         if (cinema.get_proiectie(0) == nullptr) {
@@ -66,6 +70,7 @@ int main() {
     }
 
     std::cout << "\nMultumim ca ati folosit VisionX!";
+    Logger::getInstance().log("Aplicatia VisionX s-a inchis.");
 
     return 0;
 }

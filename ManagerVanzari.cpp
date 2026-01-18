@@ -4,6 +4,8 @@
 
 #include "ManagerVanzari.h"
 
+#include "Logger.h"
+
 void ManagerVanzari::afiseaza_statistici_vanzari() const {
     const auto& statistici = CreareObiect::get_statistici();
 
@@ -56,6 +58,7 @@ double ManagerVanzari::anuleaza_bilete(const std::string &username, std::vector<
 
             total_refund += bilet.get_pret_final() * 0.7;
             lista.erase(lista.begin() + index);
+            Logger::getInstance().log("Anulare bilet bilet pentru clientul: " + username);
         }
     }
 
@@ -69,7 +72,6 @@ void ManagerVanzari::salvare_bilete_utilizator(const std::string &nume_fisier) c
         const auto& lista = bilete_cumparate.getReferinta();
         fisier_out << "----BILETE CUMPARATE DE UTILIZATOR----\n";
         if (lista.empty()) {
-            //std::cout << "Nu exista bilete cumparate.\n";
             return;
         }
         fisier_out << lista.back() << std::endl;
@@ -77,6 +79,7 @@ void ManagerVanzari::salvare_bilete_utilizator(const std::string &nume_fisier) c
 
         fisier_out.close();
         std::cout << "\n Biletele au fost salvate cu succes in   " << nume_fisier << ".\n";
+        Logger::getInstance().log("Bilet salvat pentru clientul: " + lista.back().getNumeClient());
     }else {
         std::cout << "Nu s-a putut deschide fisierul pentru salvare.\n";
     }
