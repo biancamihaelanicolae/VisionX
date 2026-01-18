@@ -14,7 +14,7 @@ protected:
     std::string nume;
     double pretBaza;
 public:
-    ProdusConsumabil(std::string n, double p);
+    ProdusConsumabil(std::string& n, double p);
     virtual ~ProdusConsumabil() = default;
 
     virtual double calculeazaPret() const = 0;

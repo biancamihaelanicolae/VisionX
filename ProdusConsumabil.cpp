@@ -4,7 +4,7 @@
 
 #include "ProdusConsumabil.h"
 
-ProdusConsumabil::ProdusConsumabil(std::string n, double p) : nume(n), pretBaza(p) {}
+ProdusConsumabil::ProdusConsumabil(std::string& n, double p) : nume(n), pretBaza(p) {}
 
 Snack::Snack(std::string& n, double p, std::string& m) : ProdusConsumabil(n, p) , marime (m){}
 
