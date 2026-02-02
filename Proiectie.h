@@ -70,7 +70,7 @@ public:
     double getPret() const override;
     std::string getNumeEveniment() const override;
     std::vector<std::string> getBeneficii() const override;
-    std::vector<std::string> getListaFilme() const { return titluriFilme; }
+    const std::vector<std::string>& getListaFilme() const { return titluriFilme; }
 };
 
 
