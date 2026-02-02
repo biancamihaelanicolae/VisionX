@@ -12,15 +12,21 @@ int Bilet::nr_bilete_vandute = 0;
 Bilet::Bilet(const std::string& nume, const Film& f, int loc, const Sala& s, const std::string& ora, const std::string& zi, const std::string& tip_pr,
              bool ochelari, const BazaBilet& tip, const std::vector<std::string>& snacks_alese, double p_snacks)
     : nume_client(nume), film(f), loc(loc), sala(s), ora(ora), zi(zi), tip_proiectie(tip_pr), ochelari3D(ochelari),
-      snacks_cumparate(snacks_alese), cost_snacks(p_snacks), tip_bilet_ptr(tip.clone())
+      snacks_cumparate(snacks_alese), cost_snacks(p_snacks)
     {
-        this -> tip_bilet_ptr = tip.clone();
+        this -> tip_bilet_ptr = std::unique_ptr<BazaBilet>(tip.clone());
+        marcheaza_vanzare();
     }
 
 Bilet::Bilet(const Bilet& other)
     : nume_client(other.nume_client), film(other.film), loc(other.loc), sala(other.sala),
       ora(other.ora), zi(other.zi),tip_proiectie(other.tip_proiectie), ochelari3D(other.ochelari3D),
-      snacks_cumparate(other.snacks_cumparate), cost_snacks(other.cost_snacks), tip_bilet_ptr(other.tip_bilet_ptr ? other.tip_bilet_ptr->clone() : nullptr) {}
+      snacks_cumparate(other.snacks_cumparate), cost_snacks(other.cost_snacks)
+{
+    if (other.tip_bilet_ptr) {
+        this->tip_bilet_ptr = std::unique_ptr<BazaBilet>(other.tip_bilet_ptr->clone());
+    }
+}
 
 const std::string& Bilet::getNumeClient() const {
     return nume_client;
@@ -50,10 +56,6 @@ int Bilet::getNrBileteVandute() {
     return nr_bilete_vandute;
 }
 
-Bilet::~Bilet() {
-    delete tip_bilet_ptr;
-}
-
 void swap(Bilet& first, Bilet& second) noexcept {
     using std::swap;
     swap(first.nume_client, second.nume_client);
@@ -69,8 +71,25 @@ void swap(Bilet& first, Bilet& second) noexcept {
     swap(first.cost_snacks, second.cost_snacks);
 }
 
-Bilet& Bilet::operator = (Bilet other) {
-    swap(*this, other);
+Bilet& Bilet::operator=(const Bilet& other) {
+    if (this != &other) {
+        nume_client = other.nume_client;
+        film = other.film;
+        loc = other.loc;
+        sala = other.sala;
+        ora = other.ora;
+        zi = other.zi;
+        tip_proiectie = other.tip_proiectie;
+        ochelari3D = other.ochelari3D;
+        snacks_cumparate = other.snacks_cumparate;
+        cost_snacks = other.cost_snacks;
+
+        if (other.tip_bilet_ptr) {
+            tip_bilet_ptr = std::unique_ptr<BazaBilet>(other.tip_bilet_ptr->clone());
+        } else {
+            tip_bilet_ptr.reset();
+        }
+    }
     return *this;
 }
 
