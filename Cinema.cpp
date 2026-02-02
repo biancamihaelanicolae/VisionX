@@ -201,7 +201,7 @@ std::vector<Proiectie*> Cinema::get_program_sortat() const {
         program_sortat.push_back(ptr.get());
     }
 
-    std::ranges::sort(program_sortat, [](Proiectie* a, Proiectie* b) {
+    std::ranges::sort(program_sortat, [](const Proiectie* a, const Proiectie* b) {
         int ordine_a = Cinema::get_ordinea_zilei(a->getZi());
         int ordine_b = Cinema::get_ordinea_zilei(b->getZi());
 

@@ -319,6 +319,17 @@ void MeniuConsola::meniuCumparare() {
 
         std::cout << " [" << lista_proiectii_curente[i]->getNumeEveniment() << "]\n";
 
+        if (auto maratonPtr = dynamic_cast<MaratonFilme*>(lista_proiectii_curente[i])) {
+            std::vector<std::string> titluriExtra = maratonPtr->getListaFilme();
+            std::cout << "    >> Filme incluse in maraton: " << maratonPtr->getFilm().getTitlu();
+            for (const auto& t : titluriExtra) {
+                std::string numeCurat = t;
+                std::replace(numeCurat.begin(), numeCurat.end(), '_', ' ');
+                std::cout << " + " << numeCurat;
+            }
+            std::cout << "\n";
+        }
+
         if (medie > 0) {
             std::cout << "[Rating: " << std::fixed <<std::setprecision(1) << medie << "/10]\n";
         }
