@@ -319,7 +319,7 @@ void MeniuConsola::meniuCumparare() {
 
         std::cout << " [" << lista_proiectii_curente[i]->getNumeEveniment() << "]\n";
 
-        if (auto maratonPtr = dynamic_cast<MaratonFilme*>(lista_proiectii_curente[i])) {
+        if (auto* maratonPtr = dynamic_cast<MaratonFilme*>(lista_proiectii_curente[i])) {
             std::vector<std::string> titluriExtra = maratonPtr->getListaFilme();
             std::cout << "    >> Filme incluse in maraton: " << maratonPtr->getFilm().getTitlu();
             for (const auto& t : titluriExtra) {

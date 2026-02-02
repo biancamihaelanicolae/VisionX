@@ -55,9 +55,9 @@ private:
 public:
     PremieraSpeciala(const Film& f, const Sala& s, const std::string& z, const std::string& o, const std::string& t, const std::string& invitat = "Echipa Filmului");
 
-    double getPret() const override;
+    [[maybe_unused]]double getPret() const override;
     std::string getNumeEveniment() const override;
-    std::vector<std::string> getBeneficii() const override;
+    [[maybe_unused]]std::vector<std::string> getBeneficii() const override;
 };
 
 class MaratonFilme : public Proiectie {
