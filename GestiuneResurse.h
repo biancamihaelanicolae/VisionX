@@ -16,8 +16,8 @@ private:
 
 public:
 
-    void adauga(const T& element) {
-        elemente.push_back(element);
+    void adauga(T element) {
+        elemente.push_back(std::move(element));
     }
 
     const std::vector<T>& getReferinta() const{

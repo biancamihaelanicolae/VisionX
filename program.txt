@@ -1,30 +1,26 @@
-Inception            SF          100   Vineri          18:00  IMAX  1  100  0
-Inception            SF          101   Duminica        21:00  3D    2  80   0
-Titanic              Romantic    95    Sambata         20:00  2D    3  120  0
-HomeAlone            Craciun     103   24_Decembrie    16:00  2D    4  90   0
-Grinch               Craciun     105   25_Decembrie    11:00  2D    1  100  1
-The_Nun              Horror      96    31_Octombrie    22:00  2D    2  80   0
-Halloween_Ends       Horror      111   31_Octombrie    23:59  3D    3  120  0
-Avatar               SF          103   Joi             19:00  IMAX  5  140  0
-Avatar_2             Actiune     105   Vineri          18:30  IMAX  1  120  0
-Barbie               Comedie     114   Miercuri        16:00  2D    2  80   0
-Dune                 SF          155   Luni            19:00  3D    3  100  0
-Dune                 SF          115   Marti           19:30  3D    3  100  0
-Oppenheimer          Biografic   180   Luni            18:00  2D    2  80   0
-Matrix               SF          136   Miercuri        21:00  3D    1  120  0
-Mission_Impossible   Actiune     73    Vineri          21:30  IMAX  1  120  0
-Deadpool             Comedie     108   Duminica        15:30  2D    4  60   0
-Zootopia_1           Animatie    108   Sambata         11:00  2D    2  80   1
-Zootopia_2           Animatie    115   Duminica        12:00  3D    1  100  1
-Frozen_1             Animatie    102   Sambata         10:30  2D    3  120  1
-Frozen_2             Animatie    103   Duminica        11:00  3D    4  90   1
-Frozen_3             Animatie    110   Miercuri        14:00  2D    5  100  1
-Minions              Animatie    91    Sambata         13:00  2D    2  80   1
-Shrek_5              Animatie    95    Miercuri        15:30  2D    1  60   1
-Spider_Man           Animatie    117   Marti           17:00  2D    3  100  1
-The_Conjuring        Horror      112   31_Octombrie    20:00  2D    4  80   0
-Klaus                Craciun     96    24_Decembrie    10:00  2D    2  120  1
-Polar_Express        Craciun     100   25_Decembrie    14:00  3D    5  100  1
-Gladiator_2          Actiune     150   Joi             21:00  IMAX  1  150  0
-John_Wick            Actiune     101   Marti           22:00  2D    4  80   0
-Ratatouille          Animatie    111   Luni            14:00  2D    2  90   1
+P Inception            SF          100   Vineri          18:00  IMAX  1  100  0
+S Inception            SF          101   Duminica        21:00  3D    2  80   0
+S Titanic              Romantic    95    Sambata         20:00  2D    3  120  0
+S HomeAlone            Craciun     103   24_Decembrie    16:00  2D    4  90   0
+S Grinch               Craciun     105   25_Decembrie    11:00  2D    1  100  1
+S The_Nun              Horror      96    31_Octombrie    22:00  2D    2  80   0
+S Halloween_Ends       Horror      111   31_Octombrie    23:59  3D    3  120  0
+P Avatar               SF          103   Joi             19:00  IMAX  5  140  0
+S Avatar_2             Actiune     105   Vineri          18:30  IMAX  1  120  0
+S Barbie               Comedie     114   Miercuri        16:00  2D    2  80   0
+M Dune                 SF          155   Luni            19:00  3D    3  100  0 Dune_Part2 Dune_Prophecy
+S Oppenheimer          Biografic   180   Luni            18:00  2D    2  80   0
+S Matrix               SF          136   Miercuri        21:00  3D    1  120  0
+P Mission_Impossible   Actiune     73    Vineri          21:30  IMAX  1  120  0
+S Deadpool             Comedie     108   Duminica        15:30  2D    4  60   0
+S Zootopia_2           Animatie    115   Duminica        12:00  3D    1  100  1
+S Frozen_3             Animatie    110   Miercuri        14:00  2D    5  100  1
+M Minions              Animatie    91    Sambata         13:00  2D    2  80   1 Minions2 Minions3
+S Shrek_5              Animatie    95    Miercuri        15:30  2D    1  60   1
+S Spider_Man           Animatie    117   Marti           17:00  2D    3  100  1
+S The_Conjuring        Horror      112   31_Octombrie    20:00  2D    4  80   0
+S Klaus                Craciun     96    24_Decembrie    10:00  2D    2  120  1
+S Polar_Express        Craciun     100   25_Decembrie    14:00  3D    5  100  1
+P Gladiator_2          Actiune     150   Joi             21:00  IMAX  1  150  0
+S John_Wick            Actiune     101   Marti           22:00  2D    4  80   0
+S Ratatouille          Animatie    111   Luni            14:00  2D    2  90   1

@@ -21,7 +21,7 @@ public:
     bool este_valid_la_ora(const std::string &) const override{ return true; }
 
     void tipareste_mentiuni_speciale(std::ostream &os) const override {
-        os << "Reducerea de 30% va fi valabila de Luni pana Joi. Pe weekend se va aplica o reducere de 10%!";
+        os << "Reducerea de 30% va fi valabila de Luni pana Joi. Pe weekend se va aplica o reducere de 10%!\n";
     }
 
     BazaBilet* clone() const override { return new BiletStudent(*this); }

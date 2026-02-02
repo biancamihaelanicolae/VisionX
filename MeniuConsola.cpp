@@ -178,20 +178,22 @@ void MeniuConsola::meniuCautare() {
     std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
     std::getline(std::cin, query);
 
-    std::vector<Proiectie> rezultate = cinema.cauta_film(query);
+    std::vector<Proiectie*> rezultate = cinema.cauta_film(query);
 
     if (rezultate.empty()) {
         std::cout << "Ne pare rau, nu am gasit niciun film care sa contina: \"" << query << "\"\n";
     }else {
         std::cout << "\n---REZULTATE CAUTARE (" << rezultate.size() << ")---\n";
         for (size_t i = 0; i < rezultate.size(); i++) {
-            double medie = cinema.get_rating().calculeaza_medie_film(rezultate[i].getFilm().getTitlu());
-            std::cout << i << ". " << rezultate[i].getFilm().getTitlu() << " | " << rezultate[i].getZi() << ", " << rezultate[i].getOra();
+            double medie = cinema.get_rating().calculeaza_medie_film(rezultate[i]->getFilm().getTitlu());
+            std::cout << i << ". " << rezultate[i]->getFilm().getTitlu() << " | " << rezultate[i]->getZi() << ", " << rezultate[i]->getOra();
 
             if (medie > 0) {
                 std::cout << "[Rating : " << std::fixed << std::setprecision(1) << medie << "]";
                 std::cout << "\n";
             }else std::cout << "[Fara rating]\n";
+
+            std::cout << " [" << rezultate[i]->getNumeEveniment() << "]\n";
         }
 
         std::string raspuns;
@@ -214,9 +216,9 @@ void MeniuConsola::meniuCautare() {
             u.citire_utilizator();
 
             std::cout << "\nRecenzii text pentru acest film: ";
-            cinema.get_rating().afiseaza_rating_film(rezultate[idx].getFilm().getTitlu());
+            cinema.get_rating().afiseaza_rating_film(rezultate[idx]->getFilm().getTitlu());
 
-            proceseaza_cumparare(cinema, rezultate[idx], u);
+            proceseaza_cumparare(cinema, *rezultate[idx], u);
         }
     }
 }
@@ -249,106 +251,108 @@ void MeniuConsola::meniuRating() {
 void MeniuConsola::meniuCumparare() {
     std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
 
-                    std::string raspuns_filtrare;
-                    std::cout << "Vrei sa cauti filemele dupa un anumit gen (da/nu)?";
-                    std::cin >> raspuns_filtrare;
-                    std::transform(raspuns_filtrare.begin(), raspuns_filtrare.end(), raspuns_filtrare.begin(), [](unsigned char c){return std::tolower(c);});
+    std::string raspuns_filtrare;
+    std::cout << "Vrei sa cauti filemele dupa un anumit gen (da/nu)?";
+    std::cin >> raspuns_filtrare;
+    std::transform(raspuns_filtrare.begin(), raspuns_filtrare.end(), raspuns_filtrare.begin(), [](unsigned char c){return std::tolower(c);});
 
-                    std::vector<Proiectie> lista_proiectii_curente;
+    std::vector<Proiectie*> lista_proiectii_curente;
 
-                    std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
+    std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
 
-                    if (raspuns_filtrare == "da") {
-                        std::string raspuns_copii;
-                        std::cout << "Doriti sa vedeti doar selectia de filme animate pentru copii (da/nu)?";
-                        std::cin >> raspuns_copii;
-                        std::transform(raspuns_copii.begin(), raspuns_copii.end(), raspuns_copii.begin(), [](unsigned char c){return std::tolower(c);});
+    if (raspuns_filtrare == "da") {
+        std::string raspuns_copii;
+        std::cout << "Doriti sa vedeti doar selectia de filme animate pentru copii (da/nu)?";
+        std::cin >> raspuns_copii;
+        std::transform(raspuns_copii.begin(), raspuns_copii.end(), raspuns_copii.begin(), [](unsigned char c){return std::tolower(c);});
 
-                        if (raspuns_copii == "da") {
-                            lista_proiectii_curente = cinema.filtreaza_pentru_copii();
+        if (raspuns_copii == "da") {
+            lista_proiectii_curente = cinema.filtreaza_pentru_copii();
 
-                            if (lista_proiectii_curente.empty()) {
-                                std::cout << "Momentan nu avem animatii in program.";
-                                return;
-                            }
+            if (lista_proiectii_curente.empty()) {
+                std::cout << "Momentan nu avem animatii in program.";
+                return;
+            }
 
-                            std::cout << "\n===== SELECTIE FILME ANIMATE =====\n";
-                        }
-                        else {
-                            cinema.afiseaza_meniu_genuri();
-                            std::string gen_ales;
-                            std::cout << "Introdu genul dorit, (din lista de mai sus): ";
-                            std::cin >> gen_ales;
+            std::cout << "\n===== SELECTIE FILME ANIMATE =====\n";
+        }
+        else {
+            cinema.afiseaza_meniu_genuri();
+            std::string gen_ales;
+            std::cout << "Introdu genul dorit, (din lista de mai sus): ";
+            std::cin >> gen_ales;
 
-                            std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
+            std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
 
-                            lista_proiectii_curente = cinema.filtreaza_pe_gen(gen_ales);
+            lista_proiectii_curente = cinema.filtreaza_pe_gen(gen_ales);
 
-                            if (lista_proiectii_curente.empty()) {
-                                std::cout << "\nNu exista proiectii pentru genul " << gen_ales << " Vanzare anulata!\n";
-                                return;
-                            }
+            if (lista_proiectii_curente.empty()) {
+                std::cout << "\nNu exista proiectii pentru genul " << gen_ales << " Vanzare anulata!\n";
+                return;
+            }
 
-                            std::cout << "\n===== Proiectii Genul " << gen_ales << "=====\n";
-                        }
-                    }else {
-                        lista_proiectii_curente = cinema.get_program_sortat();
+            std::cout << "\n===== Proiectii Genul " << gen_ales << "=====\n";
+        }
+    }else {
+        lista_proiectii_curente = cinema.get_program_sortat();
 
-                        if (lista_proiectii_curente.empty()) {
-                            std::cout << "\n Nu exista proiectii programate. Vanzare anulata!\n";
-                            return;
-                        }
+        if (lista_proiectii_curente.empty()) {
+            std::cout << "\n Nu exista proiectii programate. Vanzare anulata!\n";
+            return;
+        }
 
-                        std::cout << "\n==== Programul cinematografului VisionX ====\n";
-                    }
-                    std::string zi_curenta;
+        std::cout << "\n==== Programul cinematografului VisionX ====\n";
+    }
+    std::string zi_curenta;
 
-                    for (size_t i=0; i < lista_proiectii_curente.size(); ++i) {
-                        if (lista_proiectii_curente[i].getZi() != zi_curenta) {
-                            zi_curenta = lista_proiectii_curente[i].getZi();
-                            std::cout << "\nZiua: " << zi_curenta << "\n";
-                        }
+    for (size_t i=0; i < lista_proiectii_curente.size(); ++i) {
+        if (lista_proiectii_curente[i]->getZi() != zi_curenta) {
+            zi_curenta = lista_proiectii_curente[i]->getZi();
+            std::cout << "\nZiua: " << zi_curenta << "\n";
+        }
 
-                        double medie = cinema.get_rating().calculeaza_medie_film(lista_proiectii_curente[i].getFilm().getTitlu());
-                        std::cout << i << ". " << lista_proiectii_curente[i].getFilm().getTitlu()
-                                  << " | Sala " << lista_proiectii_curente[i].getSala().getNumar()
-                                  << " | Ora: " << lista_proiectii_curente[i].getOra()
-                                  << " (" << lista_proiectii_curente[i].getTip() << ")\n";
+        double medie = cinema.get_rating().calculeaza_medie_film(lista_proiectii_curente[i]->getFilm().getTitlu());
+        std::cout << i << ". " << lista_proiectii_curente[i]->getFilm().getTitlu()
+        << " | Sala " << lista_proiectii_curente[i]->getSala().getNumar()
+        << " | Ora: " << lista_proiectii_curente[i]->getOra()
+        << " (" << lista_proiectii_curente[i]->getTip() << ")\n";
 
-                        if (medie > 0) {
-                            std::cout << "[Rating: " << std::fixed <<std::setprecision(1) << medie << "/10]\n";
-                        }
-                        else {
-                            std::cout << "[Fara rating]\n";
-                        }
-                    }
+        std::cout << " [" << lista_proiectii_curente[i]->getNumeEveniment() << "]\n";
 
-                    std::cout << "============================================\n";
+        if (medie > 0) {
+            std::cout << "[Rating: " << std::fixed <<std::setprecision(1) << medie << "/10]\n";
+        }
+        else {
+            std::cout << "[Fara rating]\n";
+        }
+    }
 
-                    Utilizator u;
-                    u.citire_utilizator();
+    std::cout << "============================================\n";
 
-                    int idx;
-                    std::cout << "Introdu indexul proiectiei dorite: ";
-                    if (!(std::cin >> idx)) {
-                        std::cin.clear();
-                        std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
-                        throw Eroare_selectie_invalida();
-                    }
+    Utilizator u;
+    u.citire_utilizator();
 
-                    Proiectie* proiectie_selectata = nullptr;
+    int idx;
+    std::cout << "Introdu indexul proiectiei dorite: ";
+    if (!(std::cin >> idx)) {
+        std::cin.clear();
+        std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
+        throw Eroare_selectie_invalida();
+    }
 
-                    if (idx >= 0 && static_cast<size_t>(idx)  < lista_proiectii_curente.size()) {
-                        proiectie_selectata = &lista_proiectii_curente[idx];
-                    }
-                    if (!proiectie_selectata) {
-                        throw Eroare_selectie_invalida();
-                    }
+    Proiectie* proiectie_selectata = nullptr;
 
-                    std::cout << "\nRecenzii pentru acest film: ";
-                    cinema.get_rating().afiseaza_rating_film(proiectie_selectata->getFilm().getTitlu());
+    if (idx >= 0 && static_cast<size_t>(idx)  < lista_proiectii_curente.size()) {
+        proiectie_selectata = lista_proiectii_curente[idx];
+    }
+    if (!proiectie_selectata) {
+        throw Eroare_selectie_invalida();
+    }
 
-                    proceseaza_cumparare(cinema, *proiectie_selectata,u);
+    std::cout << "\nRecenzii pentru acest film: ";
+    cinema.get_rating().afiseaza_rating_film(proiectie_selectata->getFilm().getTitlu());
+
+    proceseaza_cumparare(cinema, *proiectie_selectata,u);
 }
 
 void MeniuConsola::meniuAnulare() {
@@ -389,81 +393,81 @@ void MeniuConsola::meniuAnulare() {
 
 void MeniuConsola::meniuFiltre() {
     CriteriiCautare criteriu;
-                    std::string optiune;
+    std::string optiune;
 
-                    std::cout << "\n---- CONFIGURARE FILTRE ----\n";
-                    std::cout << "(Introdu 'orice' pentru a sari peste un criteriu)\n";
+    std::cout << "\n---- CONFIGURARE FILTRE ----\n";
+    std::cout << "(Introdu 'orice' pentru a sari peste un criteriu)\n";
 
-                    std::cout << "Ziua saptamanii: ";
-                    std::cin >> optiune;
-                    if (optiune != "orice") criteriu.zi = optiune;
+    std::cout << "Ziua saptamanii: ";
+    std::cin >> optiune;
+    if (optiune != "orice") criteriu.zi = optiune;
 
-                    std::cout << "Tip proiectie (2D/3D/IMAX): ";
-                    std::cin >> optiune;
-                    if (optiune != "orice") criteriu.tip_proiectie = optiune;
+    std::cout << "Tip proiectie (2D/3D/IMAX): ";
+    std::cin >> optiune;
+    if (optiune != "orice") criteriu.tip_proiectie = optiune;
 
-                    std::cout << "Durata maxima (minute) sau 0 pentru orice: ";
-                    if (!(std::cin >> criteriu.durata_maxima)) {
-                        std::cin.clear();
-                        criteriu.durata_maxima = 0;
-                    }
+    std::cout << "Durata maxima (minute) sau 0 pentru orice: ";
+    if (!(std::cin >> criteriu.durata_maxima)) {
+        std::cin.clear();
+        criteriu.durata_maxima = 0;
+    }
 
-                    std::vector<Proiectie> rezultat = cinema.filtrare_smart(criteriu);
+    std::vector<Proiectie*> rezultat = cinema.filtrare_smart(criteriu);
 
-                    std::vector<Proiectie> sugestii = cinema.genereaza_sugestii(criteriu);
-                    if (!sugestii.empty()) {
-                        std::cout << "\n[TOP RECOMANDARI PENTRU TINE]: \n";
-                        for (size_t i = 0; i < sugestii.size(); i++) {
-                            double medie = cinema.get_rating().calculeaza_medie_film(sugestii[i].getFilm().getTitlu());
-                            std::cout << i + 1 << ". " << sugestii[i].getFilm().getTitlu()
-                                      << " - Rating: " << std::fixed << std::setprecision(1) << medie << "/10\n";
-                        }
+    std::vector<Proiectie*> sugestii = cinema.genereaza_sugestii(criteriu);
+    if (!sugestii.empty()) {
+        std::cout << "\n[TOP RECOMANDARI PENTRU TINE]: \n";
+        for (size_t i = 0; i < sugestii.size(); i++) {
+            double medie = cinema.get_rating().calculeaza_medie_film(sugestii[i]->getFilm().getTitlu());
+            std::cout << i + 1 << ". " << sugestii[i]->getFilm().getTitlu()
+            << " - Rating: " << std::fixed << std::setprecision(1) << medie << "/10\n";
+        }
 
-                        std::cout << "-------------------------------\n";
-                    }
+        std::cout << "-------------------------------\n";
+    }
 
-                    if (rezultat.empty()) {
-                        std::cout << "\nNe pare rau, nu am gasit nicio proiectie care sa corespunda criteriilor alese.\n";
-                    } else {
-                        std::cout << "\n===== REZULTATE FILTRARE (" << rezultat.size() << ") =====\n";
-                        for (size_t i = 0; i < rezultat.size(); ++i) {
-                            double medie = cinema.get_rating().calculeaza_medie_film(rezultat[i].getFilm().getTitlu());
+    if (rezultat.empty()) {
+        std::cout << "\nNe pare rau, nu am gasit nicio proiectie care sa corespunda criteriilor alese.\n";
+    } else {
+        std::cout << "\n===== REZULTATE FILTRARE (" << rezultat.size() << ") =====\n";
+        for (size_t i = 0; i < rezultat.size(); ++i) {
+            double medie = cinema.get_rating().calculeaza_medie_film(rezultat[i]->getFilm().getTitlu());
 
-                            std::cout << i << ". " << rezultat[i].getFilm().getTitlu()
-                                      << " | " << rezultat[i].getZi()
-                                      << " | " << rezultat[i].getOra()
-                                      << " | " << rezultat[i].getTip()
-                                      << " | " << rezultat[i].getFilm().getDurata() << " min\n";
+            std::cout << i << ". " << rezultat[i]->getFilm().getTitlu()
+            << " | " << rezultat[i]->getZi()
+            << " | " << rezultat[i]->getOra()
+            << " | " << rezultat[i]->getTip()
+            << " | " << rezultat[i]->getFilm().getDurata() << " min\n";
 
-                            if (medie > 0) {
-                                std::cout << "[Rating: " << std::fixed <<std::setprecision(1) << medie << "/10]\n";
-                            }
-                            else {
-                                std::cout << "[Fara rating]\n";
-                            }
-                        }
-                        std::cout << "==========================================\n";
+            if (medie > 0) {
+                std::cout << "[Rating: " << std::fixed <<std::setprecision(1) << medie << "/10]\n";
+            }
+            else {
+                std::cout << "[Fara rating]\n";
+            }
+        }
+        std::cout << "==========================================\n";
 
-                        std::string vrea_sa_cumpere;
-                        std::cout << "Doriti sa cumparati bilet la unul dintre filmele listate mai sus? (da/nu): ";
-                        std::cin >> vrea_sa_cumpere;
+        std::string vrea_sa_cumpere;
+        std::cout << "Doriti sa cumparati bilet la unul dintre filmele listate mai sus? (da/nu): ";
+        std::cin >> vrea_sa_cumpere;
 
-                        if (vrea_sa_cumpere == "da") {
-                            std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
+        if (vrea_sa_cumpere == "da") {
+            std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
 
-                            Utilizator u;
-                            u.citire_utilizator();
-                            int idx_ales;
-                            std::cout << "Introdu indexul filmului ales din lista de mai sus: ";
-                            if (!(std::cin >> idx_ales) || idx_ales < 0 || idx_ales >= (int)rezultat.size()) {
-                                std::cout << "Index invalid! Revenire la meniul principal.\n";
-                                std::cin.clear();
-                                std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
-                            }else {
-                                proceseaza_cumparare(cinema, rezultat[idx_ales],u);
-                            }
-                        }
-                    }
+            Utilizator u;
+            u.citire_utilizator();
+            int idx_ales;
+            std::cout << "Introdu indexul filmului ales din lista de mai sus: ";
+            if (!(std::cin >> idx_ales) || idx_ales < 0 || idx_ales >= (int)rezultat.size()) {
+                std::cout << "Index invalid! Revenire la meniul principal.\n";
+                std::cin.clear();
+                std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
+            }else {
+                proceseaza_cumparare(cinema, *rezultat[idx_ales],u);
+            }
+        }
+    }
 }
 
 std::string MeniuConsola::citesteComanda() {

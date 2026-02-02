@@ -4,6 +4,9 @@
 
 #include "ManagerVanzari.h"
 
+#include <memory>
+
+
 #include "Logger.h"
 
 void ManagerVanzari::afiseaza_statistici_vanzari() const {
@@ -37,7 +40,7 @@ void ManagerVanzari::afiseaza_bilete_utilizator(const std::string &username) con
     }
 }
 
-double ManagerVanzari::anuleaza_bilete(const std::string &username, std::vector<int> idx, std::vector<Proiectie> &proiectii) {
+double ManagerVanzari::anuleaza_bilete(const std::string &username, std::vector<int>& idx, std::vector<std::unique_ptr<Proiectie>> &proiectii) {
     double total_refund = 0;
     auto& lista = bilete_cumparate.getReferinta();
 
@@ -49,9 +52,9 @@ double ManagerVanzari::anuleaza_bilete(const std::string &username, std::vector<
         const Bilet& bilet = lista[index];
         if (bilet.getNumeClient() == username) {
             for (auto& p : proiectii) {
-                if (p.getFilm().getTitlu() == bilet.getFilm().getTitlu() &&
-                    p.getZi() == bilet.getZi() && p.getOra() == bilet.getOra()) {
-                    p.eliberare_loc(bilet.getLoc());
+                if (p->getFilm().getTitlu() == bilet.getFilm().getTitlu() &&
+                    p->getZi() == bilet.getZi() && p->getOra() == bilet.getOra()) {
+                    p->eliberare_loc(bilet.getLoc());
                     break;
                     }
             }

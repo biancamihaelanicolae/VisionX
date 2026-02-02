@@ -7,10 +7,9 @@
 
 #include <vector>
 #include <iomanip>
-#include <iostream>
-#include <fstream>
-#include <algorithm>
+#include <memory>
 #include <string>
+
 #include "Bilet.h"
 #include "GestiuneResurse.h"
 #include "Proiectie.h"
@@ -26,7 +25,7 @@ public:
     void afiseaza_statistici_vanzari() const;
     void salvare_bilete_utilizator(const std::string& nume_fisier) const;
     void afiseaza_bilete_utilizator(const std::string& username) const;
-    double anuleaza_bilete(const std::string& username, std::vector<int> idx, std::vector<Proiectie>& proiectii);
+    double anuleaza_bilete(const std::string& username, std::vector<int>& idx, std::vector<std::unique_ptr<Proiectie>>& proiectii);
 };
 
 
